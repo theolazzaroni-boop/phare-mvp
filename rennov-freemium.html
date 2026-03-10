@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phare — Rennov</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #fff; --bg2: #F7F7F5; --bg3: #F0F0ED; --border: #E5E5E5;
+      --t1: #1A1A1A; --t2: #6B7280; --t3: #9CA3AF;
+      --accent: #6C47FF; --accent-l: #EDE9FF; --accent-h: #5835EE;
+      --green: #10B981; --green-l: #ECFDF5;
+      --yellow: #F59E0B; --yellow-l: #FFFBEB;
+      --red: #EF4444; --red-l: #FEF2F2;
+      --blue-l: #EFF6FF;
+      --radius: 10px; --radius-sm: 7px;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg2); color: var(--t1); height: 100vh; overflow: hidden; }
+    .layout { display: flex; height: 100vh; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 240px; background: var(--bg); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; flex-shrink: 0; height: 100vh; overflow-y: auto;
+    }
+    .sb-header { padding: 16px; border-bottom: 1px solid var(--border); }
+    .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; }
+    .logo-dot { width: 26px; height: 26px; background: var(--accent); border-radius: 7px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+    .sb-company { padding: 8px 10px; margin: 8px; background: var(--bg2); border-radius: var(--radius-sm); display: flex; align-items: center; gap: 9px; cursor: pointer; }
+    .co-av { width: 30px; height: 30px; border-radius: 7px; background: linear-gradient(135deg,#FF6B6B,#FF8E53); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+    .co-name { font-size: 12.5px; font-weight: 600; }
+    .co-type { font-size: 10.5px; color: var(--t3); }
+    .sb-nav { padding: 6px 8px; flex: 1; }
+    .nav-grp { font-size: 10px; font-weight: 600; color: var(--t3); text-transform: uppercase; letter-spacing: .07em; padding: 10px 8px 4px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 8px; padding: 7px 8px;
+      border-radius: 6px; cursor: pointer; font-size: 13px; color: var(--t2);
+      transition: background .1s, color .1s; margin-bottom: 1px; user-select: none;
+    }
+    .nav-item:hover { background: var(--bg2); color: var(--t1); }
+    .nav-item.active { background: var(--accent-l); color: var(--accent); font-weight: 500; }
+    .nav-item .ni { width: 17px; text-align: center; font-size: 13px; }
+    .nav-item .lk { margin-left: auto; font-size: 11px; opacity: .5; }
+    .sb-footer { padding: 10px; border-top: 1px solid var(--border); }
+    .upgrade-card { background: linear-gradient(135deg, var(--accent), #8B5CF6); border-radius: var(--radius); padding: 13px; color: #fff; }
+    .upgrade-card h4 { font-size: 12.5px; font-weight: 600; margin-bottom: 3px; }
+    .upgrade-card p { font-size: 11px; opacity: .85; margin-bottom: 10px; line-height: 1.4; }
+    .ub { background: #fff; color: var(--accent); border: none; border-radius: 6px; padding: 7px; font-size: 12px; font-weight: 700; cursor: pointer; width: 100%; }
+
+    /* ── MAIN ── */
+    .main { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+    .topbar {
+      background: var(--bg); border-bottom: 1px solid var(--border);
+      padding: 0 24px; height: 52px; display: flex; align-items: center;
+      justify-content: space-between; flex-shrink: 0;
+    }
+    .tb-left { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--t2); }
+    .tb-left .sep { opacity: .4; }
+    .tb-left .curr { color: var(--t1); font-weight: 500; }
+    .tb-right { display: flex; align-items: center; gap: 8px; }
+    .pill { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg2); color: var(--t2); transition: all .3s; }
+    .pill.pro { background: var(--green-l); border-color: #A7F3D0; color: var(--green); }
+    .btn-up { background: var(--accent); color: #fff; border: none; border-radius: 7px; padding: 7px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+    .btn-up:hover { background: var(--accent-h); }
+
+    /* ── VIEWS ── */
+    .views { flex: 1; overflow-y: auto; padding: 24px; }
+    .view { display: none; animation: fadein .2s ease; max-width: 820px; }
+    .view.active { display: block; }
+    @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── COMPONENTS ── */
+    .view-header { margin-bottom: 20px; }
+    .view-title { font-size: 19px; font-weight: 700; margin-bottom: 3px; }
+    .view-sub { font-size: 13px; color: var(--t2); }
+
+    .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); }
+    .card-head { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .card-title { font-size: 13.5px; font-weight: 600; }
+    .card-sub { font-size: 11.5px; color: var(--t3); }
+    .card-body { padding: 18px; }
+
+    .badge { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+    .badge.green { background: var(--green-l); color: var(--green); }
+    .badge.purple { background: var(--accent-l); color: var(--accent); }
+    .badge.gray { background: var(--bg2); color: var(--t2); border: 1px solid var(--border); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .kv { background: var(--bg2); border-radius: var(--radius-sm); padding: 11px 13px; }
+    .kv-l { font-size: 10px; font-weight: 600; color: var(--t3); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+    .kv-v { font-size: 13px; font-weight: 500; }
+
+    .stat-big { text-align: center; background: var(--bg2); border-radius: var(--radius-sm); padding: 14px; }
+    .stat-big .val { font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 2px; }
+    .stat-big .lbl { font-size: 11px; color: var(--t3); }
+
+    .list { display: flex; flex-direction: column; gap: 8px; }
+    .list-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: var(--bg2); border-radius: var(--radius-sm); }
+    .list-row .ic { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+    .list-row h4 { font-size: 13px; font-weight: 600; margin-bottom: 1px; }
+    .list-row p { font-size: 11.5px; color: var(--t2); }
+
+    .divider { height: 1px; background: var(--border); margin: 16px 0; }
+    .section-lbl { font-size: 11.5px; font-weight: 600; color: var(--t2); margin-bottom: 9px; }
+
+    .icp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .icp-row { display: flex; align-items: flex-start; gap: 7px; }
+    .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-top: 9px; flex-shrink: 0; }
+    .icp-text { font-size: 12.5px; line-height: 1.5; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { background: var(--bg2); border: 1px solid var(--border); border-radius: 5px; padding: 3px 9px; font-size: 11.5px; color: var(--t2); }
+    .tag.hi { background: var(--accent-l); border-color: transparent; color: var(--accent); }
+
+    .ch-card { background: var(--bg2); border-radius: var(--radius-sm); padding: 13px 15px; display: flex; gap: 12px; }
+    .ch-ic { width: 34px; height: 34px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+    .ch-info h4 { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+    .ch-info p { font-size: 11.5px; color: var(--t2); line-height: 1.4; }
+    .freq { display: flex; align-items: center; gap: 3px; margin-top: 7px; }
+    .fd { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+    .fl { font-size: 11px; color: var(--t3); }
+
+    .tip { padding: 10px 13px; background: var(--yellow-l); border: 1px solid #FDE68A; border-radius: var(--radius-sm); font-size: 11.5px; color: #92400E; }
+
+    /* Dashboard widgets */
+    .dash-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .widget { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+    .widget-label { font-size: 11px; font-weight: 600; color: var(--t3); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+    .widget-value { font-size: 22px; font-weight: 700; color: var(--t1); margin-bottom: 2px; }
+    .widget-sub { font-size: 11.5px; color: var(--t2); }
+    .widget-trend { font-size: 11px; color: var(--green); font-weight: 600; margin-top: 4px; }
+
+    .next-action { background: var(--accent-l); border: 1px solid rgba(108,71,255,.15); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 16px; display: flex; align-items: center; gap: 14px; }
+    .na-icon { font-size: 22px; flex-shrink: 0; }
+    .na-label { font-size: 11px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 3px; }
+    .na-text { font-size: 13px; font-weight: 500; color: var(--t1); }
+    .na-btn { margin-left: auto; background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+
+    .dash-sections { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .ds-free { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; transition: border-color .15s; }
+    .ds-free:hover { border-color: var(--accent); }
+    .ds-free .ds-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .ds-free .ds-icon { font-size: 16px; }
+    .ds-free .ds-title { font-size: 13px; font-weight: 600; }
+    .ds-free .ds-preview { font-size: 11.5px; color: var(--t2); line-height: 1.4; }
+    .ds-locked { background: var(--bg); border: 1px dashed var(--border); border-radius: var(--radius); padding: 14px 16px; opacity: .7; cursor: pointer; transition: all .15s; }
+    .ds-locked:hover { opacity: 1; border-color: var(--accent); border-style: solid; }
+    .ds-locked .ds-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+    .ds-locked .ds-title { font-size: 12.5px; font-weight: 500; color: var(--t2); }
+    .ds-locked .ds-preview { font-size: 11px; color: var(--t3); }
+
+    /* Locked view */
+    .locked-view { max-width: 500px; margin: 60px auto; text-align: center; }
+    .lock-icon-big { font-size: 36px; margin-bottom: 16px; }
+    .locked-view h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .locked-view p { font-size: 14px; color: var(--t2); margin-bottom: 24px; line-height: 1.6; }
+    .unlock-main { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 12px 28px; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 10px; }
+    .unlock-main:hover { background: var(--accent-h); }
+    .unlock-note { font-size: 11.5px; color: var(--t3); }
+    .feature-list { background: var(--bg2); border-radius: var(--radius); padding: 16px; margin: 20px 0; text-align: left; }
+    .feature-list h4 { font-size: 12px; font-weight: 600; color: var(--t2); margin-bottom: 10px; text-transform: uppercase; letter-spacing: .06em; }
+    .fi { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; margin-bottom: 7px; line-height: 1.4; }
+    .fi:last-child { margin-bottom: 0; }
+    .fi-check { color: var(--green); font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+
+    /* Premium content */
+    .pillar-card { border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 10px; }
+    .pillar-head { padding: 11px 15px; background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .pillar-head h4 { font-size: 13px; font-weight: 600; }
+    .pillar-head p { font-size: 11.5px; color: var(--t2); }
+    .pillar-head .arrow { margin-left: auto; font-size: 12px; color: var(--t3); transition: transform .2s; }
+    .pillar-head.open .arrow { transform: rotate(180deg); }
+    .pillar-body { padding: 12px 15px; display: none; }
+    .pillar-body.open { display: block; }
+    .pi { display: flex; align-items: flex-start; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; line-height: 1.5; }
+    .pi:last-child { border-bottom: none; padding-bottom: 0; }
+    .pi-n { width: 20px; height: 20px; border-radius: 50%; background: var(--accent-l); color: var(--accent); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .copy-btn { background: var(--bg2); border: 1px solid var(--border); border-radius: 5px; padding: 3px 8px; font-size: 11px; color: var(--t2); cursor: pointer; white-space: nowrap; }
+    .copy-btn:hover { background: var(--accent-l); color: var(--accent); border-color: transparent; }
+    .pi-actions { margin-left: auto; flex-shrink: 0; }
+
+    .cal-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .cal-table th { text-align: left; padding: 8px 12px; background: var(--bg2); font-weight: 600; font-size: 11px; color: var(--t3); border-bottom: 1px solid var(--border); }
+    .cal-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    .cal-table tr:last-child td { border-bottom: none; }
+    .cal-table tr:hover td { background: var(--bg2); }
+    .ct { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+    .ct.li { background: var(--blue-l); color: #2563EB; }
+    .ct.ig { background: #FDF2F8; color: #9333EA; }
+
+    .msg-card { background: var(--bg2); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 10px; border-left: 3px solid var(--accent); }
+    .msg-lbl { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+    .msg-body { font-size: 12.5px; line-height: 1.7; color: var(--t1); }
+    .msg-hl { color: var(--accent); font-weight: 600; }
+    .msg-tip { font-size: 11px; color: var(--t3); margin-top: 8px; font-style: italic; }
+    .msg-footer { display: flex; justify-content: flex-end; margin-top: 8px; }
+
+    .kpi-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .kpi-lbl { font-size: 12px; font-weight: 500; width: 180px; flex-shrink: 0; }
+    .kpi-track { flex: 1; background: var(--bg2); border-radius: 4px; height: 7px; overflow: hidden; }
+    .kpi-fill { height: 100%; border-radius: 4px; background: var(--accent); }
+    .kpi-val { font-size: 11px; color: var(--t3); width: 70px; text-align: right; flex-shrink: 0; }
+
+    .phase-card { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 10px; }
+    .phase-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .phase-num { width: 26px; height: 26px; border-radius: 7px; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .phase-title { font-size: 13.5px; font-weight: 600; }
+    .phase-sub { font-size: 11.5px; color: var(--t2); }
+    .action-row { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; padding: 5px 0; line-height: 1.4; }
+    .ck { color: var(--green); font-size: 14px; flex-shrink: 0; }
+    .action-row input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px; flex-shrink: 0; margin-top: 2px; cursor: pointer; }
+
+    .fl-card { background: var(--bg2); border-radius: var(--radius-sm); padding: 12px 14px; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+    .fl-av { width: 38px; height: 38px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+    .fl-info h4 { font-size: 12.5px; font-weight: 600; margin-bottom: 2px; }
+    .fl-info p { font-size: 11.5px; color: var(--t2); }
+    .fl-price { margin-left: auto; font-size: 12.5px; font-weight: 600; color: var(--accent); white-space: nowrap; margin-right: 10px; }
+    .fl-btn { background: var(--accent-l); color: var(--accent); border: none; border-radius: 6px; padding: 6px 12px; font-size: 11.5px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 2px; background: var(--bg2); border-radius: 8px; padding: 3px; margin-bottom: 16px; }
+    .tab { flex: 1; text-align: center; padding: 6px 12px; border-radius: 6px; font-size: 12.5px; font-weight: 500; color: var(--t2); cursor: pointer; transition: all .15s; }
+    .tab.active { background: var(--bg); color: var(--t1); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── CETTE SEMAINE ── */
+    .week-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+    .week-range { font-size: 12.5px; font-weight: 600; color: var(--t2); background: var(--bg2); padding: 5px 12px; border-radius: 6px; border: 1px solid var(--border); }
+    .week-progress { font-size: 11.5px; color: var(--t3); }
+    .day-block { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; }
+    .day-block.today { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(108,71,255,.08); }
+    .day-head { padding: 10px 16px; background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+    .day-block.today .day-head { background: var(--accent-l); }
+    .day-name { font-size: 12px; font-weight: 700; color: var(--t1); min-width: 70px; }
+    .day-block.today .day-name { color: var(--accent); }
+    .day-date { font-size: 11px; color: var(--t3); }
+    .day-badge { margin-left: auto; font-size: 10.5px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+    .day-badge.todo { background: var(--yellow-l); color: #92400E; border: 1px solid #FDE68A; }
+    .day-badge.done { background: var(--green-l); color: var(--green); }
+    .day-badge.today-b { background: var(--accent-l); color: var(--accent); }
+    .day-body { padding: 14px 16px; }
+    .post-text { font-size: 12.5px; line-height: 1.75; color: var(--t1); white-space: pre-wrap; margin-bottom: 10px; }
+    .post-text em { color: var(--accent); font-style: normal; font-weight: 600; }
+    .post-footer { display: flex; align-items: center; gap: 8px; }
+    .post-time { font-size: 11px; color: var(--t3); }
+
+    .outreach-week-card { background: var(--bg2); border-radius: var(--radius-sm); padding: 13px 15px; margin-bottom: 9px; display: flex; align-items: flex-start; gap: 12px; }
+    .ow-av { width: 36px; height: 36px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .ow-info { flex: 1; }
+    .ow-name { font-size: 12.5px; font-weight: 600; margin-bottom: 2px; }
+    .ow-role { font-size: 11px; color: var(--t3); margin-bottom: 8px; }
+    .ow-msg { font-size: 12px; line-height: 1.6; color: var(--t2); padding: 9px 12px; background: var(--bg); border-radius: 6px; border-left: 2px solid var(--accent); }
+    .ow-actions { display: flex; gap: 6px; margin-top: 8px; }
+
+    /* ── RÉUSSITES PHARE ── */
+    .signal-banner { background: linear-gradient(135deg, rgba(108,71,255,.07), rgba(139,92,246,.07)); border: 1px solid rgba(108,71,255,.15); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+    .signal-icon { font-size: 24px; flex-shrink: 0; }
+    .signal-text h4 { font-size: 13.5px; font-weight: 700; margin-bottom: 3px; color: var(--accent); }
+    .signal-text p { font-size: 12px; color: var(--t2); line-height: 1.5; }
+    .signal-stat { margin-left: auto; text-align: center; flex-shrink: 0; }
+    .signal-stat .sv { font-size: 20px; font-weight: 800; color: var(--accent); }
+    .signal-stat .sl { font-size: 10.5px; color: var(--t3); }
+
+    .reussite-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; transition: border-color .15s; }
+    .reussite-card:hover { border-color: rgba(108,71,255,.3); }
+    .rc-head { padding: 11px 15px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 9px; }
+    .rc-anon { width: 32px; height: 32px; border-radius: 8px; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+    .rc-meta { flex: 1; }
+    .rc-who { font-size: 12px; font-weight: 600; color: var(--t1); margin-bottom: 1px; }
+    .rc-where { font-size: 10.5px; color: var(--t3); }
+    .rc-channel { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
+    .rc-channel.li { background: var(--blue-l); color: #2563EB; }
+    .rc-channel.ig { background: #FDF2F8; color: #9333EA; }
+    .rc-body { padding: 13px 15px; }
+    .rc-post { font-size: 12.5px; line-height: 1.65; color: var(--t2); margin-bottom: 12px; border-left: 2px solid var(--border); padding-left: 10px; }
+    .rc-post strong { color: var(--t1); }
+    .rc-stats { display: flex; gap: 16px; margin-bottom: 10px; }
+    .rc-stat { text-align: center; }
+    .rc-stat .rsv { font-size: 16px; font-weight: 700; color: var(--t1); }
+    .rc-stat .rsl { font-size: 10px; color: var(--t3); }
+    .rc-star { background: var(--yellow-l); border: 1px solid #FDE68A; border-radius: 6px; padding: 7px 11px; font-size: 11.5px; color: #92400E; display: flex; align-items: center; gap: 6px; }
+    .rc-star-top { background: var(--green-l); border: 1px solid #A7F3D0; border-radius: 6px; padding: 7px 11px; font-size: 11.5px; color: var(--green); display: flex; align-items: center; gap: 6px; }
+
+    .contribute-cta { background: var(--bg2); border: 1px dashed var(--border); border-radius: var(--radius); padding: 18px; text-align: center; margin-top: 6px; }
+    .contribute-cta p { font-size: 12.5px; color: var(--t2); margin-bottom: 12px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-header">
+      <div class="logo"><div class="logo-dot">🔦</div> Phare</div>
+    </div>
+    <div class="sb-company">
+      <div class="co-av">R</div>
+      <div><div class="co-name">Rennov</div><div class="co-type">Architecture · Jura</div></div>
+    </div>
+    <nav class="sb-nav">
+      <div class="nav-grp">Gratuit</div>
+      <div class="nav-item active" onclick="nav('dashboard',this)"><span class="ni">🏠</span> Tableau de bord</div>
+      <div class="nav-item" onclick="nav('icp',this)"><span class="ni">🎯</span> Client idéal</div>
+      <div class="nav-item" onclick="nav('canaux',this)"><span class="ni">📡</span> Canaux</div>
+      <div class="nav-item" onclick="nav('reussites',this)"><span class="ni">🏆</span> Réussites Phare</div>
+      <div class="nav-grp" style="margin-top:8px" id="pro-label">Pro — €150/mois</div>
+      <div class="nav-item" onclick="nav('semaine',this)"><span class="ni">📆</span> Cette semaine <span class="lk" id="lk0">🔒</span></div>
+      <div class="nav-item" onclick="nav('piliers',this)"><span class="ni">✍️</span> Piliers de contenu <span class="lk" id="lk1">🔒</span></div>
+      <div class="nav-item" onclick="nav('calendrier',this)"><span class="ni">📅</span> Calendrier <span class="lk" id="lk2">🔒</span></div>
+      <div class="nav-item" onclick="nav('outreach',this)"><span class="ni">📬</span> Outreach <span class="lk" id="lk3">🔒</span></div>
+      <div class="nav-item" onclick="nav('kpis',this)"><span class="ni">📊</span> KPIs <span class="lk" id="lk4">🔒</span></div>
+      <div class="nav-item" onclick="nav('roadmap',this)"><span class="ni">🗺️</span> Feuille de route <span class="lk" id="lk5">🔒</span></div>
+      <div class="nav-item" onclick="nav('freelances',this)"><span class="ni">🤝</span> Freelances <span class="lk" id="lk6">🔒</span></div>
+    </nav>
+    <div class="sb-footer" id="sb-footer">
+      <div class="upgrade-card">
+        <h4>Passez à Pro</h4>
+        <p>Stratégie complète + posts générés + dashboard vivant.</p>
+        <button class="ub" onclick="unlockAll()">Débloquer — €150/mois</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <span>Rennov</span><span class="sep">›</span>
+        <span class="curr" id="breadcrumb">Tableau de bord</span>
+      </div>
+      <div class="tb-right">
+        <span class="pill" id="plan-pill">Version gratuite</span>
+        <button class="btn-up" id="tb-cta" onclick="unlockAll()">⚡ Passer à Pro</button>
+      </div>
+    </div>
+
+    <div class="views">
+
+      <!-- ── DASHBOARD ── -->
+      <div class="view active" id="v-dashboard">
+        <div class="view-header">
+          <div class="view-title">Bonjour, Rennov 👋</div>
+          <div class="view-sub">Votre stratégie d'acquisition digitale — générée le 10 mars 2026</div>
+        </div>
+
+        <div class="next-action">
+          <span class="na-icon">🎯</span>
+          <div>
+            <div class="na-label">Action prioritaire</div>
+            <div class="na-text">Optimisez votre profil LinkedIn avant votre premier post — c'est la base de votre crédibilité.</div>
+          </div>
+          <button class="na-btn" onclick="nav('roadmap', document.querySelectorAll('.nav-item')[7])">Voir la feuille de route →</button>
+        </div>
+
+        <div class="dash-grid">
+          <div class="widget">
+            <div class="widget-label">Canaux actifs</div>
+            <div class="widget-value">2</div>
+            <div class="widget-sub">LinkedIn · Instagram</div>
+          </div>
+          <div class="widget">
+            <div class="widget-label">Posts / semaine</div>
+            <div class="widget-value">7</div>
+            <div class="widget-sub">3 LinkedIn · 4 Instagram</div>
+          </div>
+          <div class="widget">
+            <div class="widget-label">Piliers de contenu</div>
+            <div class="widget-value">4</div>
+            <div class="widget-sub">Transformation · Éducation · Coulisses · Témoignages</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px">
+          <div class="section-lbl">Sections disponibles</div>
+          <div class="dash-sections">
+            <div class="ds-free" onclick="nav('icp', document.querySelectorAll('.nav-item')[1])">
+              <div class="ds-head"><span class="ds-icon">🎯</span><span class="ds-title">Client idéal (ICP)</span><span class="badge green" style="margin-left:auto;font-size:10px">Inclus</span></div>
+              <div class="ds-preview">CSP+, 35-55 ans, propriétaires de biens anciens à rénover, budget €50k–€300k</div>
+            </div>
+            <div class="ds-free" onclick="nav('canaux', document.querySelectorAll('.nav-item')[2])">
+              <div class="ds-head"><span class="ds-icon">📡</span><span class="ds-title">Canaux prioritaires</span><span class="badge green" style="margin-left:auto;font-size:10px">Inclus</span></div>
+              <div class="ds-preview">LinkedIn pour la notoriété B2B · Instagram pour le portfolio visuel</div>
+            </div>
+            <div class="ds-free" onclick="nav('reussites', document.querySelectorAll('.nav-item')[3])">
+              <div class="ds-head"><span class="ds-icon">🏆</span><span class="ds-title">Réussites Phare</span><span class="badge green" style="margin-left:auto;font-size:10px">Inclus</span></div>
+              <div class="ds-preview">Les meilleurs posts de votre verticale — anonymisés et analysés</div>
+            </div>
+            <div class="ds-locked" onclick="unlockAll()">
+              <div class="ds-head"><span class="ds-title">📆 Cette semaine</span><span style="font-size:12px">🔒</span></div>
+              <div class="ds-preview">Vos 3 posts + 3 outreach prêts à copier</div>
+            </div>
+            <div class="ds-locked" onclick="unlockAll()">
+              <div class="ds-head"><span class="ds-title">✍️ Piliers de contenu</span><span style="font-size:12px">🔒</span></div>
+              <div class="ds-preview">4 thèmes + idées de posts prêts à publier</div>
+            </div>
+            <div class="ds-locked" onclick="unlockAll()">
+              <div class="ds-head"><span class="ds-title">📅 Calendrier éditorial</span><span style="font-size:12px">🔒</span></div>
+              <div class="ds-preview">Planning hebdo avec horaires optimaux</div>
+            </div>
+            <div class="ds-locked" onclick="unlockAll()">
+              <div class="ds-head"><span class="ds-title">📬 Séquences outreach</span><span style="font-size:12px">🔒</span></div>
+              <div class="ds-preview">3 messages LinkedIn prêts à envoyer</div>
+            </div>
+            <div class="ds-locked" onclick="unlockAll()">
+              <div class="ds-head"><span class="ds-title">📊 KPIs & Dashboard</span><span style="font-size:12px">🔒</span></div>
+              <div class="ds-preview">Objectifs chiffrés + ROI calculé</div>
+            </div>
+            <div class="ds-locked" onclick="unlockAll()">
+              <div class="ds-head"><span class="ds-title">🗺️ Feuille de route</span><span style="font-size:12px">🔒</span></div>
+              <div class="ds-preview">3 phases avec actions concrètes</div>
+            </div>
+            <div class="ds-locked" onclick="unlockAll()">
+              <div class="ds-head"><span class="ds-title">🤝 Freelances</span><span style="font-size:12px">🔒</span></div>
+              <div class="ds-preview">Créateurs de contenu sélectionnés</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ICP ── -->
+      <div class="view" id="v-icp">
+        <div class="view-header">
+          <div class="view-title">🎯 Client idéal (ICP)</div>
+          <div class="view-sub">À qui vous adressez-vous vraiment</div>
+        </div>
+        <div class="card" style="margin-bottom:12px">
+          <div class="card-head"><span class="card-title">Profil démographique</span><span class="badge green">Inclus</span></div>
+          <div class="card-body">
+            <div class="grid-3" style="margin-bottom:16px">
+              <div class="stat-big"><div class="val">35–55</div><div class="lbl">Tranche d'âge</div></div>
+              <div class="stat-big"><div class="val">€80k+</div><div class="lbl">Revenus annuels</div></div>
+              <div class="stat-big"><div class="val">CSP+</div><div class="lbl">Catégorie socio-pro</div></div>
+            </div>
+            <div class="section-lbl">Caractéristiques clés</div>
+            <div class="icp-grid">
+              <div class="icp-row"><div class="dot"></div><span class="icp-text">Propriétaire d'une maison ancienne à rénover</span></div>
+              <div class="icp-row"><div class="dot"></div><span class="icp-text">Professionnel libéral ou chef d'entreprise local</span></div>
+              <div class="icp-row"><div class="dot"></div><span class="icp-text">Sensible à l'esthétique et à la qualité des matériaux</span></div>
+              <div class="icp-row"><div class="dot"></div><span class="icp-text">Budget projet entre €50k et €300k</span></div>
+              <div class="icp-row"><div class="dot"></div><span class="icp-text">Veut un interlocuteur unique, pas plusieurs artisans</span></div>
+              <div class="icp-row"><div class="dot"></div><span class="icp-text">Cherche une référence locale de confiance</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Douleurs principales</span></div>
+          <div class="card-body">
+            <div class="tags">
+              <span class="tag">Manque de confiance dans les artisans</span>
+              <span class="tag">Peur des dépassements de budget</span>
+              <span class="tag">Difficulté à visualiser le résultat final</span>
+              <span class="tag hi">Besoin d'un chef de projet unique</span>
+              <span class="tag">Projets abandonnés faute d'accompagnement</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CANAUX ── -->
+      <div class="view" id="v-canaux">
+        <div class="view-header">
+          <div class="view-title">📡 Canaux prioritaires</div>
+          <div class="view-sub">Où concentrer votre énergie</div>
+        </div>
+        <div class="grid-2" style="margin-bottom:12px">
+          <div class="card">
+            <div class="card-head"><span class="card-title">💼 LinkedIn</span><span class="badge green">Priorité 1</span></div>
+            <div class="card-body">
+              <p style="font-size:12.5px;color:var(--t2);margin-bottom:12px">Notoriété professionnelle, bouche-à-oreille B2B, prescripteurs (notaires, agences immo)</p>
+              <div class="grid-2">
+                <div class="kv"><div class="kv-l">Fréquence</div><div class="kv-v">3× / semaine</div></div>
+                <div class="kv"><div class="kv-l">Meilleurs jours</div><div class="kv-v">Lun · Mer · Ven</div></div>
+                <div class="kv"><div class="kv-l">Horaire optimal</div><div class="kv-v">8h–9h ou 12h–13h</div></div>
+                <div class="kv"><div class="kv-l">Format dominant</div><div class="kv-v">Texte + photos</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><span class="card-title">📸 Instagram</span><span class="badge gray">Priorité 2</span></div>
+            <div class="card-body">
+              <p style="font-size:12.5px;color:var(--t2);margin-bottom:12px">Showcase visuel des réalisations, inspiration déco, audience CSP+ locale</p>
+              <div class="grid-2">
+                <div class="kv"><div class="kv-l">Fréquence</div><div class="kv-v">4× / semaine</div></div>
+                <div class="kv"><div class="kv-l">Meilleurs jours</div><div class="kv-v">Jeu · Sam · Dim</div></div>
+                <div class="kv"><div class="kv-l">Horaire optimal</div><div class="kv-v">18h–20h</div></div>
+                <div class="kv"><div class="kv-l">Format dominant</div><div class="kv-v">Carrousel · Reels</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tip">💡 <strong>Recommandation Phare :</strong> Commencez exclusivement par LinkedIn. Maîtrisez un canal avant d'en ouvrir un second.</div>
+      </div>
+
+      <!-- ── PILIERS (LOCKED) ── -->
+      <div class="view" id="v-piliers">
+        <div class="view-header">
+          <div class="view-title">✍️ Piliers de contenu</div>
+          <div class="view-sub">4 thèmes éditoriaux + idées de posts prêts à publier</div>
+        </div>
+        <div class="locked-view" id="locked-piliers">
+          <div class="lock-icon-big">🔒</div>
+          <h2>Débloquez vos piliers de contenu</h2>
+          <p>4 thèmes éditoriaux calibrés pour votre secteur, avec des idées de posts prêtes à publier sur LinkedIn et Instagram.</p>
+          <div class="feature-list">
+            <h4>Ce que vous obtenez</h4>
+            <div class="fi"><span class="fi-check">✓</span><span>4 piliers de contenu adaptés à la rénovation haut de gamme</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>12 idées de posts rédigées, prêtes à copier-coller</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Les formats qui performent le mieux dans votre verticale</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Mis à jour chaque mois selon les meilleures performances Phare</span></div>
+          </div>
+          <button class="unlock-main" onclick="unlockAll()">Débloquer — €150/mois</button><br>
+          <span class="unlock-note">Sans engagement · Résiliable à tout moment</span>
+        </div>
+        <div id="content-piliers" style="display:none">
+          <div class="pillar-card">
+            <div class="pillar-head" onclick="togglePillar(this)"><span style="font-size:18px">🏗️</span><div><h4>Avant / Après</h4><p>Vos transformations comme preuve sociale</p></div><span class="arrow">▼</span></div>
+            <div class="pillar-body open">
+              <div class="pi"><span class="pi-n">1</span><span>« On a reçu les clés d'une maison des années 70. 4 mois plus tard, voici ce qu'elle est devenue. » [Carrousel avant/après]</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this,'Ce post')">Copier</button></div></div>
+              <div class="pi"><span class="pi-n">2</span><span>« Le client nous a dit "faites-moi confiance". On l'a pris au mot. Résultat : une cuisine de 22m² transformée. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this,'Ce post')">Copier</button></div></div>
+              <div class="pi"><span class="pi-n">3</span><span>« 3 semaines, 1 salle de bain, 0 compromis sur les matériaux. Voici comment on travaille chez Rennov. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this,'Ce post')">Copier</button></div></div>
+            </div>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-head" onclick="togglePillar(this)"><span style="font-size:18px">🎓</span><div><h4>Éducation</h4><p>Positionner Rennov comme expert de confiance</p></div><span class="arrow">▼</span></div>
+            <div class="pillar-body open">
+              <div class="pi"><span class="pi-n">1</span><span>« Les 3 erreurs que font 90% des propriétaires avant de rénover (et qui leur coûtent €15k de plus). »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this,'Ce post')">Copier</button></div></div>
+              <div class="pi"><span class="pi-n">2</span><span>« Comment choisir son architecte d'intérieur dans le Jura ? Les 5 questions à poser avant de signer. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this,'Ce post')">Copier</button></div></div>
+              <div class="pi"><span class="pi-n">3</span><span>« Rénovation ou construction neuve : ce que personne ne vous dit sur les coûts cachés. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this,'Ce post')">Copier</button></div></div>
+            </div>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-head" onclick="togglePillar(this)"><span style="font-size:18px">👥</span><div><h4>Coulisses</h4><p>L'humain derrière les chantiers</p></div><span class="arrow">▼</span></div>
+            <div class="pillar-body">
+              <div class="pi"><span class="pi-n">1</span><span>« 6h du matin sur un chantier en plein Jura. Voici à quoi ressemble notre journée type. » [Vidéo 60s]</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this,'Ce post')">Copier</button></div></div>
+              <div class="pi"><span class="pi-n">2</span><span>« On vient de recevoir ce carrelage artisanal du Portugal. Ce détail va changer toute la pièce. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this,'Ce post')">Copier</button></div></div>
+              <div class="pi"><span class="pi-n">3</span><span>« Derrière chaque projet Rennov, il y a une équipe de 6 personnes. Voici comment on s'organise. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this,'Ce post')">Copier</button></div></div>
+            </div>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-head" onclick="togglePillar(this)"><span style="font-size:18px">⭐</span><div><h4>Témoignages</h4><p>La voix de vos clients comme meilleur commercial</p></div><span class="arrow">▼</span></div>
+            <div class="pillar-body">
+              <div class="pi"><span class="pi-n">1</span><span>« "On avait peur de ne pas retrouver l'âme de la maison. En fait, ils l'ont sublimée." — Sophie & Marc »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this,'Ce post')">Copier</button></div></div>
+              <div class="pi"><span class="pi-n">2</span><span>« Ce client nous a contactés après avoir vu nos posts LinkedIn. Voici comment son projet a pris vie. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this,'Ce post')">Copier</button></div></div>
+              <div class="pi"><span class="pi-n">3</span><span>« Bilan : 8 projets livrés, 8 clients satisfaits. Voici ce qu'ils nous ont dit. » [Compilation]</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this,'Ce post')">Copier</button></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CALENDRIER (LOCKED) ── -->
+      <div class="view" id="v-calendrier">
+        <div class="view-header">
+          <div class="view-title">📅 Calendrier éditorial</div>
+          <div class="view-sub">Votre contenu planifié et organisé</div>
+        </div>
+        <div class="locked-view" id="locked-calendrier">
+          <div class="lock-icon-big">🔒</div>
+          <h2>Votre calendrier éditorial</h2>
+          <p>Un planning hebdomadaire complet avec les jours, horaires et types de contenu optimaux pour votre audience.</p>
+          <div class="feature-list">
+            <h4>Ce que vous obtenez</h4>
+            <div class="fi"><span class="fi-check">✓</span><span>Planning semaine type LinkedIn + Instagram</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Horaires optimaux calculés pour votre secteur</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Équilibre automatique entre vos 4 piliers</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Adapté en temps réel selon vos performances</span></div>
+          </div>
+          <button class="unlock-main" onclick="unlockAll()">Débloquer — €150/mois</button><br>
+          <span class="unlock-note">Sans engagement · Résiliable à tout moment</span>
+        </div>
+        <div id="content-calendrier" style="display:none">
+          <div class="card">
+            <div class="card-head"><span class="card-title">Semaine type</span><span class="badge green">7 publications</span></div>
+            <div class="card-body" style="padding:0">
+              <table class="cal-table">
+                <thead><tr><th>Jour</th><th>Canal</th><th>Contenu</th><th>Pilier</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Lundi</strong><br><span style="font-size:11px;color:var(--t3)">8h–9h</span></td><td><span class="ct li">💼 LinkedIn</span></td><td style="font-size:12.5px">Post texte — Avant/Après chantier</td><td><span class="tag" style="font-size:11px">🏗️ Transformation</span></td></tr>
+                  <tr><td><strong>Mercredi</strong><br><span style="font-size:11px;color:var(--t3)">12h–13h</span></td><td><span class="ct li">💼 LinkedIn</span></td><td style="font-size:12.5px">Post éducatif — Erreur à éviter</td><td><span class="tag" style="font-size:11px">🎓 Éducation</span></td></tr>
+                  <tr><td><strong>Jeudi</strong><br><span style="font-size:11px;color:var(--t3)">18h–20h</span></td><td><span class="ct ig">📸 Instagram</span></td><td style="font-size:12.5px">Carrousel — Coulisses chantier</td><td><span class="tag" style="font-size:11px">👥 Coulisses</span></td></tr>
+                  <tr><td><strong>Vendredi</strong><br><span style="font-size:11px;color:var(--t3)">8h–9h</span></td><td><span class="ct li">💼 LinkedIn</span></td><td style="font-size:12.5px">Témoignage client — Format story</td><td><span class="tag" style="font-size:11px">⭐ Témoignage</span></td></tr>
+                  <tr><td><strong>Samedi</strong><br><span style="font-size:11px;color:var(--t3)">18h–20h</span></td><td><span class="ct ig">📸 Instagram</span></td><td style="font-size:12.5px">Photo portfolio — Détail matériaux</td><td><span class="tag" style="font-size:11px">🏗️ Transformation</span></td></tr>
+                  <tr><td><strong>Dimanche</strong><br><span style="font-size:11px;color:var(--t3)">18h–20h</span></td><td><span class="ct ig">📸 Instagram</span></td><td style="font-size:12.5px">Reel 30s — Timelapse chantier</td><td><span class="tag" style="font-size:11px">👥 Coulisses</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── OUTREACH (LOCKED) ── -->
+      <div class="view" id="v-outreach">
+        <div class="view-header">
+          <div class="view-title">📬 Séquences outreach</div>
+          <div class="view-sub">Messages LinkedIn prêts à envoyer à vos prescripteurs</div>
+        </div>
+        <div class="locked-view" id="locked-outreach">
+          <div class="lock-icon-big">🔒</div>
+          <h2>Vos séquences outreach</h2>
+          <p>3 messages LinkedIn calibrés pour votre secteur, prêts à envoyer à vos prescripteurs clés dès aujourd'hui.</p>
+          <div class="feature-list">
+            <h4>Ce que vous obtenez</h4>
+            <div class="fi"><span class="fi-check">✓</span><span>Message de connexion + 2 relances espacées</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Ciblage prescripteurs : notaires, agents immo, architectes</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Taux d'acceptation cible 40–55%</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Champs personnalisables pour chaque prospect</span></div>
+          </div>
+          <button class="unlock-main" onclick="unlockAll()">Débloquer — €150/mois</button><br>
+          <span class="unlock-note">Sans engagement · Résiliable à tout moment</span>
+        </div>
+        <div id="content-outreach" style="display:none">
+          <p style="font-size:12px;color:var(--t2);margin-bottom:14px">Ciblez : notaires, agents immobiliers, architectes, chefs d'entreprise locaux du Jura</p>
+          <div class="msg-card">
+            <div class="msg-lbl">Message 1 — Demande de connexion</div>
+            <div class="msg-body">Bonjour <span class="msg-hl">[Prénom]</span>,<br><br>Je tombe sur votre profil et votre activité dans <span class="msg-hl">[secteur]</span> me parle — on travaille régulièrement avec des professionnels comme vous sur des projets de rénovation haut de gamme dans le Jura.<br><br>Ravi d'échanger si l'occasion se présente !</div>
+            <div class="msg-tip">✓ Pas de pitch · Connexion humaine · Taux d'acceptation cible : 40–55%</div>
+            <div class="msg-footer"><button class="copy-btn" onclick="copyText(this,'Message copié ✓')">Copier le message</button></div>
+          </div>
+          <div class="msg-card">
+            <div class="msg-lbl">Message 2 — Suivi après connexion</div>
+            <div class="msg-body">Merci pour la connexion <span class="msg-hl">[Prénom]</span> !<br><br>Je voulais partager ce projet qu'on vient de livrer à Lons-le-Saunier — une maison des années 60 complètement repensée. Je me dis que ça peut résonner avec certains de vos clients.<br><br>Si vous croisez quelqu'un en réflexion sur une rénovation, n'hésitez pas 🙂</div>
+            <div class="msg-tip">✓ Apporte de la valeur · Activation du bouche-à-oreille</div>
+            <div class="msg-footer"><button class="copy-btn" onclick="copyText(this,'Message copié ✓')">Copier le message</button></div>
+          </div>
+          <div class="msg-card">
+            <div class="msg-lbl">Message 3 — Relance douce</div>
+            <div class="msg-body">Bonjour <span class="msg-hl">[Prénom]</span>,<br><br>On vient de finaliser un projet sympa dans votre secteur — j'ai pensé à vous. Si vous avez 20 minutes pour qu'on se présente, je serais ravi d'échanger autour d'un café.<br><br>Pas d'agenda caché — juste construire un réseau local de qualité 😊</div>
+            <div class="msg-tip">✓ Proposition concrète · Taux de réponse cible : 15–25%</div>
+            <div class="msg-footer"><button class="copy-btn" onclick="copyText(this,'Message copié ✓')">Copier le message</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── KPIS (LOCKED) ── -->
+      <div class="view" id="v-kpis">
+        <div class="view-header">
+          <div class="view-title">📊 KPIs & Dashboard</div>
+          <div class="view-sub">Vos métriques clés et objectifs à atteindre</div>
+        </div>
+        <div class="locked-view" id="locked-kpis">
+          <div class="lock-icon-big">🔒</div>
+          <h2>Votre dashboard de performance</h2>
+          <p>Des objectifs chiffrés réalistes pour votre secteur et un suivi de ROI concret pour justifier chaque euro investi.</p>
+          <div class="feature-list">
+            <h4>Ce que vous obtenez</h4>
+            <div class="fi"><span class="fi-check">✓</span><span>Objectifs par étape : abonnés, engagement, leads</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>ROI calculé en CA potentiel généré</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Comparaison vs la moyenne de votre verticale</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Dashboard mis à jour chaque semaine</span></div>
+          </div>
+          <button class="unlock-main" onclick="unlockAll()">Débloquer — €150/mois</button><br>
+          <span class="unlock-note">Sans engagement · Résiliable à tout moment</span>
+        </div>
+        <div id="content-kpis" style="display:none">
+          <div class="grid-4" style="margin-bottom:14px">
+            <div class="stat-big"><div class="val">500</div><div class="lbl">Abonnés LinkedIn cible</div></div>
+            <div class="stat-big"><div class="val">6%</div><div class="lbl">Engagement cible</div></div>
+            <div class="stat-big"><div class="val">3</div><div class="lbl">Leads / mois</div></div>
+            <div class="stat-big"><div class="val">€45k</div><div class="lbl">CA pipeline</div></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><span class="card-title">Progression par indicateur</span></div>
+            <div class="card-body">
+              <div class="kpi-row"><span class="kpi-lbl">Abonnés LinkedIn</span><div class="kpi-track"><div class="kpi-fill" style="width:20%"></div></div><span class="kpi-val">100 → 500</span></div>
+              <div class="kpi-row"><span class="kpi-lbl">Vues par post</span><div class="kpi-track"><div class="kpi-fill" style="width:30%"></div></div><span class="kpi-val">200 → 2 000</span></div>
+              <div class="kpi-row"><span class="kpi-lbl">Connexions prescripteurs</span><div class="kpi-track"><div class="kpi-fill" style="width:15%"></div></div><span class="kpi-val">0 → 50</span></div>
+              <div class="kpi-row"><span class="kpi-lbl">Leads entrants / mois</span><div class="kpi-track"><div class="kpi-fill" style="width:10%"></div></div><span class="kpi-val">0 → 3</span></div>
+              <div class="kpi-row"><span class="kpi-lbl">Taux conversion lead</span><div class="kpi-track"><div class="kpi-fill" style="width:40%;background:var(--green)"></div></div><span class="kpi-val">cible 30%</span></div>
+              <div class="tip" style="margin-top:12px">📈 <strong>ROI estimé :</strong> 1 lead converti = projet moyen €80k. À 30% de conversion → <strong>€24k CA / mois généré par Phare.</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ROADMAP (LOCKED) ── -->
+      <div class="view" id="v-roadmap">
+        <div class="view-header">
+          <div class="view-title">🗺️ Feuille de route</div>
+          <div class="view-sub">Étape par étape, quoi faire et dans quel ordre</div>
+        </div>
+        <div class="locked-view" id="locked-roadmap">
+          <div class="lock-icon-big">🔒</div>
+          <h2>Votre feuille de route</h2>
+          <p>3 phases d'actions concrètes pour passer de zéro présence à une machine à leads qui tourne.</p>
+          <div class="feature-list">
+            <h4>Ce que vous obtenez</h4>
+            <div class="fi"><span class="fi-check">✓</span><span>3 phases : Fondations → Traction → Conversion</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Actions concrètes et cochables à chaque étape</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Priorisées pour maximiser l'impact dès le début</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Mise à jour selon votre progression réelle</span></div>
+          </div>
+          <button class="unlock-main" onclick="unlockAll()">Débloquer — €150/mois</button><br>
+          <span class="unlock-note">Sans engagement · Résiliable à tout moment</span>
+        </div>
+        <div id="content-roadmap" style="display:none">
+          <div class="phase-card">
+            <div class="phase-head"><div class="phase-num">1</div><div><div class="phase-title">Fondations</div><div class="phase-sub">Construire votre présence de zéro</div></div></div>
+            <div class="action-row"><input type="checkbox"> <span>Optimiser votre profil LinkedIn : photo pro, bannière, accroche orientée client</span></div>
+            <div class="action-row"><input type="checkbox"> <span>Rédiger et publier votre post de lancement (qui vous êtes, ce que vous faites)</span></div>
+            <div class="action-row"><input type="checkbox"> <span>Connecter 50 prescripteurs locaux : notaires, agents immo, architectes</span></div>
+            <div class="action-row"><input type="checkbox"> <span>Publier votre premier Avant/Après avec votre meilleur chantier</span></div>
+            <div class="action-row"><input type="checkbox"> <span>Créer votre compte Instagram Pro et publier 6 photos de portfolio</span></div>
+          </div>
+          <div class="phase-card">
+            <div class="phase-head"><div class="phase-num" style="background:#8B5CF6">2</div><div><div class="phase-title">Traction</div><div class="phase-sub">Installer un rythme et gagner en visibilité</div></div></div>
+            <div class="action-row"><input type="checkbox"> <span>Tenir le rythme éditorial : 3 posts LinkedIn + 4 contenus Instagram / semaine</span></div>
+            <div class="action-row"><input type="checkbox"> <span>Lancer les séquences outreach vers 20 prescripteurs prioritaires</span></div>
+            <div class="action-row"><input type="checkbox"> <span>Filmer votre premier Reel de chantier (timelapse ou coulisses 30–60 secondes)</span></div>
+            <div class="action-row"><input type="checkbox"> <span>Recueillir 2 témoignages clients écrits et les publier en format story LinkedIn</span></div>
+          </div>
+          <div class="phase-card">
+            <div class="phase-head"><div class="phase-num" style="background:var(--green)">3</div><div><div class="phase-title">Conversion</div><div class="phase-sub">Transformer la visibilité en rendez-vous</div></div></div>
+            <div class="action-row"><input type="checkbox"> <span>Relancer les prescripteurs connectés avec un projet récent pertinent</span></div>
+            <div class="action-row"><input type="checkbox"> <span>Ajouter un appel à l'action clair sur vos posts les plus performants</span></div>
+            <div class="action-row"><input type="checkbox"> <span>Mettre en place un lien de prise de RDV direct dans votre bio LinkedIn</span></div>
+            <div class="action-row"><input type="checkbox"> <span>Objectif : 1 rendez-vous qualifié entrant par semaine grâce au contenu</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── FREELANCES (LOCKED) ── -->
+      <div class="view" id="v-freelances">
+        <div class="view-header">
+          <div class="view-title">🤝 Freelances recommandés</div>
+          <div class="view-sub">Des experts pour créer votre contenu à votre place</div>
+        </div>
+        <div class="locked-view" id="locked-freelances">
+          <div class="lock-icon-big">🔒</div>
+          <h2>Trouvez votre créateur de contenu</h2>
+          <p>Des freelances sélectionnés par Phare pour leur expérience dans l'architecture, la rénovation et l'artisanat.</p>
+          <div class="feature-list">
+            <h4>Ce que vous obtenez</h4>
+            <div class="fi"><span class="fi-check">✓</span><span>Vidéastes, photographes et ghostwriters spécialisés</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Profils matchés automatiquement à votre verticale</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Tarifs transparents, contact direct</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Nouveaux profils ajoutés chaque mois</span></div>
+          </div>
+          <button class="unlock-main" onclick="unlockAll()">Débloquer — €150/mois</button><br>
+          <span class="unlock-note">Sans engagement · Résiliable à tout moment</span>
+        </div>
+        <div id="content-freelances" style="display:none">
+          <p style="font-size:12px;color:var(--t2);margin-bottom:14px">3 profils sélectionnés pour votre secteur · Mise à jour mensuelle</p>
+          <div class="fl-card"><div class="fl-av">🎬</div><div class="fl-info"><h4>Lucas M. — Vidéaste</h4><p>Réels immobiliers & chantiers · Bourgogne-Franche-Comté</p><div class="tags" style="margin-top:5px"><span class="badge green">Disponible</span><span class="tag" style="font-size:11px">Réels</span><span class="tag" style="font-size:11px">Timelapse</span></div></div><span class="fl-price">dès €350 / vidéo</span><button class="fl-btn">Contacter</button></div>
+          <div class="fl-card"><div class="fl-av">📸</div><div class="fl-info"><h4>Amélie D. — Photographe</h4><p>Architecture intérieure & after-renovation · Dijon / Jura</p><div class="tags" style="margin-top:5px"><span class="badge green">Disponible</span><span class="tag" style="font-size:11px">Portfolio</span><span class="tag" style="font-size:11px">Avant/Après</span></div></div><span class="fl-price">dès €280 / session</span><button class="fl-btn">Contacter</button></div>
+          <div class="fl-card"><div class="fl-av">✍️</div><div class="fl-info"><h4>Sophie R. — Ghostwriter</h4><p>Rédaction LinkedIn pour artisans & professions libérales</p><div class="tags" style="margin-top:5px"><span class="badge green">Disponible</span><span class="tag" style="font-size:11px">Posts LinkedIn</span><span class="tag" style="font-size:11px">Storytelling</span></div></div><span class="fl-price">€400 / mois</span><button class="fl-btn">Contacter</button></div>
+        </div>
+      </div>
+
+      <!-- ── CETTE SEMAINE (LOCKED) ── -->
+      <div class="view" id="v-semaine">
+        <div class="view-header">
+          <div class="view-title">📆 Cette semaine</div>
+          <div class="view-sub">Vos contenus et actions pour la semaine du 10 au 16 mars 2026</div>
+        </div>
+        <div class="locked-view" id="locked-semaine">
+          <div class="lock-icon-big">📆</div>
+          <h2>Votre programme de la semaine</h2>
+          <p>Chaque lundi, Phare génère vos posts de la semaine et vos cibles outreach — prêts à copier, rien à réfléchir.</p>
+          <div class="feature-list">
+            <h4>Ce que vous obtenez chaque semaine</h4>
+            <div class="fi"><span class="fi-check">✓</span><span>3 posts LinkedIn rédigés, à copier-coller directement</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>3 messages outreach personnalisés avec leurs cibles</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Générés à partir des meilleurs posts de la verticale la semaine passée</span></div>
+            <div class="fi"><span class="fi-check">✓</span><span>Checklist actionnable : rien à oublier, tout à cocher</span></div>
+          </div>
+          <button class="unlock-main" onclick="unlockAll()">Débloquer — €150/mois</button><br>
+          <span class="unlock-note">Sans engagement · Résiliable à tout moment</span>
+        </div>
+        <div id="content-semaine" style="display:none">
+
+          <div class="week-header">
+            <div class="week-range">📅 Semaine du 10 au 16 mars 2026</div>
+            <div class="week-progress">0 / 3 posts publiés · 0 / 3 outreach envoyés</div>
+          </div>
+
+          <!-- Posts LinkedIn de la semaine -->
+          <div class="card" style="margin-bottom:14px">
+            <div class="card-head">
+              <span class="card-title">Vos posts cette semaine</span>
+              <span class="badge purple">3 LinkedIn</span>
+            </div>
+            <div class="card-body" style="padding:12px;display:flex;flex-direction:column;gap:10px">
+
+              <div class="day-block today">
+                <div class="day-head">
+                  <span class="day-name">Lundi</span>
+                  <span class="day-date">10 mars · 8h00</span>
+                  <span class="ct li" style="font-size:11px;margin-left:4px">💼 LinkedIn</span>
+                  <span class="day-badge today-b" style="margin-left:auto">Aujourd'hui</span>
+                </div>
+                <div class="day-body">
+                  <div class="post-text">On a reçu les clés d'une maison des années 70 dans le Jura.<br>4 mois plus tard, voici ce qu'elle est devenue.<br><br>Le brief du client : "Je veux retrouver l'âme de la maison, sans la moderniser à l'excès."<br><br>Ce qu'on a fait :<br>→ Conservation des poutres d'origine (traitées, sublimées)<br>→ Enduits à la chaux sur les murs porteurs<br>→ Cuisine ouverte avec îlot en pierre locale<br><br>Résultat : une maison qui respire et qui raconte une histoire.<br><br>Vous avez un projet de rénovation dans le Jura ? Je réponds à tous les messages.</div>
+                  <div class="post-footer">
+                    <span class="ct li" style="font-size:10.5px">🏗️ Pilier Avant/Après</span>
+                    <span class="post-time">· 8h00 recommandé</span>
+                    <button class="copy-btn" style="margin-left:auto" onclick="copyText(this,'Copier le post')">Copier le post</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="day-block">
+                <div class="day-head">
+                  <span class="day-name">Mercredi</span>
+                  <span class="day-date">12 mars · 12h00</span>
+                  <span class="ct li" style="font-size:11px;margin-left:4px">💼 LinkedIn</span>
+                  <span class="day-badge todo" style="margin-left:auto">À publier</span>
+                </div>
+                <div class="day-body">
+                  <div class="post-text">Les 3 erreurs que font 90% des propriétaires avant de rénover (et qui leur coûtent €15k de plus).<br><br>Erreur #1 : Commencer par les matériaux avant de valider les plans<br>→ Les matériaux se choisissent en dernier, pas en premier.<br><br>Erreur #2 : Ne pas inclure le poste "imprévus" dans le budget<br>→ Minimum 15% de marge sur tout projet de rénovation.<br><br>Erreur #3 : Confier chaque corps de métier à un artisan différent<br>→ Sans coordinateur, les délais s'accumulent et les coûts explosent.<br><br>La solution : un interlocuteur unique qui pilote tout. C'est exactement notre rôle chez Rennov.</div>
+                  <div class="post-footer">
+                    <span class="ct li" style="font-size:10.5px">🎓 Pilier Éducation</span>
+                    <span class="post-time">· 12h00 recommandé</span>
+                    <button class="copy-btn" style="margin-left:auto" onclick="copyText(this,'Copier le post')">Copier le post</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="day-block">
+                <div class="day-head">
+                  <span class="day-name">Vendredi</span>
+                  <span class="day-date">14 mars · 8h00</span>
+                  <span class="ct li" style="font-size:11px;margin-left:4px">💼 LinkedIn</span>
+                  <span class="day-badge todo" style="margin-left:auto">À publier</span>
+                </div>
+                <div class="day-body">
+                  <div class="post-text">"On avait peur de ne pas retrouver l'âme de la maison. En fait, ils l'ont sublimée."<br><br>Sophie &amp; Marc nous ont contactés après avoir vu notre compte Instagram. Ils avaient un projet flou, un budget défini, et beaucoup d'appréhensions.<br><br>6 mois plus tard : chantier livré, ils nous ont recommandés à 3 de leurs amis.<br><br>C'est pour ça qu'on fait ce métier.</div>
+                  <div class="post-footer">
+                    <span class="ct li" style="font-size:10.5px">⭐ Pilier Témoignage</span>
+                    <span class="post-time">· 8h00 recommandé</span>
+                    <button class="copy-btn" style="margin-left:auto" onclick="copyText(this,'Copier le post')">Copier le post</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Outreach de la semaine -->
+          <div class="card">
+            <div class="card-head">
+              <span class="card-title">Vos outreach cette semaine</span>
+              <span class="badge gray">3 contacts ciblés</span>
+            </div>
+            <div class="card-body" style="padding:12px">
+              <p style="font-size:11.5px;color:var(--t2);margin-bottom:12px">3 profils sélectionnés dans votre réseau local — copiez le message, personnalisez le prénom, envoyez.</p>
+
+              <div class="outreach-week-card">
+                <div class="ow-av">🏡</div>
+                <div class="ow-info">
+                  <div class="ow-name">Agent immobilier · Lons-le-Saunier</div>
+                  <div class="ow-role">Prescripteur prioritaire · Connexion en attente</div>
+                  <div class="ow-msg">Bonjour <strong>[Prénom]</strong>, je tombe sur votre profil et votre activité dans l'immobilier me parle — on travaille régulièrement avec des professionnels comme vous sur des projets de rénovation haut de gamme dans le Jura. Ravi d'échanger si l'occasion se présente !</div>
+                  <div class="ow-actions">
+                    <button class="copy-btn" onclick="copyText(this,'Copier le message')">Copier le message</button>
+                    <span style="font-size:10.5px;color:var(--t3);display:flex;align-items:center">✓ Taux d'acceptation cible 40–55%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="outreach-week-card">
+                <div class="ow-av">⚖️</div>
+                <div class="ow-info">
+                  <div class="ow-name">Notaire · Dole</div>
+                  <div class="ow-role">Prescripteur prioritaire · Connexion acceptée il y a 5 jours</div>
+                  <div class="ow-msg">Merci pour la connexion <strong>[Prénom]</strong> ! Je voulais partager ce projet qu'on vient de livrer à Lons-le-Saunier — une maison des années 60 complètement repensée. Je me dis que ça peut résonner avec certains de vos clients. Si vous croisez quelqu'un en réflexion sur une rénovation, n'hésitez pas 🙂</div>
+                  <div class="ow-actions">
+                    <button class="copy-btn" onclick="copyText(this,'Copier le message')">Copier le message</button>
+                    <span style="font-size:10.5px;color:var(--t3);display:flex;align-items:center">✓ Message de suivi — apporte de la valeur</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="outreach-week-card">
+                <div class="ow-av">🏗️</div>
+                <div class="ow-info">
+                  <div class="ow-name">Architecte indépendant · Besançon</div>
+                  <div class="ow-role">Prescripteur haute valeur · Nouveau profil identifié</div>
+                  <div class="ow-msg">Bonjour <strong>[Prénom]</strong>, j'ai découvert votre travail sur des projets de réhabilitation — vraiment en phase avec ce qu'on fait chez Rennov. On intervient sur des rénovations complètes dans le Jura et on cherche à collaborer avec des architectes locaux qui partagent notre exigence. Vous auriez 20 minutes pour qu'on échange ?</div>
+                  <div class="ow-actions">
+                    <button class="copy-btn" onclick="copyText(this,'Copier le message')">Copier le message</button>
+                    <span style="font-size:10.5px;color:var(--t3);display:flex;align-items:center">✓ Proposition de collaboration directe</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── RÉUSSITES PHARE (FREE) ── -->
+      <div class="view" id="v-reussites">
+        <div class="view-header">
+          <div class="view-title">🏆 Réussites Phare</div>
+          <div class="view-sub">Les posts qui ont généré des leads dans votre verticale cette semaine</div>
+        </div>
+
+        <div class="signal-banner">
+          <span class="signal-icon">🔦</span>
+          <div class="signal-text">
+            <h4>Le Signal Phare — intelligence collective</h4>
+            <p>Chaque semaine, Phare analyse les performances de tous ses utilisateurs dans votre verticale et identifie ce qui fonctionne vraiment. Ces réussites sont anonymisées et partagées pour guider toute la communauté.</p>
+          </div>
+          <div class="signal-stat">
+            <div class="sv">147</div>
+            <div class="sl">entreprises artisanat<br>& rénovation analysées</div>
+          </div>
+        </div>
+
+        <div class="section-lbl" style="margin-bottom:10px">Top posts · Semaine du 3 au 9 mars · Verticale Artisanat / Rénovation</div>
+
+        <div class="reussite-card">
+          <div class="rc-head">
+            <div class="rc-anon">🏗️</div>
+            <div class="rc-meta">
+              <div class="rc-who">Entreprise de rénovation · Savoie</div>
+              <div class="rc-where">Maçonnerie & architecture intérieure · 8 ans d'existence</div>
+            </div>
+            <span class="rc-channel li">💼 LinkedIn</span>
+          </div>
+          <div class="rc-body">
+            <div class="rc-post"><strong>"On a transformé cette grange en maison de famille. Le client voulait conserver les pierres d'origine. On a relevé le défi."</strong><br>Post Avant/Après avec 6 photos · Texte court et émotionnel · CTA discret en fin de post</div>
+            <div class="rc-stats">
+              <div class="rc-stat"><div class="rsv">4 210</div><div class="rsl">vues</div></div>
+              <div class="rc-stat"><div class="rsv">187</div><div class="rsl">likes</div></div>
+              <div class="rc-stat"><div class="rsv">34</div><div class="rsl">commentaires</div></div>
+              <div class="rc-stat"><div class="rsv" style="color:var(--green)">5</div><div class="rsl">leads générés</div></div>
+            </div>
+            <div class="rc-star-top">🏆 <strong>Meilleur post de la verticale cette semaine</strong> · Format émotionnel + portfolio visuel = combo gagnant</div>
+          </div>
+        </div>
+
+        <div class="reussite-card">
+          <div class="rc-head">
+            <div class="rc-anon">🪚</div>
+            <div class="rc-meta">
+              <div class="rc-who">Menuiserie artisanale · Isère</div>
+              <div class="rc-where">Menuiserie & ébénisterie · 12 ans d'existence</div>
+            </div>
+            <span class="rc-channel li">💼 LinkedIn</span>
+          </div>
+          <div class="rc-body">
+            <div class="rc-post"><strong>"Les 3 erreurs que font mes clients quand ils commandent une cuisine sur mesure (et comment les éviter)."</strong><br>Post éducatif en liste · 3 points concrets · Ton d'expert bienveillant</div>
+            <div class="rc-stats">
+              <div class="rc-stat"><div class="rsv">2 847</div><div class="rsl">vues</div></div>
+              <div class="rc-stat"><div class="rsv">93</div><div class="rsl">likes</div></div>
+              <div class="rc-stat"><div class="rsv">21</div><div class="rsl">commentaires</div></div>
+              <div class="rc-stat"><div class="rsv" style="color:var(--green)">3</div><div class="rsl">leads générés</div></div>
+            </div>
+            <div class="rc-star">💡 <strong>Format "erreurs à éviter"</strong> — génère systématiquement +40% d'engagement dans l'artisanat</div>
+          </div>
+        </div>
+
+        <div class="reussite-card">
+          <div class="rc-head">
+            <div class="rc-anon">🏠</div>
+            <div class="rc-meta">
+              <div class="rc-who">Architecte d'intérieur · Ain</div>
+              <div class="rc-where">Architecture & décoration · 5 ans d'existence</div>
+            </div>
+            <span class="rc-channel ig">📸 Instagram</span>
+          </div>
+          <div class="rc-body">
+            <div class="rc-post"><strong>Carrousel 8 slides : "Notre processus de A à Z — ce qui se passe entre le premier appel et la livraison des clés."</strong><br>Carrousel éducatif · Design épuré · Appel à l'action slide finale</div>
+            <div class="rc-stats">
+              <div class="rc-stat"><div class="rsv">6 103</div><div class="rsl">vues</div></div>
+              <div class="rc-stat"><div class="rsv">412</div><div class="rsl">likes</div></div>
+              <div class="rc-stat"><div class="rsv">58</div><div class="rsl">sauvegardes</div></div>
+              <div class="rc-stat"><div class="rsv" style="color:var(--green)">4</div><div class="rsl">DM qualifiés</div></div>
+            </div>
+            <div class="rc-star">💡 <strong>Carrousel "processus"</strong> — le format qui convertit le mieux sur Instagram dans la rénovation haut de gamme</div>
+          </div>
+        </div>
+
+        <div class="reussite-card">
+          <div class="rc-head">
+            <div class="rc-anon">🔨</div>
+            <div class="rc-meta">
+              <div class="rc-who">Maître artisan · Haute-Savoie</div>
+              <div class="rc-where">Couverture & charpente · 20 ans d'existence</div>
+            </div>
+            <span class="rc-channel li">💼 LinkedIn</span>
+          </div>
+          <div class="rc-body">
+            <div class="rc-post"><strong>"6h du matin. Chantier en altitude. C'est ça, notre quotidien."</strong><br>Photo coulisses + texte court · Authenticité totale · Aucun filtre, aucun artifice</div>
+            <div class="rc-stats">
+              <div class="rc-stat"><div class="rsv">1 923</div><div class="rsl">vues</div></div>
+              <div class="rc-stat"><div class="rsv">142</div><div class="rsl">likes</div></div>
+              <div class="rc-stat"><div class="rsv">47</div><div class="rsl">commentaires</div></div>
+              <div class="rc-stat"><div class="rsv" style="color:var(--green)">2</div><div class="rsl">leads générés</div></div>
+            </div>
+            <div class="rc-star">💡 <strong>Posts "coulisses brutes"</strong> — génèrent le plus de commentaires qualitatifs et de partages spontanés</div>
+          </div>
+        </div>
+
+        <div class="contribute-cta">
+          <p>✨ <strong>Vos posts contribueront au Signal Phare</strong> dès votre passage en Pro. Chaque résultat que vous partagez améliore les recommandations pour toutes les entreprises de votre verticale.</p>
+          <button class="unlock-main" onclick="unlockAll()">Rejoindre la communauté — €150/mois</button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const breadcrumbs = { dashboard:'Tableau de bord', icp:'Client idéal', canaux:'Canaux', reussites:'Réussites Phare', semaine:'Cette semaine', piliers:'Piliers de contenu', calendrier:'Calendrier', outreach:'Outreach', kpis:'KPIs', roadmap:'Feuille de route', freelances:'Freelances' };
+  let unlocked = false;
+
+  function nav(id, el) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('v-' + id).classList.add('active');
+    if (el) el.classList.add('active');
+    document.getElementById('breadcrumb').textContent = breadcrumbs[id] || id;
+  }
+
+  function unlockAll() {
+    if (unlocked) return;
+    unlocked = true;
+    const ids = ['semaine','piliers','calendrier','outreach','kpis','roadmap','freelances'];
+    ids.forEach((id, i) => {
+      setTimeout(() => {
+        const locked = document.getElementById('locked-' + id);
+        const content = document.getElementById('content-' + id);
+        if (locked) locked.style.display = 'none';
+        if (content) content.style.display = 'block';
+        const lk = document.getElementById(i === 0 ? 'lk0' : 'lk' + i);
+        if (lk) lk.remove();
+      }, i * 60);
+    });
+    document.getElementById('plan-pill').textContent = '✓ Pro actif';
+    document.getElementById('plan-pill').classList.add('pro');
+    document.getElementById('tb-cta').style.display = 'none';
+    document.getElementById('sb-footer').style.display = 'none';
+    document.getElementById('pro-label').textContent = 'Pro — Actif ✓';
+    // Update dashboard locked cards
+    document.querySelectorAll('.ds-locked').forEach(el => {
+      el.classList.remove('ds-locked');
+      el.classList.add('ds-free');
+      el.style.opacity = '1';
+      el.style.borderStyle = 'solid';
+      const head = el.querySelector('.ds-head');
+      if (head) {
+        const lock = head.querySelector('span:last-child');
+        if (lock && lock.textContent === '🔒') lock.textContent = '';
+        const badge = document.createElement('span');
+        badge.className = 'badge green';
+        badge.style.marginLeft = 'auto';
+        badge.style.fontSize = '10px';
+        badge.textContent = 'Pro';
+        head.appendChild(badge);
+      }
+    });
+  }
+
+  function togglePillar(head) {
+    head.classList.toggle('open');
+    head.nextElementSibling.classList.toggle('open');
+  }
+
+  function copyText(btn, label) {
+    btn.textContent = '✓ Copié';
+    btn.style.background = 'var(--green-l)';
+    btn.style.color = 'var(--green)';
+    setTimeout(() => {
+      btn.textContent = label === 'Message copié ✓' ? 'Copier le message' : 'Copier';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 2000);
+  }
+</script>
+</body>
+</html>
