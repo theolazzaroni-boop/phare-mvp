@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Profile {
+  id        String   @id // = Supabase auth user id
+  email     String   @unique
+  name      String?
+  company   String?
+  role      Role     @default(CLIENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  posts      Post[]
+  weeklyNews WeeklyNews[]
+  stats      WeeklyStats[]
+}
+
+model Post {
+  id          String     @id @default(cuid())
+  profileId   String
+  profile     Profile    @relation(fields: [profileId], references: [id])
+  weekStart   DateTime   // Lundi de la semaine
+  dayOfWeek   Int        // 1=Lundi … 5=Vendredi
+  publishTime String     // ex. "08:00"
+  content     String
+  status      PostStatus @default(DRAFT)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  revisions RevisionRequest[]
+}
+
+model RevisionRequest {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model WeeklyNews {
+  id        String   @id @default(cuid())
+  profileId String
+  profile   Profile  @relation(fields: [profileId], references: [id])
+  weekStart DateTime
+  content   String
+  createdAt DateTime @default(now())
+}
+
+model WeeklyStats {
+  id          String   @id @default(cuid())
+  profileId   String
+  profile     Profile  @relation(fields: [profileId], references: [id])
+  weekStart   DateTime
+  impressions Int      @default(0)
+  engagements Int      @default(0)
+  followers   Int      @default(0)
+  leads       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+enum Role {
+  ADMIN
+  CLIENT
+}
+
+enum PostStatus {
+  DRAFT
+  READY
+  PUBLISHED
+  REVISION_REQUESTED
+}
