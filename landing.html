@@ -334,30 +334,6 @@
     .price-panel { display: none; }
     .price-panel.active { display: block; }
 
-    /* ── COMPARE TABLE ── */
-    .compare-wrap { overflow-x: auto; }
-    .compare-table { width: 100%; border-collapse: collapse; }
-    .compare-table th, .compare-table td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13.5px; vertical-align: middle; }
-    .compare-table thead th { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--t3); background: var(--bg2); padding-top: 12px; padding-bottom: 12px; }
-    .compare-table thead th:first-child { border-radius: 10px 0 0 0; }
-    .compare-table thead th:last-child { border-radius: 0 10px 0 0; }
-    .compare-table td:first-child { font-weight: 600; color: var(--t1); }
-    .compare-table td.agency { color: var(--t3); }
-    .compare-table td.phare { color: var(--t1); font-weight: 500; }
-    .compare-table tr:last-child td { border-bottom: none; }
-    .compare-table tr:hover td { background: var(--bg); }
-    .ct-win { display: inline-flex; align-items: center; gap: 6px; }
-    .ct-check { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: var(--green-l); color: var(--green); font-size: 10px; font-weight: 700; flex-shrink: 0; }
-    .ct-x { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: #FEF2F2; color: #EF4444; font-size: 10px; font-weight: 700; flex-shrink: 0; }
-    .compare-header { display: grid; grid-template-columns: 1fr 1fr 1fr; text-align: center; margin-bottom: 0; }
-    .ch-agency { background: var(--bg3); border-radius: 10px 0 0 0; padding: 16px; }
-    .ch-phare { background: var(--accent); border-radius: 0 10px 0 0; padding: 16px; }
-    .ch-phare-name { font-size: 15px; font-weight: 700; color: #fff; }
-    .ch-agency-name { font-size: 15px; font-weight: 700; color: var(--t2); }
-    .ch-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; opacity: .6; margin-bottom: 4px; }
-    .compare-cta { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 28px; flex-wrap: wrap; }
-    .compare-aside { font-size: 13px; color: var(--t3); display: flex; align-items: center; gap: 6px; }
-
     /* ── FAQ ── */
     .faq-section { background: var(--bg2); }
     .faq-list { margin-top: 44px; max-width: 680px; }
@@ -380,9 +356,27 @@
     .footer-right a { color: var(--t2); text-decoration: none; }
     .footer-right a:hover { color: var(--t1); }
 
-    /* ── COMPARE SCROLL WRAPPER ── */
-    .compare-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .compare-scroll > div { min-width: 520px; }
+    /* ── COMPARE TABLE ── */
+    .cmp-table { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.05); }
+    .cmp-head { display: grid; grid-template-columns: 2fr 1fr 1fr; background: var(--bg2); border-bottom: 1px solid var(--border); }
+    .cmp-row { display: grid; grid-template-columns: 2fr 1fr 1fr; border-bottom: 1px solid var(--border); transition: background .15s; }
+    .cmp-row:last-child { border-bottom: none; }
+    .cmp-row:hover { background: var(--bg); }
+    .cmp-row:hover .cmp-p { background: rgba(108,71,255,.07); }
+    .cmp-head-c { padding: 14px 22px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--t3); display: flex; align-items: center; }
+    .cmp-head-a { padding: 14px 18px; border-left: 1px solid var(--border); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
+    .cmp-head-p { padding: 14px 18px; border-left: 1px solid rgba(108,71,255,.15); background: var(--accent-xl); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
+    .cmp-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+    .cmp-head-a .cmp-tag { color: var(--t3); }
+    .cmp-head-p .cmp-tag { color: var(--accent); }
+    .cmp-brand { font-size: 14px; font-weight: 700; }
+    .cmp-head-a .cmp-brand { color: var(--t2); }
+    .cmp-head-p .cmp-brand { color: var(--accent); }
+    .cmp-c { padding: 15px 22px; font-size: 13.5px; font-weight: 600; color: var(--t1); display: flex; align-items: center; gap: 10px; }
+    .cmp-a { padding: 15px 18px; text-align: center; border-left: 1px solid var(--border); font-size: 13px; color: var(--t3); display: flex; align-items: center; justify-content: center; }
+    .cmp-p { padding: 15px 18px; text-align: center; border-left: 1px solid rgba(108,71,255,.15); background: var(--accent-xl); font-size: 13px; font-weight: 600; color: var(--t1); display: flex; align-items: center; justify-content: center; }
+    .cmp-p.accent { color: var(--accent); font-weight: 700; font-size: 14px; }
+    .cmp-p.green { color: var(--green); font-weight: 700; font-size: 15px; }
 
     /* ── RESPONSIVE ── */
     @media(max-width:900px) {
@@ -419,6 +413,16 @@
       .price-tab { flex: 1; text-align: center; padding: 9px 12px; font-size: 12.5px; }
       footer { padding: 40px 20px 28px; }
       .footer-right { text-align: left; margin-top: 20px; }
+    }
+
+    @media(max-width:640px) {
+      .cmp-head { display: none; }
+      .cmp-row { display: flex; flex-direction: column; padding: 14px 16px; gap: 7px; }
+      .cmp-c { padding: 0; font-size: 13px; }
+      .cmp-a, .cmp-p { border: none; border-left: none; background: transparent; padding: 0; justify-content: flex-start; font-size: 12.5px; }
+      .cmp-a::before { content: attr(data-label) " : "; font-weight: 600; color: var(--t3); margin-right: 4px; }
+      .cmp-p::before { content: attr(data-label) " : "; font-weight: 600; color: var(--accent); margin-right: 4px; }
+      .cmp-p.accent, .cmp-p.green { font-size: 12.5px; }
     }
 
     @media(max-width:480px) {
@@ -690,76 +694,53 @@
       <div class="s-title">Phare vs une agence<br>de communication.</div>
       <div class="s-sub" style="margin-bottom:44px">Même objectif. Prix divisé par 20. Et un contenu qui s'adapte à votre actualité chaque semaine.</div>
 
-      <div class="compare-scroll"><div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.05)">
-        <!-- Header row -->
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr">
-          <div style="padding:18px 22px;background:var(--bg2);border-bottom:1px solid var(--border);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);display:flex;align-items:center">Critère</div>
-          <div style="padding:18px 22px;background:var(--bg2);border-bottom:1px solid var(--border);border-left:1px solid var(--border);text-align:center">
-            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:3px">Agence de comm.</div>
-            <div style="font-size:15px;font-weight:700;color:var(--t2)">Classique</div>
-          </div>
-          <div style="padding:18px 22px;background:var(--accent-xl);border-bottom:1px solid rgba(108,71,255,.2);border-left:1px solid rgba(108,71,255,.15);text-align:center">
-            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:3px">Phare</div>
-            <div style="font-size:15px;font-weight:700;color:var(--accent)">Votre co-pilote</div>
-          </div>
+      <div class="cmp-table">
+        <div class="cmp-head">
+          <div class="cmp-head-c">Critère</div>
+          <div class="cmp-head-a"><span class="cmp-tag">Agence de comm.</span><span class="cmp-brand">Classique</span></div>
+          <div class="cmp-head-p"><span class="cmp-tag">Phare</span><span class="cmp-brand">Votre co-pilote</span></div>
         </div>
-
-        <!-- Row: Tarif -->
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr;border-bottom:1px solid var(--border)">
-          <div style="padding:16px 22px;font-size:13.5px;font-weight:600;color:var(--t1);display:flex;align-items:center">💰 Tarif mensuel</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3);display:flex;align-items:center;justify-content:center">1 500 – 3 000€</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid rgba(108,71,255,.15);background:var(--accent-xl);font-size:14px;font-weight:700;color:var(--accent);display:flex;align-items:center;justify-content:center">à partir de 55€</div>
+        <div class="cmp-row">
+          <div class="cmp-c">💰 Tarif mensuel</div>
+          <div class="cmp-a" data-label="Agence">1 500 – 3 000€</div>
+          <div class="cmp-p accent" data-label="Phare">à partir de 55€</div>
         </div>
-
-        <!-- Row: Posts -->
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr;border-bottom:1px solid var(--border)">
-          <div style="padding:16px 22px;font-size:13.5px;font-weight:600;color:var(--t1);display:flex;align-items:center">✍️ Posts LinkedIn / mois</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3);display:flex;align-items:center;justify-content:center">4 – 8 posts</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid rgba(108,71,255,.15);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1);display:flex;align-items:center;justify-content:center"><span style="color:var(--green);font-weight:700;font-size:15px">16 posts</span>&nbsp;(4/sem)</div>
+        <div class="cmp-row">
+          <div class="cmp-c">✍️ Posts LinkedIn / mois</div>
+          <div class="cmp-a" data-label="Agence">4 – 8 posts</div>
+          <div class="cmp-p green" data-label="Phare">16 posts (4/sem)</div>
         </div>
-
-        <!-- Row: Démarrage -->
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr;border-bottom:1px solid var(--border)">
-          <div style="padding:16px 22px;font-size:13.5px;font-weight:600;color:var(--t1);display:flex;align-items:center">⚡ Délai de démarrage</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3);display:flex;align-items:center;justify-content:center">2 – 4 semaines</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid rgba(108,71,255,.15);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1);display:flex;align-items:center;justify-content:center">Instantané</div>
+        <div class="cmp-row">
+          <div class="cmp-c">⚡ Délai de démarrage</div>
+          <div class="cmp-a" data-label="Agence">2 – 4 semaines</div>
+          <div class="cmp-p" data-label="Phare">Instantané</div>
         </div>
-
-        <!-- Row: Adaptation actu -->
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr;border-bottom:1px solid var(--border)">
-          <div style="padding:16px 22px;font-size:13.5px;font-weight:600;color:var(--t1);display:flex;align-items:center">🗞️ Adaptation à votre actu</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3);display:flex;align-items:center;justify-content:center">Sur brief · 72h+ de délai</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid rgba(108,71,255,.15);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1);display:flex;align-items:center;justify-content:center">Automatique chaque semaine</div>
+        <div class="cmp-row">
+          <div class="cmp-c">🗞️ Adaptation à votre actu</div>
+          <div class="cmp-a" data-label="Agence">Sur brief · 72h+ de délai</div>
+          <div class="cmp-p" data-label="Phare">Automatique chaque semaine</div>
         </div>
-
-        <!-- Row: Révisions -->
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr;border-bottom:1px solid var(--border)">
-          <div style="padding:16px 22px;font-size:13.5px;font-weight:600;color:var(--t1);display:flex;align-items:center">🔄 Révisions</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3);display:flex;align-items:center;justify-content:center">Facturées · 60–120€/h</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid rgba(108,71,255,.15);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1);display:flex;align-items:center;justify-content:center">Illimitées · incluses</div>
+        <div class="cmp-row">
+          <div class="cmp-c">🔄 Révisions</div>
+          <div class="cmp-a" data-label="Agence">Facturées · 60–120€/h</div>
+          <div class="cmp-p" data-label="Phare">Illimitées · incluses</div>
         </div>
-
-        <!-- Row: Connaissance -->
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr;border-bottom:1px solid var(--border)">
-          <div style="padding:16px 22px;font-size:13.5px;font-weight:600;color:var(--t1);display:flex;align-items:center">🧠 Connaissance de votre activité</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3);display:flex;align-items:center;justify-content:center">Générique au départ</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid rgba(108,71,255,.15);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1);display:flex;align-items:center;justify-content:center">S'améliore semaine après semaine</div>
+        <div class="cmp-row">
+          <div class="cmp-c">🧠 Connaissance de votre activité</div>
+          <div class="cmp-a" data-label="Agence">Générique au départ</div>
+          <div class="cmp-p" data-label="Phare">S'améliore semaine après semaine</div>
         </div>
-
-        <!-- Row: Rapport -->
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr;border-bottom:1px solid var(--border)">
-          <div style="padding:16px 22px;font-size:13.5px;font-weight:600;color:var(--t1);display:flex;align-items:center">📊 Rapport de performance</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3);display:flex;align-items:center;justify-content:center">Sur demande · facturé</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid rgba(108,71,255,.15);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1);display:flex;align-items:center;justify-content:center">Mensuel · inclus</div>
+        <div class="cmp-row">
+          <div class="cmp-c">📊 Rapport de performance</div>
+          <div class="cmp-a" data-label="Agence">Sur demande · facturé</div>
+          <div class="cmp-p" data-label="Phare">Mensuel · inclus</div>
         </div>
-
-        <!-- Row: Engagement minimum -->
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr">
-          <div style="padding:16px 22px;font-size:13.5px;font-weight:600;color:var(--t1);display:flex;align-items:center">📋 Engagement minimum</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3);display:flex;align-items:center;justify-content:center">6 – 12 mois</div>
-          <div style="padding:16px 22px;text-align:center;border-left:1px solid rgba(108,71,255,.15);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1);display:flex;align-items:center;justify-content:center">À partir de 3 mois</div>
+        <div class="cmp-row">
+          <div class="cmp-c">📋 Engagement minimum</div>
+          <div class="cmp-a" data-label="Agence">6 – 12 mois</div>
+          <div class="cmp-p" data-label="Phare">À partir de 3 mois</div>
         </div>
-      </div></div><!-- /compare-scroll -->
+      </div>
 
       <div style="margin-top:32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
         <a href="form.html" class="btn-primary">Essayer gratuitement — 1 semaine →</a>
