@@ -64,17 +64,26 @@
     .pl-text strong { font-size: 13.5px; font-weight: 600; color: var(--t1); display: block; margin-bottom: 1px; }
     .pl-text span { font-size: 12.5px; color: var(--t2); }
 
-    .pl-example {
+    .pl-example { margin-top: 6px; }
+    .pe-eyebrow { font-size: 10.5px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .pe-eyebrow span { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--green); }
+    .li-card {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 18px 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,.06);
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,.07);
     }
-    .pe-label { font-size: 10.5px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 10px; }
-    .pe-post { font-size: 12.5px; color: var(--t1); line-height: 1.65; margin-bottom: 12px; }
-    .pe-stats { display: flex; gap: 16px; }
-    .pe-stat { text-align: center; }
-    .pe-stat .v { font-size: 15px; font-weight: 700; color: var(--t1); }
-    .pe-stat .l { font-size: 10.5px; color: var(--t3); }
+    .li-header { padding: 14px 16px 10px; display: flex; align-items: center; gap: 10px; }
+    .li-av { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg,#1B2B4B,#2D4A7A); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .li-name { font-size: 13px; font-weight: 700; color: var(--t1); line-height: 1.3; }
+    .li-role { font-size: 11px; color: var(--t3); }
+    .li-li-badge { margin-left: auto; background: #EFF6FF; color: #2563EB; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 5px; }
+    .li-body { padding: 0 16px 14px; font-size: 12.5px; color: var(--t1); line-height: 1.72; white-space: pre-wrap; }
+    .li-footer { border-top: 1px solid var(--border); padding: 10px 16px; display: flex; gap: 20px; }
+    .li-stat { text-align: center; }
+    .li-stat .v { font-size: 14px; font-weight: 700; color: var(--t1); }
+    .li-stat .l { font-size: 10px; color: var(--t3); }
+    .li-stat.green .v { color: var(--green); }
+    .li-reactions { font-size: 11px; color: var(--t3); padding: 8px 16px 0; }
 
     /* RIGHT — form */
     .page-right { padding: 48px 56px; display: flex; flex-direction: column; justify-content: center; background: var(--card); }
@@ -170,12 +179,41 @@
         </div>
 
         <div class="pl-example">
-          <div class="pe-label">Exemple de post généré · Avant/Après</div>
-          <div class="pe-post">"On a reçu les clés d'une maison des années 70 dans le Jura. 4 mois plus tard, voici ce qu'elle est devenue. Le brief du client : retrouver l'âme de la maison sans la moderniser à l'excès..."</div>
-          <div class="pe-stats">
-            <div class="pe-stat"><div class="v">2 847</div><div class="l">vues</div></div>
-            <div class="pe-stat"><div class="v">93</div><div class="l">likes</div></div>
-            <div class="pe-stat"><div class="v" style="color:var(--green)">3</div><div class="l">leads</div></div>
+          <div class="pe-eyebrow"><span></span> Exemple de post généré par Phare</div>
+          <div class="li-card">
+            <div class="li-header">
+              <div class="li-av">🏗️</div>
+              <div>
+                <div class="li-name">Thomas Renard</div>
+                <div class="li-role">Gérant · Rennov Architecture · Jura</div>
+              </div>
+              <div class="li-li-badge">💼 LinkedIn</div>
+            </div>
+            <div class="li-reactions">👍 ❤️ 💡 · <strong>93 réactions</strong> · 41 commentaires</div>
+            <div class="li-body">
+Ce couloir de 1m20 de large était considéré inutilisable.
+Le client voulait l'abattre.
+On lui a dit non. 👇
+
+Sous le vieux carrelage beige : un parquet chêne d'origine, intact.
+
+On a proposé autre chose :
+→ Parquet décapé et huilé à la main
+→ Enduit naturel ocre sur les murs
+→ Une seule applique en laiton brossé
+
+Ce couloir est devenu la pièce préférée de la maison.
+
+Le client nous a appelés 3 mois après la livraison.
+<em style="color:var(--t2)">"On s'y arrête 10 minutes chaque matin. On sait même pas pourquoi."</em>
+
+Vous avez un espace que tout le monde voudrait supprimer ?
+Envoyez-moi une photo — parfois il suffit d'un autre regard. 🙂</div>
+            <div class="li-footer">
+              <div class="li-stat"><div class="v">2 847</div><div class="l">impressions</div></div>
+              <div class="li-stat"><div class="v">6,4%</div><div class="l">engagement</div></div>
+              <div class="li-stat green"><div class="v">3</div><div class="l">leads</div></div>
+            </div>
           </div>
         </div>
       </div>
