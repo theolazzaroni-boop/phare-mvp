@@ -85,7 +85,7 @@
     /* Stage labels */
     .pe-stage-labels { display: flex; gap: 10px; margin-bottom: 8px; align-items: center; }
     .pe-sl-bad { flex: 0 0 36%; text-align: center; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #EF4444; }
-    .pe-sl-good { flex: 1; text-align: center; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--green); background: rgba(16,185,129,.1); border-radius: 8px; padding: 5px 0; }
+    .pe-sl-good { flex: 1; text-align: center; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--green); background: rgba(16,185,129,.1); border-radius: 8px; padding: 5px 0; display: flex; align-items: center; justify-content: center; }
 
     /* Stage with ghost posts */
     .pe-stage { position: relative; display: flex; align-items: flex-start; gap: 8px; }
@@ -239,7 +239,6 @@
           <div class="pe-stage-labels">
             <div class="pe-sl-bad">Avant</div>
             <div class="pe-sl-good">✓ Avec Phare</div>
-            <div style="flex:0 0 36%"></div>
           </div>
 
           <!-- STAGE : ghost posts + post central -->
