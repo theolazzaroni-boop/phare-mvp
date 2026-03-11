@@ -34,7 +34,10 @@
 
     /* LAYOUT */
     .page { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 60px); overflow: hidden; }
-    @media(max-width: 860px) { .page { grid-template-columns: 1fr; height: auto; overflow: visible; } .page-left { display: none; } }
+    @media(max-width: 860px) {
+      .page { grid-template-columns: 1fr; height: auto; min-height: calc(100vh - 60px); overflow: visible; }
+      .page-left { display: none; }
+    }
 
     /* LEFT — context */
     .page-left {
@@ -118,7 +121,9 @@
 
     /* RIGHT — form */
     .page-right { padding: 48px 56px; display: flex; flex-direction: column; justify-content: center; background: var(--card); overflow-y: auto; }
-    @media(max-width:860px) { .page-right { padding: 40px 24px; overflow-y: visible; } }
+    @media(max-width:860px) {
+      .page-right { padding: 40px 28px; overflow-y: visible; height: auto; justify-content: flex-start; }
+    }
 
     .form-header { margin-bottom: 32px; }
     .form-step { font-size: 12px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
@@ -171,8 +176,7 @@
     /* RESPONSIVE */
     @media(max-width:480px) {
       nav { padding: 0 16px; }
-      .page-right { padding: 28px 18px; }
-      .pl-title { font-size: 26px; }
+      .page-right { padding: 24px 16px; }
       .form-title { font-size: 22px; }
       .btn-next { width: 100%; justify-content: center; }
       .form-actions { flex-direction: column-reverse; gap: 8px; }
