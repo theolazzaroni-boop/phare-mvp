@@ -173,6 +173,15 @@
     .si-line { flex: 1; height: 1.5px; background: var(--border); border-radius: 1px; }
     .si-line.done { background: var(--green); }
 
+    /* Choice cards */
+    .choice-cards { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .choice-card { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; transition: all .15s; }
+    .choice-card:has(input:checked) { border-color: var(--accent); background: var(--accent-xl); }
+    .choice-card input[type="radio"] { margin-top: 3px; flex-shrink: 0; accent-color: var(--accent); }
+    .choice-ic { font-size: 22px; flex-shrink: 0; }
+    .choice-title { font-size: 13.5px; font-weight: 600; color: var(--t1); margin-bottom: 2px; }
+    .choice-sub { font-size: 12px; color: var(--t2); line-height: 1.5; }
+
     /* RESPONSIVE */
     @media(max-width:480px) {
       nav { padding: 0 16px; }
@@ -202,8 +211,8 @@
       <div class="pl-circle"></div>
       <div class="pl-content">
         <div class="pl-badge"><span></span> Offre de lancement · 50€</div>
-        <div class="pl-title">Votre contenu LinkedIn<br>généré en 5 minutes.</div>
-        <div class="pl-sub">Répondez à quelques questions sur votre activité — on s'occupe du reste.</div>
+        <div class="pl-title">On commence par<br>comprendre votre situation.</div>
+        <div class="pl-sub">Avant de rédiger quoi que ce soit, on veut savoir où vous en êtes sur LinkedIn et ce que vous voulez vraiment y accomplir.</div>
 
         <div class="pl-items">
           <div class="pl-item">
@@ -294,7 +303,7 @@ Vous avez une pièce que personne ne veut faire ? 📩</div>
     <!-- RIGHT — multi-step form -->
     <div class="page-right">
       <div class="form-header">
-        <div class="form-step">Étape <span id="step-num">1</span> sur 3</div>
+        <div class="form-step">Étape <span id="step-num">1</span> sur 4</div>
         <div class="form-title" id="form-title">Parlez-nous de vous</div>
         <div class="form-sub" id="form-sub">Les informations de base pour personnaliser votre contenu.</div>
       </div>
@@ -305,9 +314,11 @@ Vous avez une pièce que personne ne veut faire ? 📩</div>
         <div class="si" id="si2">2</div>
         <div class="si-line" id="sl2"></div>
         <div class="si" id="si3">3</div>
+        <div class="si-line" id="sl3"></div>
+        <div class="si" id="si4">4</div>
       </div>
 
-      <div class="progress"><div class="progress-fill" id="progress-fill" style="width:33%"></div></div>
+      <div class="progress"><div class="progress-fill" id="progress-fill" style="width:25%"></div></div>
 
       <form id="main-form" onsubmit="submitForm(event)">
 
@@ -392,13 +403,46 @@ Vous avez une pièce que personne ne veut faire ? 📩</div>
           </div>
           <div class="form-actions">
             <button type="button" class="btn-prev" onclick="nextStep(2)">← Retour</button>
-            <button type="submit" class="btn-next">Générer mes posts — 50€ ✦</button>
+            <button type="button" class="btn-next" onclick="nextStep(4)">Continuer →</button>
+          </div>
+        </div>
+
+        <!-- ÉTAPE 4 -->
+        <div class="form-step-panel" id="panel4">
+          <div class="field">
+            <label>Comment souhaitez-vous vous lancer ?</label>
+            <div class="choice-cards">
+              <label class="choice-card">
+                <input type="radio" name="contact-pref" value="call" />
+                <div class="choice-ic">📞</div>
+                <div>
+                  <div class="choice-title">Je préfère qu'on m'appelle d'abord</div>
+                  <div class="choice-sub">Un échange de 15 minutes pour parler de votre stratégie avant de démarrer.</div>
+                </div>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="contact-pref" value="go" />
+                <div class="choice-ic">🚀</div>
+                <div>
+                  <div class="choice-title">Je me lance maintenant</div>
+                  <div class="choice-sub">Accès direct au paiement et à votre espace Phare dès aujourd'hui.</div>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="field" id="phone-field" style="display:none">
+            <label>Votre numéro de téléphone</label>
+            <input type="tel" id="f-phone" placeholder="06 XX XX XX XX" />
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn-prev" onclick="nextStep(3)">← Retour</button>
+            <button type="submit" class="btn-next" id="submit-btn">Continuer →</button>
           </div>
         </div>
 
       </form>
 
-      <div class="form-note">🔒 Paiement sécurisé · Livraison instantanée · Sans abonnement</div>
+      <div class="form-note">🔒 Paiement sécurisé · CB requise · Résiliable avant J+7</div>
     </div>
 
   </div>
@@ -407,8 +451,24 @@ Vous avez une pièce que personne ne veut faire ? 📩</div>
   const titles = {
     1: { t: 'Parlez-nous de vous', s: 'Les informations de base pour personnaliser votre contenu.' },
     2: { t: 'Votre situation LinkedIn', s: 'Pour calibrer le niveau et l\'objectif de vos posts.' },
-    3: { t: 'Votre activité en détail', s: 'La matière première pour rédiger des posts qui sonnent vrai.' }
+    3: { t: 'Votre activité en détail', s: 'La matière première pour rédiger des posts qui sonnent vrai.' },
+    4: { t: 'Avant de vous lancer', s: 'Voulez-vous qu\'on échange d\'abord, ou vous lancez-vous directement ?' }
   };
+
+  // Show/hide phone field and update button label based on contact preference
+  document.addEventListener('change', function(e) {
+    if (e.target.name === 'contact-pref') {
+      const phoneField = document.getElementById('phone-field');
+      const submitBtn = document.getElementById('submit-btn');
+      if (e.target.value === 'call') {
+        phoneField.style.display = 'block';
+        submitBtn.textContent = 'Être contacté →';
+      } else {
+        phoneField.style.display = 'none';
+        submitBtn.textContent = 'Commencer — 50€ ✦';
+      }
+    }
+  });
 
   function nextStep(step) {
     // Validate current step
@@ -428,16 +488,16 @@ Vous avez une pièce que personne ne veut faire ? 📩</div>
     document.getElementById('form-sub').textContent = titles[step].s;
 
     // Update progress
-    document.getElementById('progress-fill').style.width = (step / 3 * 100) + '%';
+    document.getElementById('progress-fill').style.width = (step / 4 * 100) + '%';
 
     // Update step indicators
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= 4; i++) {
       const si = document.getElementById('si' + i);
       si.classList.remove('active', 'done');
       if (i < step) { si.classList.add('done'); si.textContent = '✓'; }
       else if (i === step) { si.classList.add('active'); si.textContent = i; }
       else { si.textContent = i; }
-      if (i < 3) {
+      if (i < 4) {
         const sl = document.getElementById('sl' + i);
         sl.classList.toggle('done', i < step);
       }
@@ -448,8 +508,17 @@ Vous avez une pièce que personne ne veut faire ? 📩</div>
 
   function submitForm(e) {
     e.preventDefault();
-    // TODO: connecter à Stripe Payment Link
-    alert('Merci ! Vous allez être redirigé vers le paiement sécurisé.\n\n(Intégration Stripe à connecter)');
+    const pref = document.querySelector('input[name="contact-pref"]:checked');
+    if (!pref) {
+      const cards = document.querySelectorAll('.choice-card');
+      cards.forEach(c => { c.style.borderColor = '#EF4444'; setTimeout(() => c.style.borderColor = '', 1500); });
+      return;
+    }
+    if (pref.value === 'call') {
+      alert('Parfait ! Un membre de l\'équipe Phare vous contactera dans les 24h.\n\n(Connexion CRM à brancher)');
+    } else {
+      alert('Merci ! Vous allez être redirigé vers le paiement sécurisé.\n\n(Intégration Stripe à connecter)');
+    }
   }
 </script>
 
