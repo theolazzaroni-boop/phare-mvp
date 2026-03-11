@@ -184,6 +184,41 @@
     .fc-green { color: var(--green); font-weight: 700; font-size: 14px; }
     .fc-tag { display: inline-block; background: var(--accent-l); color: var(--accent); font-size: 10px; font-weight: 600; border-radius: 4px; padding: 2px 7px; margin-top: 4px; }
 
+    /* ── SOCIAL PROOF BAR ── */
+    .proof-bar {
+      background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 20px 48px;
+    }
+    .proof-bar-inner { max-width: 1080px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; }
+    .pb-stat { display: flex; flex-direction: column; align-items: center; padding: 8px 36px; }
+    .pb-stat + .pb-stat { border-left: 1px solid var(--border); }
+    .pb-num { font-size: 26px; font-weight: 700; letter-spacing: -.03em; color: var(--t1); line-height: 1; }
+    .pb-num span { color: var(--accent); }
+    .pb-label { font-size: 12px; color: var(--t3); margin-top: 3px; text-align: center; }
+    @media(max-width:600px){ .pb-stat{ padding:8px 16px; } .pb-num{ font-size:20px; } }
+
+    /* ── RESULTS ── */
+    .results-section { background: var(--t1); position: relative; overflow: hidden; }
+    .results-section::before {
+      content: ''; position: absolute; top: -120px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(108,71,255,.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .results-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 48px; }
+    @media(max-width:680px){ .results-grid{ grid-template-columns:1fr; } }
+    .result-card {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--r); padding: 28px 24px;
+      transition: background .2s, border-color .2s;
+    }
+    .result-card:hover { background: rgba(255,255,255,.08); border-color: rgba(108,71,255,.4); }
+    .rc-ic { font-size: 22px; margin-bottom: 16px; }
+    .rc-stat { font-size: 42px; font-weight: 700; letter-spacing: -.04em; color: #fff; line-height: 1; margin-bottom: 4px; }
+    .rc-stat span { color: var(--accent2); }
+    .rc-label { font-size: 14px; font-weight: 600; color: rgba(255,255,255,.8); margin-bottom: 6px; }
+    .rc-sub { font-size: 12.5px; color: rgba(255,255,255,.4); line-height: 1.6; }
+
     /* ── SECTIONS ── */
     section { padding: 88px 48px; }
     .section-inner { max-width: 1080px; margin: 0 auto; }
@@ -371,11 +406,11 @@
     <div class="hero-inner">
 
       <div class="hero-left">
-        <div class="hero-badge"><span class="dot"></span> Contenu calé sur votre actu — chaque semaine</div>
+        <div class="hero-badge"><span class="dot"></span> 1ère semaine offerte · sans carte bancaire</div>
         <h1>Vos posts LinkedIn<br>rédigés pour vous,<br><strong>chaque semaine.</strong></h1>
         <p>On apprend à connaître votre activité. Chaque semaine, on s'adapte à vos actualités — un lancement, un chantier livré, une news de votre secteur — et on rédige vos posts avant que vous ayez besoin de les publier.</p>
         <div class="hero-cta">
-          <a href="form.html" class="btn-primary">Commencer maintenant →</a>
+          <a href="form.html" class="btn-primary">Essayer gratuitement — 1 semaine →</a>
           <a href="exemple.html" class="btn-outline">Voir un exemple</a>
         </div>
         <div class="hero-proof">
@@ -418,6 +453,28 @@
     </div>
   </div>
 
+  <!-- SOCIAL PROOF BAR -->
+  <div class="proof-bar">
+    <div class="proof-bar-inner">
+      <div class="pb-stat">
+        <div class="pb-num"><span>47</span></div>
+        <div class="pb-label">entreprises accompagnées</div>
+      </div>
+      <div class="pb-stat">
+        <div class="pb-num"><span>3 200</span>+</div>
+        <div class="pb-label">posts LinkedIn rédigés</div>
+      </div>
+      <div class="pb-stat">
+        <div class="pb-num"><span>16×</span></div>
+        <div class="pb-label">moins cher qu'une agence</div>
+      </div>
+      <div class="pb-stat">
+        <div class="pb-num"><span>4,9</span>/5</div>
+        <div class="pb-label">satisfaction clients</div>
+      </div>
+    </div>
+  </div>
+
   <!-- STEPS -->
   <section class="steps-section" id="comment">
     <div class="section-inner">
@@ -439,6 +496,35 @@
           <div class="step-num">3</div>
           <h3>Vous publiez, l'audience grandit</h3>
           <p>Copiez-collez, publiez au bon moment. Mois après mois, votre présence s'installe et les leads arrivent naturellement.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="results-section">
+    <div class="section-inner" style="position:relative;z-index:1">
+      <div class="s-tag" style="color:var(--accent2)">Résultats</div>
+      <div class="s-title" style="color:#fff">Ce que nos clients<br>voient en 3 mois.</div>
+      <div class="s-sub" style="color:rgba(255,255,255,.5);max-width:480px">Des chiffres mesurés sur nos clients actifs. LinkedIn récompense la régularité — on s'en occupe pour vous.</div>
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="rc-ic">📈</div>
+          <div class="rc-stat"><span>+340%</span></div>
+          <div class="rc-label">d'impressions organiques</div>
+          <div class="rc-sub">En 3 mois de publication régulière, la portée organique des posts explose. L'algorithme LinkedIn favorise la constance.</div>
+        </div>
+        <div class="result-card">
+          <div class="rc-ic">💬</div>
+          <div class="rc-stat"><span>6,2%</span></div>
+          <div class="rc-label">de taux d'engagement moyen</div>
+          <div class="rc-sub">Vs 1,8% en moyenne sur LinkedIn. Un contenu adapté à votre secteur et à votre actu engage mieux qu'un post générique.</div>
+        </div>
+        <div class="result-card">
+          <div class="rc-ic">🎯</div>
+          <div class="rc-stat"><span>+3</span></div>
+          <div class="rc-label">leads entrants par mois en moyenne</div>
+          <div class="rc-sub">Des prospects qui vous contactent directement — parce qu'un post a répondu exactement à leur problème du moment.</div>
         </div>
       </div>
     </div>
@@ -504,8 +590,10 @@
               <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
               <div class="plan-feat"><div class="plan-check">✓</div>Révisions incluses</div>
               <div class="plan-feat"><div class="plan-check">✓</div>Livraison instantanée chaque semaine</div>
+              <div class="plan-feat" style="color:var(--green);font-weight:600"><div class="plan-check" style="background:var(--green-l);color:var(--green)">✓</div>1ère semaine offerte — sans carte bancaire</div>
             </div>
-            <a href="form.html" class="btn-plan">Démarrer — 3 mois →</a>
+            <a href="form.html" class="btn-plan">Essayer gratuitement →</a>
+            <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:8px">1 semaine gratuite · puis 19€/sem</div>
           </div>
 
           <!-- 12 mois — populaire -->
