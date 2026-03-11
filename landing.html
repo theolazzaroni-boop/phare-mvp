@@ -288,6 +288,41 @@
     .plan-card.popular .btn-plan:hover { background: var(--accent2); }
     .plans-note { font-size: 12px; color: var(--t3); text-align: center; margin-top: 16px; }
 
+    /* ── PRICE TABS ── */
+    .price-tabs { display: flex; gap: 4px; background: var(--bg3); border-radius: 11px; padding: 4px; width: fit-content; margin-bottom: 36px; }
+    .price-tab {
+      padding: 9px 22px; font-size: 13.5px; font-weight: 600; border-radius: 8px;
+      border: none; cursor: pointer; background: transparent; color: var(--t3);
+      transition: all .18s; font-family: inherit;
+    }
+    .price-tab.active { background: var(--card); color: var(--t1); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    .price-panel { display: none; }
+    .price-panel.active { display: block; }
+
+    /* ── COMPARE TABLE ── */
+    .compare-wrap { overflow-x: auto; }
+    .compare-table { width: 100%; border-collapse: collapse; }
+    .compare-table th, .compare-table td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13.5px; vertical-align: middle; }
+    .compare-table thead th { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--t3); background: var(--bg2); padding-top: 12px; padding-bottom: 12px; }
+    .compare-table thead th:first-child { border-radius: 10px 0 0 0; }
+    .compare-table thead th:last-child { border-radius: 0 10px 0 0; }
+    .compare-table td:first-child { font-weight: 600; color: var(--t1); }
+    .compare-table td.agency { color: var(--t3); }
+    .compare-table td.phare { color: var(--t1); font-weight: 500; }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table tr:hover td { background: var(--bg); }
+    .ct-win { display: inline-flex; align-items: center; gap: 6px; }
+    .ct-check { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: var(--green-l); color: var(--green); font-size: 10px; font-weight: 700; flex-shrink: 0; }
+    .ct-x { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: #FEF2F2; color: #EF4444; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+    .compare-header { display: grid; grid-template-columns: 1fr 1fr 1fr; text-align: center; margin-bottom: 0; }
+    .ch-agency { background: var(--bg3); border-radius: 10px 0 0 0; padding: 16px; }
+    .ch-phare { background: var(--accent); border-radius: 0 10px 0 0; padding: 16px; }
+    .ch-phare-name { font-size: 15px; font-weight: 700; color: #fff; }
+    .ch-agency-name { font-size: 15px; font-weight: 700; color: var(--t2); }
+    .ch-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; opacity: .6; margin-bottom: 4px; }
+    .compare-cta { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 28px; flex-wrap: wrap; }
+    .compare-aside { font-size: 13px; color: var(--t3); display: flex; align-items: center; gap: 6px; }
+
     /* ── FAQ ── */
     .faq-section { background: var(--bg2); }
     .faq-list { margin-top: 44px; max-width: 680px; }
@@ -442,71 +477,142 @@
       </div>
 
       <!-- Plans -->
-      <div style="margin-top:56px">
+      <div style="margin-top:56px;margin-bottom:24px">
         <div class="s-tag">Tarifs</div>
-        <div style="font-size:clamp(20px,2.5vw,28px);font-weight:700;letter-spacing:-.02em;color:var(--t1);margin-bottom:8px;line-height:1.2">Choisissez votre engagement.<br><span style="color:var(--t2);font-weight:400;font-size:.85em">Plus vous vous engagez, plus les effets sont durables.</span></div>
+        <div style="font-size:clamp(20px,2.5vw,28px);font-weight:700;letter-spacing:-.02em;color:var(--t1);margin-bottom:20px;line-height:1.2">Choisissez votre engagement.<br><span style="color:var(--t2);font-weight:400;font-size:.85em">Plus vous vous engagez, plus les effets sont durables.</span></div>
+        <div class="price-tabs">
+          <button class="price-tab active" onclick="switchPriceTab('plans', this)">Nos offres</button>
+          <button class="price-tab" onclick="switchPriceTab('compare', this)">vs Agence de comm.</button>
+        </div>
       </div>
-      <div class="plans-row">
 
-        <!-- 3 mois -->
-        <div class="plan-card">
-          <div class="plan-duration">Engagement 3 mois</div>
-          <div class="plan-price">
-            <span class="plan-currency">€</span>
-            <span class="plan-num">15</span>
-            <span class="plan-unit">/sem</span>
+      <!-- Panel: nos offres -->
+      <div id="panel-plans" class="price-panel active">
+        <div class="plans-row">
+
+          <!-- 3 mois -->
+          <div class="plan-card">
+            <div class="plan-duration">Engagement 3 mois</div>
+            <div class="plan-price">
+              <span class="plan-currency">€</span>
+              <span class="plan-num">19</span>
+              <span class="plan-unit">/sem</span>
+            </div>
+            <div class="plan-total">~82€/mois · soit 247€ sur 3 mois</div>
+            <div class="plan-feats">
+              <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
+              <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
+              <div class="plan-feat"><div class="plan-check">✓</div>Révisions incluses</div>
+              <div class="plan-feat"><div class="plan-check">✓</div>Livraison instantanée chaque semaine</div>
+            </div>
+            <a href="form.html" class="btn-plan">Démarrer — 3 mois →</a>
           </div>
-          <div class="plan-total">~65€/mois · soit 195€ sur 3 mois</div>
-          <div class="plan-feats">
-            <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Révisions incluses</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Livraison instantanée chaque semaine</div>
+
+          <!-- 12 mois — populaire -->
+          <div class="plan-card popular">
+            <div class="plan-pop-badge">⭐ Le plus populaire</div>
+            <div class="plan-duration">Engagement 12 mois</div>
+            <div class="plan-price">
+              <span class="plan-currency">€</span>
+              <span class="plan-num">17</span>
+              <span class="plan-unit">/sem</span>
+            </div>
+            <div class="plan-total">~74€/mois · soit 884€/an <span class="plan-save">−11%</span></div>
+            <div class="plan-feats">
+              <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
+              <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
+              <div class="plan-feat"><div class="plan-check">✓</div>Révisions illimitées</div>
+              <div class="plan-feat"><div class="plan-check">✓</div>Rapport mensuel de performance</div>
+              <div class="plan-feat"><div class="plan-check">✓</div>Ajustement de stratégie trimestriel</div>
+            </div>
+            <a href="form.html" class="btn-plan">Démarrer — 12 mois →</a>
           </div>
-          <a href="form.html" class="btn-plan">Démarrer — 3 mois →</a>
+
+          <!-- 36 mois -->
+          <div class="plan-card">
+            <div class="plan-duration">Engagement 36 mois</div>
+            <div class="plan-price">
+              <span class="plan-currency">€</span>
+              <span class="plan-num">15</span>
+              <span class="plan-unit">/sem</span>
+            </div>
+            <div class="plan-total">~65€/mois · soit 780€/an <span class="plan-save">−21%</span></div>
+            <div class="plan-feats">
+              <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
+              <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
+              <div class="plan-feat"><div class="plan-check">✓</div>Révisions illimitées</div>
+              <div class="plan-feat"><div class="plan-check">✓</div>Rapport mensuel + stratégie trimestrielle</div>
+              <div class="plan-feat"><div class="plan-check">✓</div>Accès prioritaire aux nouvelles fonctionnalités</div>
+            </div>
+            <a href="form.html" class="btn-plan">Démarrer — 36 mois →</a>
+          </div>
+
         </div>
-
-        <!-- 12 mois — populaire -->
-        <div class="plan-card popular">
-          <div class="plan-pop-badge">⭐ Le plus populaire</div>
-          <div class="plan-duration">Engagement 12 mois</div>
-          <div class="plan-price">
-            <span class="plan-currency">€</span>
-            <span class="plan-num">11</span>
-            <span class="plan-unit">/sem</span>
-          </div>
-          <div class="plan-total">~48€/mois · soit 572€ sur 12 mois <span class="plan-save">−27%</span></div>
-          <div class="plan-feats">
-            <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Révisions illimitées</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Rapport mensuel de performance</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Ajustement de stratégie trimestriel</div>
-          </div>
-          <a href="form.html" class="btn-plan">Démarrer — 12 mois →</a>
-        </div>
-
-        <!-- 36 mois -->
-        <div class="plan-card">
-          <div class="plan-duration">Engagement 36 mois</div>
-          <div class="plan-price">
-            <span class="plan-currency">€</span>
-            <span class="plan-num">8</span>
-            <span class="plan-unit">/sem</span>
-          </div>
-          <div class="plan-total">~35€/mois · soit 1 248€ sur 36 mois <span class="plan-save">−47%</span></div>
-          <div class="plan-feats">
-            <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Révisions illimitées</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Rapport mensuel + stratégie trimestrielle</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Accès prioritaire aux nouvelles fonctionnalités</div>
-          </div>
-          <a href="form.html" class="btn-plan">Démarrer — 36 mois →</a>
-        </div>
-
+        <div class="plans-note">Sans frais cachés · Résiliable à la fin de la période · Paiement sécurisé</div>
       </div>
-      <div class="plans-note">Sans frais cachés · Résiliable à la fin de la période · Paiement sécurisé</div>
+
+      <!-- Panel: vs agence -->
+      <div id="panel-compare" class="price-panel">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
+          <!-- Column headers -->
+          <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr;background:var(--bg2);border-bottom:1px solid var(--border)">
+            <div style="padding:16px 18px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3)">Critère</div>
+            <div style="padding:16px 18px;text-align:center;border-left:1px solid var(--border)">
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:3px">Agence de comm.</div>
+              <div style="font-size:14px;font-weight:700;color:var(--t2)">Classique</div>
+            </div>
+            <div style="padding:16px 18px;text-align:center;border-left:1px solid var(--border);background:var(--accent-xl)">
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:3px">Phare</div>
+              <div style="font-size:14px;font-weight:700;color:var(--accent)">Votre co-pilote</div>
+            </div>
+          </div>
+          <!-- Rows -->
+          <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr;border-bottom:1px solid var(--border);align-items:center">
+            <div style="padding:15px 18px;font-size:13.5px;font-weight:600;color:var(--t1)">Tarif mensuel</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3)">1 500 – 3 000€/mois</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);background:var(--accent-xl);font-size:13px;font-weight:700;color:var(--accent)">à partir de 65€/mois</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr;border-bottom:1px solid var(--border);align-items:center">
+            <div style="padding:15px 18px;font-size:13.5px;font-weight:600;color:var(--t1)">Posts LinkedIn / mois</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3)">4 – 8 posts</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1)"><span style="color:var(--green);font-weight:700">16 posts</span> (4/sem)</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr;border-bottom:1px solid var(--border);align-items:center">
+            <div style="padding:15px 18px;font-size:13.5px;font-weight:600;color:var(--t1)">Délai de démarrage</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3)">2 – 4 semaines</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1)">⚡ Instantané</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr;border-bottom:1px solid var(--border);align-items:center">
+            <div style="padding:15px 18px;font-size:13.5px;font-weight:600;color:var(--t1)">Adaptation à votre actu</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3)">Sur brief · 72h+ de délai</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1)">🔄 Automatique, chaque semaine</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr;border-bottom:1px solid var(--border);align-items:center">
+            <div style="padding:15px 18px;font-size:13.5px;font-weight:600;color:var(--t1)">Révisions</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3)">Facturées (60–120€/h)</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1)">✓ Illimitées, incluses</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr;border-bottom:1px solid var(--border);align-items:center">
+            <div style="padding:15px 18px;font-size:13.5px;font-weight:600;color:var(--t1)">Connaissance de votre activité</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3)">Générique au départ</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1)">S'améliore semaine après semaine</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr;border-bottom:1px solid var(--border);align-items:center">
+            <div style="padding:15px 18px;font-size:13.5px;font-weight:600;color:var(--t1)">Rapport de performance</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3)">Sur demande, facturé</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1)">✓ Mensuel, inclus</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr;align-items:center">
+            <div style="padding:15px 18px;font-size:13.5px;font-weight:600;color:var(--t1)">Engagement minimum</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3)">6 – 12 mois</div>
+            <div style="padding:15px 18px;text-align:center;border-left:1px solid var(--border);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1)">À partir de 3 mois</div>
+          </div>
+        </div>
+        <div style="margin-top:28px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap">
+          <a href="form.html" class="btn-primary">Démarrer avec Phare →</a>
+          <div style="font-size:13px;color:var(--t3)">à partir de 65€/mois · sans frais cachés</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -573,6 +679,12 @@
   </footer>
 
 <script>
+  function switchPriceTab(panel, btn) {
+    document.querySelectorAll('.price-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.price-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + panel).classList.add('active');
+    btn.classList.add('active');
+  }
   function toggleFaq(el) {
     el.classList.toggle('open');
     el.nextElementSibling.classList.toggle('open');
