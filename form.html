@@ -174,7 +174,9 @@
     .si-line.done { background: var(--green); }
 
     /* Choice cards */
-    .choice-cards { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .choice-cards { display: flex; flex-direction: row; gap: 10px; margin-bottom: 20px; }
+    .choice-card { flex: 1; }
+    @media(max-width:500px) { .choice-cards { flex-direction: column; } }
     .choice-card { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; transition: all .15s; }
     .choice-card:has(input:checked) { border-color: var(--accent); background: var(--accent-xl); }
     .choice-card input[type="radio"] { margin-top: 3px; flex-shrink: 0; accent-color: var(--accent); }
