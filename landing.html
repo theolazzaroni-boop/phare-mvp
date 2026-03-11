@@ -92,6 +92,12 @@
       background-size: 28px 28px;
       mask-image: radial-gradient(ellipse 60% 80% at 80% 40%, black 0%, transparent 70%);
     }
+    .hero-lighthouse {
+      position: absolute; right: 4%; bottom: 0;
+      width: 420px; opacity: .07; pointer-events: none; z-index: 0;
+    }
+    @media(max-width:900px) { .hero-lighthouse { width: 260px; opacity: .05; right: 0; } }
+    @media(max-width:480px) { .hero-lighthouse { display: none; } }
 
     .hero-inner { max-width: 1180px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; position: relative; z-index: 1; }
     @media(max-width:900px){ .hero-inner{ grid-template-columns:1fr; } .hero-right{ display:none; } }
@@ -466,6 +472,24 @@
     <div class="hero-circle1"></div>
     <div class="hero-circle2"></div>
     <div class="hero-dots"></div>
+    <div class="hero-lighthouse">
+      <svg viewBox="0 0 300 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hl-beam" x1="0" y1="0.5" x2="1" y2="0.5">
+            <stop offset="0%" stop-color="#6C47FF" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#6C47FF" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- Beam -->
+        <path d="M 100,28 L 300,4 L 300,54 Z" fill="url(#hl-beam)"/>
+        <!-- Base platform -->
+        <rect x="58" y="114" width="64" height="7" rx="1" fill="#1B2B4B"/>
+        <!-- Tower -->
+        <path d="M 66,114 L 114,114 L 100,38 L 80,38 Z" fill="#1B2B4B"/>
+        <!-- Lantern room -->
+        <rect x="80" y="14" width="20" height="25" rx="0.8" fill="#1B2B4B"/>
+      </svg>
+    </div>
     <div class="hero-inner">
 
       <div class="hero-left">
