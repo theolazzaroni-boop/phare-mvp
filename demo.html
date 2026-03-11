@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phare — Aperçu livrable</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #fff; --bg2: #F7F7F5; --bg3: #F0F0ED; --border: #E5E5E5;
+      --t1: #1A1A1A; --t2: #6B7280; --t3: #9CA3AF;
+      --accent: #6C47FF; --accent-l: #EDE9FF; --accent-h: #5835EE;
+      --green: #10B981; --green-l: #ECFDF5;
+      --yellow: #F59E0B; --yellow-l: #FFFBEB;
+      --blue-l: #EFF6FF;
+      --radius: 10px; --radius-sm: 7px;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg2); color: var(--t1); height: 100vh; overflow: hidden; }
+    .layout { display: flex; height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar { width: 210px; background: var(--bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; }
+    .sb-header { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .logo { display: flex; align-items: center; gap: 7px; font-weight: 700; font-size: 14px; }
+    .logo-dot { width: 24px; height: 24px; background: var(--accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; }
+    .sb-company { padding: 8px 10px; margin: 8px; background: var(--bg2); border-radius: var(--radius-sm); display: flex; align-items: center; gap: 8px; }
+    .co-av { width: 28px; height: 28px; border-radius: 6px; background: linear-gradient(135deg,#FF6B6B,#FF8E53); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 11px; flex-shrink: 0; }
+    .co-name { font-size: 12px; font-weight: 600; }
+    .co-type { font-size: 10px; color: var(--t3); }
+    .sb-nav { padding: 6px 8px; flex: 1; }
+    .nav-grp { font-size: 10px; font-weight: 600; color: var(--t3); text-transform: uppercase; letter-spacing: .07em; padding: 8px 8px 4px; }
+    .nav-item { display: flex; align-items: center; gap: 7px; padding: 7px 8px; border-radius: 6px; cursor: pointer; font-size: 12.5px; color: var(--t2); transition: background .1s, color .1s; margin-bottom: 1px; user-select: none; }
+    .nav-item:hover { background: var(--bg2); color: var(--t1); }
+    .nav-item.active { background: var(--accent-l); color: var(--accent); font-weight: 500; }
+    .nav-item .ni { width: 16px; text-align: center; font-size: 12px; }
+    .sb-badge { margin-top: auto; margin: 8px; padding: 10px 12px; background: var(--accent-l); border-radius: var(--radius-sm); }
+    .sb-badge p { font-size: 11px; color: var(--accent); font-weight: 500; line-height: 1.4; }
+
+    /* MAIN */
+    .main { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+    .topbar { background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 20px; height: 48px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .tb-left { display: flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--t2); }
+    .tb-left .sep { opacity: .4; }
+    .tb-left .curr { color: var(--t1); font-weight: 500; }
+    .tb-right { display: flex; align-items: center; gap: 6px; }
+    .pill { font-size: 10.5px; font-weight: 600; padding: 3px 9px; border-radius: 20px; background: var(--green-l); border: 1px solid #A7F3D0; color: var(--green); }
+
+    /* VIEWS */
+    .views { flex: 1; overflow-y: auto; padding: 20px; }
+    .view { display: none; animation: fadein .2s ease; max-width: 760px; }
+    .view.active { display: block; }
+    @keyframes fadein { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* COMPONENTS */
+    .view-header { margin-bottom: 16px; }
+    .view-title { font-size: 17px; font-weight: 700; margin-bottom: 2px; }
+    .view-sub { font-size: 12.5px; color: var(--t2); }
+    .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); }
+    .card-head { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .card-title { font-size: 13px; font-weight: 600; }
+    .card-body { padding: 16px; }
+    .badge { font-size: 10.5px; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
+    .badge.green { background: var(--green-l); color: var(--green); }
+    .badge.purple { background: var(--accent-l); color: var(--accent); }
+    .badge.gray { background: var(--bg2); color: var(--t2); border: 1px solid var(--border); }
+    .section-lbl { font-size: 11px; font-weight: 600; color: var(--t2); margin-bottom: 8px; }
+    .copy-btn { background: var(--bg2); border: 1px solid var(--border); border-radius: 5px; padding: 3px 8px; font-size: 10.5px; color: var(--t2); cursor: pointer; white-space: nowrap; }
+    .copy-btn:hover { background: var(--accent-l); color: var(--accent); border-color: transparent; }
+    .tag { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; font-size: 11px; color: var(--t2); }
+    .ct { display: inline-flex; align-items: center; gap: 3px; padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 500; }
+    .ct.li { background: var(--blue-l); color: #2563EB; }
+    .ct.ig { background: #FDF2F8; color: #9333EA; }
+
+    /* CETTE SEMAINE */
+    .week-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .week-range { font-size: 12px; font-weight: 600; color: var(--t2); background: var(--bg2); padding: 4px 11px; border-radius: 6px; border: 1px solid var(--border); }
+    .day-block { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 9px; overflow: hidden; }
+    .day-block.today { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(108,71,255,.08); }
+    .day-head { padding: 9px 14px; background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 9px; }
+    .day-block.today .day-head { background: var(--accent-l); }
+    .day-name { font-size: 11.5px; font-weight: 700; min-width: 65px; }
+    .day-block.today .day-name { color: var(--accent); }
+    .day-date { font-size: 10.5px; color: var(--t3); }
+    .day-badge { margin-left: auto; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; }
+    .day-badge.todo { background: var(--yellow-l); color: #92400E; }
+    .day-badge.today-b { background: var(--accent-l); color: var(--accent); }
+    .day-body { padding: 12px 14px; }
+    .post-text { font-size: 12px; line-height: 1.75; color: var(--t1); white-space: pre-wrap; margin-bottom: 9px; }
+    .post-footer { display: flex; align-items: center; gap: 7px; }
+    .post-time { font-size: 10.5px; color: var(--t3); }
+    .outreach-card { background: var(--bg2); border-radius: var(--radius-sm); padding: 11px 13px; margin-bottom: 8px; }
+    .ow-name { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
+    .ow-role { font-size: 10.5px; color: var(--t3); margin-bottom: 7px; }
+    .ow-msg { font-size: 11.5px; line-height: 1.6; color: var(--t2); padding: 8px 10px; background: var(--bg); border-radius: 6px; border-left: 2px solid var(--accent); margin-bottom: 7px; }
+    .ow-footer { display: flex; align-items: center; justify-content: space-between; }
+    .ow-note { font-size: 10px; color: var(--t3); }
+
+    /* PILIERS */
+    .pillar-card { border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 9px; }
+    .pillar-head { padding: 10px 13px; background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 9px; cursor: pointer; }
+    .pillar-head h4 { font-size: 12.5px; font-weight: 600; }
+    .pillar-head p { font-size: 11px; color: var(--t2); }
+    .pillar-head .arrow { margin-left: auto; font-size: 11px; color: var(--t3); transition: transform .2s; }
+    .pillar-head.open .arrow { transform: rotate(180deg); }
+    .pillar-body { padding: 10px 13px; display: none; }
+    .pillar-body.open { display: block; }
+    .pi { display: flex; align-items: flex-start; gap: 7px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 12px; line-height: 1.5; }
+    .pi:last-child { border-bottom: none; padding-bottom: 0; }
+    .pi-n { width: 18px; height: 18px; border-radius: 50%; background: var(--accent-l); color: var(--accent); font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .pi-actions { margin-left: auto; flex-shrink: 0; }
+
+    /* CALENDRIER */
+    .cal-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .cal-table th { text-align: left; padding: 7px 11px; background: var(--bg2); font-weight: 600; font-size: 10.5px; color: var(--t3); border-bottom: 1px solid var(--border); }
+    .cal-table td { padding: 9px 11px; border-bottom: 1px solid var(--border); }
+    .cal-table tr:last-child td { border-bottom: none; }
+    .cal-table tr:hover td { background: var(--bg2); }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sb-header">
+      <div class="logo"><div class="logo-dot">🔦</div> Phare</div>
+    </div>
+    <div class="sb-company">
+      <div class="co-av">R</div>
+      <div><div class="co-name">Rennov</div><div class="co-type">Architecture · Jura</div></div>
+    </div>
+    <nav class="sb-nav">
+      <div class="nav-grp">Votre livrable</div>
+      <div class="nav-item active" onclick="nav('semaine',this)"><span class="ni">📆</span> Cette semaine</div>
+      <div class="nav-item" onclick="nav('piliers',this)"><span class="ni">✍️</span> Piliers de contenu</div>
+      <div class="nav-item" onclick="nav('calendrier',this)"><span class="ni">📅</span> Calendrier</div>
+    </nav>
+    <div class="sb-badge">
+      <p>✓ Pro actif · Stratégie générée le 10 mars 2026</p>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <span>Rennov</span><span class="sep">›</span>
+        <span class="curr" id="breadcrumb">Cette semaine</span>
+      </div>
+      <div class="tb-right">
+        <span class="pill">✓ Pro actif</span>
+      </div>
+    </div>
+
+    <div class="views">
+
+      <!-- CETTE SEMAINE -->
+      <div class="view active" id="v-semaine">
+        <div class="view-header">
+          <div class="view-title">📆 Cette semaine</div>
+          <div class="view-sub">Vos contenus et actions pour la semaine du 10 au 16 mars 2026</div>
+        </div>
+
+        <div class="week-header">
+          <div class="week-range">📅 Semaine du 10 au 16 mars 2026</div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px">
+          <div class="card-head"><span class="card-title">Posts cette semaine</span><span class="badge purple">3 LinkedIn</span></div>
+          <div class="card-body" style="padding:12px;display:flex;flex-direction:column;gap:9px">
+
+            <div class="day-block today">
+              <div class="day-head">
+                <span class="day-name">Lundi</span>
+                <span class="day-date">10 mars · 8h00</span>
+                <span class="ct li" style="margin-left:4px">💼 LinkedIn</span>
+                <span class="day-badge today-b">Aujourd'hui</span>
+              </div>
+              <div class="day-body">
+                <div class="post-text">On a reçu les clés d'une maison des années 70 dans le Jura.
+4 mois plus tard, voici ce qu'elle est devenue.
+
+Le brief du client : "Je veux retrouver l'âme de la maison, sans la moderniser à l'excès."
+
+Ce qu'on a fait :
+→ Conservation des poutres d'origine (traitées, sublimées)
+→ Enduits à la chaux sur les murs porteurs
+→ Cuisine ouverte avec îlot en pierre locale
+
+Résultat : une maison qui respire et qui raconte une histoire.
+
+Vous avez un projet de rénovation dans le Jura ? Je réponds à tous les messages.</div>
+                <div class="post-footer">
+                  <span class="tag">🏗️ Avant/Après</span>
+                  <span class="post-time">· 8h00</span>
+                  <button class="copy-btn" style="margin-left:auto" onclick="copyText(this)">Copier</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="day-block">
+              <div class="day-head">
+                <span class="day-name">Mercredi</span>
+                <span class="day-date">12 mars · 12h00</span>
+                <span class="ct li" style="margin-left:4px">💼 LinkedIn</span>
+                <span class="day-badge todo">À publier</span>
+              </div>
+              <div class="day-body">
+                <div class="post-text">Les 3 erreurs que font 90% des propriétaires avant de rénover (et qui leur coûtent €15k de plus).
+
+Erreur #1 : Commencer par les matériaux avant de valider les plans
+→ Les matériaux se choisissent en dernier, pas en premier.
+
+Erreur #2 : Ne pas inclure le poste "imprévus" dans le budget
+→ Minimum 15% de marge sur tout projet de rénovation.
+
+Erreur #3 : Confier chaque corps de métier à un artisan différent
+→ Sans coordinateur, les délais s'accumulent et les coûts explosent.
+
+La solution : un interlocuteur unique qui pilote tout. C'est exactement notre rôle chez Rennov.</div>
+                <div class="post-footer">
+                  <span class="tag">🎓 Éducation</span>
+                  <span class="post-time">· 12h00</span>
+                  <button class="copy-btn" style="margin-left:auto" onclick="copyText(this)">Copier</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="day-block">
+              <div class="day-head">
+                <span class="day-name">Vendredi</span>
+                <span class="day-date">14 mars · 8h00</span>
+                <span class="ct li" style="margin-left:4px">💼 LinkedIn</span>
+                <span class="day-badge todo">À publier</span>
+              </div>
+              <div class="day-body">
+                <div class="post-text">"On avait peur de ne pas retrouver l'âme de la maison. En fait, ils l'ont sublimée."
+
+Sophie &amp; Marc nous ont contactés après avoir vu notre compte Instagram. Ils avaient un projet flou, un budget défini, et beaucoup d'appréhensions.
+
+6 mois plus tard : chantier livré, ils nous ont recommandés à 3 de leurs amis.
+
+C'est pour ça qu'on fait ce métier.</div>
+                <div class="post-footer">
+                  <span class="tag">⭐ Témoignage</span>
+                  <span class="post-time">· 8h00</span>
+                  <button class="copy-btn" style="margin-left:auto" onclick="copyText(this)">Copier</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><span class="card-title">Outreach cette semaine</span><span class="badge gray">3 contacts</span></div>
+          <div class="card-body" style="padding:12px">
+            <div class="outreach-card">
+              <div class="ow-name">Agent immobilier · Lons-le-Saunier</div>
+              <div class="ow-role">Prescripteur prioritaire · Connexion en attente</div>
+              <div class="ow-msg">Bonjour <strong>[Prénom]</strong>, je tombe sur votre profil et votre activité dans l'immobilier me parle — on travaille régulièrement avec des professionnels comme vous sur des projets de rénovation haut de gamme dans le Jura. Ravi d'échanger si l'occasion se présente !</div>
+              <div class="ow-footer"><span class="ow-note">✓ Taux d'acceptation cible 40–55%</span><button class="copy-btn" onclick="copyText(this)">Copier</button></div>
+            </div>
+            <div class="outreach-card">
+              <div class="ow-name">Notaire · Dole</div>
+              <div class="ow-role">Connexion acceptée il y a 5 jours</div>
+              <div class="ow-msg">Merci pour la connexion <strong>[Prénom]</strong> ! Je voulais partager ce projet qu'on vient de livrer à Lons-le-Saunier — une maison des années 60 complètement repensée. Si vous croisez quelqu'un en réflexion sur une rénovation, n'hésitez pas 🙂</div>
+              <div class="ow-footer"><span class="ow-note">✓ Message de suivi — apporte de la valeur</span><button class="copy-btn" onclick="copyText(this)">Copier</button></div>
+            </div>
+            <div class="outreach-card">
+              <div class="ow-name">Architecte indépendant · Besançon</div>
+              <div class="ow-role">Nouveau profil identifié</div>
+              <div class="ow-msg">Bonjour <strong>[Prénom]</strong>, j'ai découvert votre travail sur des projets de réhabilitation — vraiment en phase avec ce qu'on fait chez Rennov. On cherche à collaborer avec des architectes locaux qui partagent notre exigence. Vous auriez 20 minutes pour échanger ?</div>
+              <div class="ow-footer"><span class="ow-note">✓ Proposition de collaboration directe</span><button class="copy-btn" onclick="copyText(this)">Copier</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PILIERS -->
+      <div class="view" id="v-piliers">
+        <div class="view-header">
+          <div class="view-title">✍️ Piliers de contenu</div>
+          <div class="view-sub">4 thèmes éditoriaux + idées de posts prêts à publier</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-head open" onclick="togglePillar(this)"><span>🏗️</span><div><h4>Avant / Après</h4><p>Vos transformations comme preuve sociale</p></div><span class="arrow">▼</span></div>
+          <div class="pillar-body open">
+            <div class="pi"><span class="pi-n">1</span><span>« On a reçu les clés d'une maison des années 70. 4 mois plus tard, voici ce qu'elle est devenue. » [Carrousel avant/après]</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this)">Copier</button></div></div>
+            <div class="pi"><span class="pi-n">2</span><span>« Le client nous a dit "faites-moi confiance". On l'a pris au mot. Résultat : une cuisine de 22m² transformée. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this)">Copier</button></div></div>
+            <div class="pi"><span class="pi-n">3</span><span>« 3 semaines, 1 salle de bain, 0 compromis sur les matériaux. Voici comment on travaille chez Rennov. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this)">Copier</button></div></div>
+          </div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-head open" onclick="togglePillar(this)"><span>🎓</span><div><h4>Éducation</h4><p>Positionner Rennov comme expert de confiance</p></div><span class="arrow">▼</span></div>
+          <div class="pillar-body open">
+            <div class="pi"><span class="pi-n">1</span><span>« Les 3 erreurs que font 90% des propriétaires avant de rénover (et qui leur coûtent €15k de plus). »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this)">Copier</button></div></div>
+            <div class="pi"><span class="pi-n">2</span><span>« Comment choisir son architecte d'intérieur dans le Jura ? Les 5 questions à poser avant de signer. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this)">Copier</button></div></div>
+            <div class="pi"><span class="pi-n">3</span><span>« Rénovation ou construction neuve : ce que personne ne vous dit sur les coûts cachés. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this)">Copier</button></div></div>
+          </div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-head" onclick="togglePillar(this)"><span>👥</span><div><h4>Coulisses</h4><p>L'humain derrière les chantiers</p></div><span class="arrow">▼</span></div>
+          <div class="pillar-body">
+            <div class="pi"><span class="pi-n">1</span><span>« 6h du matin sur un chantier en plein Jura. Voici à quoi ressemble notre journée type. » [Vidéo 60s]</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this)">Copier</button></div></div>
+            <div class="pi"><span class="pi-n">2</span><span>« On vient de recevoir ce carrelage artisanal du Portugal. Ce détail va changer toute la pièce. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this)">Copier</button></div></div>
+            <div class="pi"><span class="pi-n">3</span><span>« Derrière chaque projet Rennov, il y a une équipe de 6 personnes. Voici comment on s'organise. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this)">Copier</button></div></div>
+          </div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-head" onclick="togglePillar(this)"><span>⭐</span><div><h4>Témoignages</h4><p>La voix de vos clients comme meilleur commercial</p></div><span class="arrow">▼</span></div>
+          <div class="pillar-body">
+            <div class="pi"><span class="pi-n">1</span><span>« "On avait peur de ne pas retrouver l'âme de la maison. En fait, ils l'ont sublimée." — Sophie & Marc »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this)">Copier</button></div></div>
+            <div class="pi"><span class="pi-n">2</span><span>« Ce client nous a contactés après avoir vu nos posts LinkedIn. Voici comment son projet a pris vie. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this)">Copier</button></div></div>
+            <div class="pi"><span class="pi-n">3</span><span>« Bilan : 8 projets livrés, 8 clients satisfaits. Voici ce qu'ils nous ont dit. » [Compilation]</span><div class="pi-actions"><button class="copy-btn" onclick="copyText(this)">Copier</button></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CALENDRIER -->
+      <div class="view" id="v-calendrier">
+        <div class="view-header">
+          <div class="view-title">📅 Calendrier éditorial</div>
+          <div class="view-sub">Votre planning hebdomadaire type</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Semaine type</span><span class="badge green">7 publications</span></div>
+          <div class="card-body" style="padding:0">
+            <table class="cal-table">
+              <thead><tr><th>Jour</th><th>Canal</th><th>Contenu</th><th>Pilier</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Lundi</strong><br><span style="font-size:10.5px;color:var(--t3)">8h–9h</span></td><td><span class="ct li">💼 LinkedIn</span></td><td>Post texte — Avant/Après chantier</td><td><span class="tag">🏗️ Transformation</span></td></tr>
+                <tr><td><strong>Mercredi</strong><br><span style="font-size:10.5px;color:var(--t3)">12h–13h</span></td><td><span class="ct li">💼 LinkedIn</span></td><td>Post éducatif — Erreur à éviter</td><td><span class="tag">🎓 Éducation</span></td></tr>
+                <tr><td><strong>Jeudi</strong><br><span style="font-size:10.5px;color:var(--t3)">18h–20h</span></td><td><span class="ct ig">📸 Instagram</span></td><td>Carrousel — Coulisses chantier</td><td><span class="tag">👥 Coulisses</span></td></tr>
+                <tr><td><strong>Vendredi</strong><br><span style="font-size:10.5px;color:var(--t3)">8h–9h</span></td><td><span class="ct li">💼 LinkedIn</span></td><td>Témoignage client — Format story</td><td><span class="tag">⭐ Témoignage</span></td></tr>
+                <tr><td><strong>Samedi</strong><br><span style="font-size:10.5px;color:var(--t3)">18h–20h</span></td><td><span class="ct ig">📸 Instagram</span></td><td>Photo portfolio — Détail matériaux</td><td><span class="tag">🏗️ Transformation</span></td></tr>
+                <tr><td><strong>Dimanche</strong><br><span style="font-size:10.5px;color:var(--t3)">18h–20h</span></td><td><span class="ct ig">📸 Instagram</span></td><td>Reel 30s — Timelapse chantier</td><td><span class="tag">👥 Coulisses</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const bc = { semaine:'Cette semaine', piliers:'Piliers de contenu', calendrier:'Calendrier' };
+  function nav(id, el) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('v-' + id).classList.add('active');
+    if (el) el.classList.add('active');
+    document.getElementById('breadcrumb').textContent = bc[id] || id;
+  }
+  function togglePillar(head) {
+    head.classList.toggle('open');
+    head.nextElementSibling.classList.toggle('open');
+  }
+  function copyText(btn) {
+    btn.textContent = '✓ Copié';
+    btn.style.background = 'var(--green-l)';
+    btn.style.color = 'var(--green)';
+    setTimeout(() => { btn.textContent = 'Copier'; btn.style.background = ''; btn.style.color = ''; }, 2000);
+  }
+</script>
+</body>
+</html>
