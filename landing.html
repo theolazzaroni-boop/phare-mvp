@@ -310,6 +310,13 @@
     .plan-feat { display: flex; align-items: flex-start; gap: 9px; font-size: 12.5px; color: var(--t2); line-height: 1.4; }
     .plan-check { width: 17px; height: 17px; border-radius: 50%; background: var(--accent-xl); display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--accent); flex-shrink: 0; margin-top: 1px; }
     .popular .plan-check { background: rgba(108,71,255,.15); color: var(--accent); }
+    .plan-check-no { background: #FEF2F2; color: #EF4444; }
+    .plan-feat-no { color: var(--t3); text-decoration: line-through; }
+    .plan-check-green { background: var(--green-l); color: var(--green); }
+    .plan-feat-green { color: var(--green); font-weight: 600; }
+    .plan-check-plus { background: var(--accent-xl); color: var(--accent); font-weight: 800; font-size: 11px; }
+    .plan-feat-plus { color: var(--t1); }
+    .plan-feat-plus strong { color: var(--t1); }
     .btn-plan {
       display: block; width: 100%; background: var(--bg2); color: var(--t1);
       text-decoration: none; text-align: center; border: 1.5px solid var(--border);
@@ -628,9 +635,9 @@
 
       <div class="plans-row">
 
-        <!-- 3 mois -->
+        <!-- 3 mois · Découverte -->
         <div class="plan-card">
-          <div class="plan-duration">Engagement 3 mois</div>
+          <div class="plan-duration">Découverte · 3 mois</div>
           <div class="plan-price">
             <span class="plan-currency">€</span>
             <span class="plan-num">249</span>
@@ -638,20 +645,21 @@
           </div>
           <div class="plan-total">Soit 747€ sur 3 mois · renouvelable</div>
           <div class="plan-feats">
-            <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
-            <div class="plan-feat"><div class="plan-check" style="background:#FEF2F2;color:#EF4444">✕</div>Aucune révision incluse</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Livraison instantanée chaque semaine</div>
-            <div class="plan-feat" style="color:var(--green);font-weight:600"><div class="plan-check" style="background:var(--green-l);color:var(--green)">✓</div>1ère semaine offerte — sans carte bancaire</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine calés sur votre actu</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Brief éditorial envoyé chaque lundi</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Livraison sous 48h chaque semaine</div>
+            <div class="plan-feat"><div class="plan-check plan-check-no">✕</div><span class="plan-feat-no">Aucune révision incluse</span></div>
+            <div class="plan-feat"><div class="plan-check plan-check-no">✕</div><span class="plan-feat-no">Pas de rapport de performance</span></div>
+            <div class="plan-feat plan-feat-green"><div class="plan-check plan-check-green">✓</div>1ère semaine offerte — sans CB</div>
           </div>
           <a href="form.html" class="btn-plan">Essayer gratuitement →</a>
           <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:8px">1 semaine gratuite · puis 249€/mois</div>
         </div>
 
-        <!-- 12 mois — populaire -->
+        <!-- 12 mois · Croissance — populaire -->
         <div class="plan-card popular">
           <div class="plan-pop-badge">⭐ Le plus populaire</div>
-          <div class="plan-duration">Engagement 12 mois</div>
+          <div class="plan-duration">Croissance · 12 mois</div>
           <div class="plan-price">
             <span class="plan-currency">€</span>
             <span class="plan-num">189</span>
@@ -659,18 +667,19 @@
           </div>
           <div class="plan-total">Soit 2 268€/an <span class="plan-save">−24%</span></div>
           <div class="plan-feats">
-            <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>1 révision par post incluse</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Rapport mensuel de performance</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Ajustement de stratégie trimestriel</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine calés sur votre actu</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Brief éditorial envoyé chaque lundi</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Livraison sous 48h chaque semaine</div>
+            <div class="plan-feat plan-feat-plus"><div class="plan-check plan-check-plus">+</div><strong>1 révision par post</strong> — demande ciblée</div>
+            <div class="plan-feat plan-feat-plus"><div class="plan-check plan-check-plus">+</div><strong>Rapport mensuel</strong> de performance</div>
+            <div class="plan-feat plan-feat-plus"><div class="plan-check plan-check-plus">+</div><strong>Ajustement stratégique</strong> trimestriel</div>
           </div>
           <a href="form.html" class="btn-plan">Démarrer — 12 mois →</a>
         </div>
 
-        <!-- 36 mois -->
+        <!-- 36 mois · Partenariat -->
         <div class="plan-card">
-          <div class="plan-duration">Engagement 36 mois</div>
+          <div class="plan-duration">Partenariat · 36 mois</div>
           <div class="plan-price">
             <span class="plan-currency">€</span>
             <span class="plan-num">149</span>
@@ -678,11 +687,13 @@
           </div>
           <div class="plan-total">Soit 1 788€/an <span class="plan-save">−40%</span></div>
           <div class="plan-feats">
-            <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>3 révisions par post incluses</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Rapport mensuel + stratégie trimestrielle</div>
-            <div class="plan-feat"><div class="plan-check">✓</div>Accès prioritaire aux nouvelles fonctionnalités</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine calés sur votre actu</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Brief éditorial envoyé chaque lundi</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Livraison sous 48h chaque semaine</div>
+            <div class="plan-feat plan-feat-plus"><div class="plan-check plan-check-plus">+</div><strong>3 révisions par post</strong> — demande ciblée</div>
+            <div class="plan-feat plan-feat-plus"><div class="plan-check plan-check-plus">+</div><strong>Rapport mensuel + récap hebdo</strong></div>
+            <div class="plan-feat plan-feat-plus"><div class="plan-check plan-check-plus">+</div><strong>Stratégie annuelle</strong> et roadmap éditoriale</div>
+            <div class="plan-feat plan-feat-plus"><div class="plan-check plan-check-plus">+</div><strong>Accès prioritaire</strong> aux nouvelles fonctionnalités</div>
           </div>
           <a href="form.html" class="btn-plan">Démarrer — 36 mois →</a>
         </div>
