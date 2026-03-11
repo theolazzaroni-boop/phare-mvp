@@ -358,8 +358,8 @@
 
     /* ── COMPARE TABLE ── */
     .cmp-table { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.05); }
-    .cmp-head { display: grid; grid-template-columns: 2fr 1fr 1fr; background: var(--bg2); border-bottom: 1px solid var(--border); }
-    .cmp-row { display: grid; grid-template-columns: 2fr 1fr 1fr; border-bottom: 1px solid var(--border); transition: background .15s; }
+    .cmp-head { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; background: var(--bg2); border-bottom: 1px solid var(--border); }
+    .cmp-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; border-bottom: 1px solid var(--border); transition: background .15s; }
     .cmp-row:last-child { border-bottom: none; }
     .cmp-row:hover { background: var(--bg); }
     .cmp-row:hover .cmp-p { background: rgba(108,71,255,.07); }
@@ -374,9 +374,13 @@
     .cmp-head-p .cmp-brand { color: var(--accent); }
     .cmp-c { padding: 15px 22px; font-size: 13.5px; font-weight: 600; color: var(--t1); display: flex; align-items: center; gap: 10px; }
     .cmp-a { padding: 15px 18px; text-align: center; border-left: 1px solid var(--border); font-size: 13px; color: var(--t3); display: flex; align-items: center; justify-content: center; }
+    .cmp-g { padding: 15px 18px; text-align: center; border-left: 1px solid var(--border); background: var(--bg2); font-size: 13px; color: var(--t2); display: flex; align-items: center; justify-content: center; }
     .cmp-p { padding: 15px 18px; text-align: center; border-left: 1px solid rgba(108,71,255,.15); background: var(--accent-xl); font-size: 13px; font-weight: 600; color: var(--t1); display: flex; align-items: center; justify-content: center; }
     .cmp-p.accent { color: var(--accent); font-weight: 700; font-size: 14px; }
     .cmp-p.green { color: var(--green); font-weight: 700; font-size: 15px; }
+    .cmp-head-g { padding: 14px 18px; border-left: 1px solid var(--border); background: var(--bg3); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
+    .cmp-head-g .cmp-tag { color: var(--t2); }
+    .cmp-head-g .cmp-brand { color: var(--t2); }
 
     /* ── RESPONSIVE ── */
     @media(max-width:900px) {
@@ -419,8 +423,9 @@
       .cmp-head { display: none; }
       .cmp-row { display: flex; flex-direction: column; padding: 14px 16px; gap: 7px; }
       .cmp-c { padding: 0; font-size: 13px; }
-      .cmp-a, .cmp-p { border: none; border-left: none; background: transparent; padding: 0; justify-content: flex-start; font-size: 12.5px; }
+      .cmp-a, .cmp-g, .cmp-p { border: none; border-left: none; background: transparent; padding: 0; justify-content: flex-start; font-size: 12.5px; }
       .cmp-a::before { content: attr(data-label) " : "; font-weight: 600; color: var(--t3); margin-right: 4px; }
+      .cmp-g::before { content: attr(data-label) " : "; font-weight: 600; color: var(--t2); margin-right: 4px; }
       .cmp-p::before { content: attr(data-label) " : "; font-weight: 600; color: var(--accent); margin-right: 4px; }
       .cmp-p.accent, .cmp-p.green { font-size: 12.5px; }
     }
@@ -517,7 +522,7 @@
         <div class="pb-label">posts LinkedIn rédigés</div>
       </div>
       <div class="pb-stat">
-        <div class="pb-num"><span>16×</span></div>
+        <div class="pb-num"><span>8×</span></div>
         <div class="pb-label">moins cher qu'une agence</div>
       </div>
       <div class="pb-stat">
@@ -628,10 +633,10 @@
           <div class="plan-duration">Engagement 3 mois</div>
           <div class="plan-price">
             <span class="plan-currency">€</span>
-            <span class="plan-num">99</span>
+            <span class="plan-num">249</span>
             <span class="plan-unit">/mois</span>
           </div>
-          <div class="plan-total">Soit 297€ sur 3 mois · renouvelable</div>
+          <div class="plan-total">Soit 747€ sur 3 mois · renouvelable</div>
           <div class="plan-feats">
             <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
             <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
@@ -640,7 +645,7 @@
             <div class="plan-feat" style="color:var(--green);font-weight:600"><div class="plan-check" style="background:var(--green-l);color:var(--green)">✓</div>1ère semaine offerte — sans carte bancaire</div>
           </div>
           <a href="form.html" class="btn-plan">Essayer gratuitement →</a>
-          <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:8px">1 semaine gratuite · puis 99€/mois</div>
+          <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:8px">1 semaine gratuite · puis 249€/mois</div>
         </div>
 
         <!-- 12 mois — populaire -->
@@ -649,10 +654,10 @@
           <div class="plan-duration">Engagement 12 mois</div>
           <div class="plan-price">
             <span class="plan-currency">€</span>
-            <span class="plan-num">75</span>
+            <span class="plan-num">189</span>
             <span class="plan-unit">/mois</span>
           </div>
-          <div class="plan-total">Soit 900€/an <span class="plan-save">−24%</span></div>
+          <div class="plan-total">Soit 2 268€/an <span class="plan-save">−24%</span></div>
           <div class="plan-feats">
             <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
             <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
@@ -668,10 +673,10 @@
           <div class="plan-duration">Engagement 36 mois</div>
           <div class="plan-price">
             <span class="plan-currency">€</span>
-            <span class="plan-num">55</span>
+            <span class="plan-num">149</span>
             <span class="plan-unit">/mois</span>
           </div>
-          <div class="plan-total">Soit 660€/an <span class="plan-save">−44%</span></div>
+          <div class="plan-total">Soit 1 788€/an <span class="plan-save">−40%</span></div>
           <div class="plan-feats">
             <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
             <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
@@ -691,60 +696,69 @@
   <section style="background:var(--bg);padding:88px 48px">
     <div class="section-inner">
       <div class="s-tag">Comparatif</div>
-      <div class="s-title">Phare vs une agence<br>de communication.</div>
-      <div class="s-sub" style="margin-bottom:44px">Même objectif. Prix divisé par 20. Et un contenu qui s'adapte à votre actualité chaque semaine.</div>
+      <div class="s-title">Phare vs agence<br>vs ghostwriter.</div>
+      <div class="s-sub" style="margin-bottom:44px">Même objectif. Pas le même budget, pas le même niveau de service. Voici ce que vous obtenez vraiment pour votre argent.</div>
 
       <div class="cmp-table">
         <div class="cmp-head">
           <div class="cmp-head-c">Critère</div>
           <div class="cmp-head-a"><span class="cmp-tag">Agence de comm.</span><span class="cmp-brand">Classique</span></div>
+          <div class="cmp-head-g"><span class="cmp-tag">Ghostwriter</span><span class="cmp-brand">Freelance</span></div>
           <div class="cmp-head-p"><span class="cmp-tag">Phare</span><span class="cmp-brand">Votre co-pilote</span></div>
         </div>
         <div class="cmp-row">
           <div class="cmp-c">💰 Tarif mensuel</div>
           <div class="cmp-a" data-label="Agence">1 500 – 3 000€</div>
-          <div class="cmp-p accent" data-label="Phare">à partir de 55€</div>
+          <div class="cmp-g" data-label="Ghostwriter">800 – 2 000€</div>
+          <div class="cmp-p accent" data-label="Phare">à partir de 149€</div>
         </div>
         <div class="cmp-row">
           <div class="cmp-c">✍️ Posts LinkedIn / mois</div>
           <div class="cmp-a" data-label="Agence">4 – 8 posts</div>
+          <div class="cmp-g" data-label="Ghostwriter">8 – 12 posts</div>
           <div class="cmp-p green" data-label="Phare">16 posts (4/sem)</div>
         </div>
         <div class="cmp-row">
           <div class="cmp-c">⚡ Délai de démarrage</div>
           <div class="cmp-a" data-label="Agence">2 – 4 semaines</div>
+          <div class="cmp-g" data-label="Ghostwriter">1 – 2 semaines</div>
           <div class="cmp-p" data-label="Phare">Instantané</div>
         </div>
         <div class="cmp-row">
           <div class="cmp-c">🗞️ Adaptation à votre actu</div>
           <div class="cmp-a" data-label="Agence">Sur brief · 72h+ de délai</div>
+          <div class="cmp-g" data-label="Ghostwriter">Sur brief · délai variable</div>
           <div class="cmp-p" data-label="Phare">Automatique chaque semaine</div>
         </div>
         <div class="cmp-row">
           <div class="cmp-c">🔄 Révisions</div>
           <div class="cmp-a" data-label="Agence">Facturées · 60–120€/h</div>
+          <div class="cmp-g" data-label="Ghostwriter">1–2 incluses · puis facturées</div>
           <div class="cmp-p" data-label="Phare">Illimitées · incluses</div>
         </div>
         <div class="cmp-row">
           <div class="cmp-c">🧠 Connaissance de votre activité</div>
           <div class="cmp-a" data-label="Agence">Générique au départ</div>
+          <div class="cmp-g" data-label="Ghostwriter">Bonne · mais progressive</div>
           <div class="cmp-p" data-label="Phare">S'améliore semaine après semaine</div>
         </div>
         <div class="cmp-row">
           <div class="cmp-c">📊 Rapport de performance</div>
           <div class="cmp-a" data-label="Agence">Sur demande · facturé</div>
+          <div class="cmp-g" data-label="Ghostwriter">Rarement inclus</div>
           <div class="cmp-p" data-label="Phare">Mensuel · inclus</div>
         </div>
         <div class="cmp-row">
           <div class="cmp-c">📋 Engagement minimum</div>
           <div class="cmp-a" data-label="Agence">6 – 12 mois</div>
+          <div class="cmp-g" data-label="Ghostwriter">3 – 6 mois</div>
           <div class="cmp-p" data-label="Phare">À partir de 3 mois</div>
         </div>
       </div>
 
       <div style="margin-top:32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
         <a href="form.html" class="btn-primary">Essayer gratuitement — 1 semaine →</a>
-        <div style="font-size:13px;color:var(--t3)">à partir de 55€/mois · 1ère semaine offerte</div>
+        <div style="font-size:13px;color:var(--t3)">à partir de 149€/mois · 1ère semaine offerte</div>
       </div>
     </div>
   </section>
