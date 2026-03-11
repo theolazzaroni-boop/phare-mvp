@@ -34,9 +34,9 @@
 
     /* LAYOUT */
     .page { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 60px); overflow: hidden; }
-    @media(max-width: 1024px) {
-      .page { grid-template-columns: 1fr; height: auto; min-height: calc(100vh - 60px); overflow: visible; }
-      .page-left { display: none; }
+    @media(max-width: 1200px) {
+      .page { grid-template-columns: 1fr !important; height: auto !important; overflow: visible !important; }
+      .page-left { display: none !important; }
     }
 
     /* LEFT — context */
@@ -121,8 +121,8 @@
 
     /* RIGHT — form */
     .page-right { padding: 48px 56px; display: flex; flex-direction: column; justify-content: center; background: var(--card); overflow-y: auto; }
-    @media(max-width:1024px) {
-      .page-right { padding: 40px 28px; overflow-y: visible; height: auto; justify-content: flex-start; }
+    @media(max-width:1200px) {
+      .page-right { padding: 40px 28px !important; overflow-y: visible !important; height: auto !important; justify-content: flex-start !important; }
     }
 
     .form-header { margin-bottom: 32px; }
