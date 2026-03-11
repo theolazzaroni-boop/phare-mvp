@@ -179,7 +179,10 @@
     @media(max-width:500px) { .choice-cards { flex-direction: column; } }
     .choice-card { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; transition: all .15s; }
     .choice-card:has(input:checked) { border-color: var(--accent); background: var(--accent-xl); }
-    .choice-card input[type="radio"] { margin-top: 3px; flex-shrink: 0; accent-color: var(--accent); }
+    .choice-card input[type="radio"] { display: none; }
+    .choice-card::after { content: ''; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--border); position: absolute; top: 12px; right: 12px; transition: all .15s; flex-shrink: 0; }
+    .choice-card { position: relative; }
+    .choice-card:has(input:checked)::after { content: '✓'; background: var(--accent); border-color: var(--accent); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
     .choice-ic { font-size: 22px; flex-shrink: 0; }
     .choice-title { font-size: 13.5px; font-weight: 600; color: var(--t1); margin-bottom: 2px; }
     .choice-sub { font-size: 12px; color: var(--t2); line-height: 1.5; }
