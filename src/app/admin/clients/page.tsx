@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import CreateClientModal from "@/components/CreateClientModal";
 
 export default async function AdminClientsPage() {
   const clients = await prisma.profile.findMany({
@@ -12,9 +13,12 @@ export default async function AdminClientsPage() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-t1 tracking-tight mb-1">Clients</h1>
-        <p className="text-sm text-t2">{clients.length} client{clients.length > 1 ? "s" : ""} actif{clients.length > 1 ? "s" : ""}</p>
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-t1 tracking-tight mb-1">Clients</h1>
+          <p className="text-sm text-t2">{clients.length} client{clients.length > 1 ? "s" : ""} actif{clients.length > 1 ? "s" : ""}</p>
+        </div>
+        <CreateClientModal />
       </div>
 
       <div className="bg-white border border-border rounded-2xl overflow-hidden">

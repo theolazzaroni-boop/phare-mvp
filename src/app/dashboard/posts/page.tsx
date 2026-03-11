@@ -3,16 +3,12 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import PostCard from "@/components/PostCard";
 
-const DAYS = ["", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
 
 function getThisWeekStart() {
   const now = new Date();
-  const day = now.getDay(); // 0=Sun
+  const day = now.getUTCDay();
   const diff = day === 0 ? -6 : 1 - day;
-  const monday = new Date(now);
-  monday.setDate(now.getDate() + diff);
-  monday.setHours(0, 0, 0, 0);
-  return monday;
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + diff));
 }
 
 export default async function PostsPage() {
@@ -46,7 +42,7 @@ export default async function PostsPage() {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {posts.map(post => (
-            <PostCard key={post.id} post={post} dayLabel={DAYS[post.dayOfWeek]} />
+            <PostCard key={post.id} post={post} />
           ))}
         </div>
       )}

@@ -4,12 +4,9 @@ import { prisma } from "@/lib/prisma";
 
 function getThisWeekStart() {
   const now = new Date();
-  const day = now.getDay();
+  const day = now.getUTCDay();
   const diff = day === 0 ? -6 : 1 - day;
-  const monday = new Date(now);
-  monday.setDate(now.getDate() + diff);
-  monday.setHours(0, 0, 0, 0);
-  return monday;
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + diff));
 }
 
 export default async function StatsPage() {
