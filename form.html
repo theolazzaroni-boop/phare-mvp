@@ -80,16 +80,19 @@
     .pe-brief-text strong { color: var(--t1); }
 
     /* Stage with ghost posts */
-    .pe-stage { position: relative; display: flex; align-items: stretch; gap: 8px; }
+    .pe-stage { position: relative; display: flex; align-items: flex-start; gap: 8px; }
     .pe-ghost {
-      flex: 0 0 22%; opacity: 0.18; filter: blur(2px);
-      pointer-events: none; display: flex; flex-direction: column; gap: 5px;
-      padding-top: 4px;
+      flex: 0 0 22%; opacity: 0.45; filter: blur(0.6px);
+      pointer-events: none;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+      font-size: 10px; color: var(--t2); line-height: 1.55;
     }
-    .pe-ghost-line { height: 7px; background: var(--t2); border-radius: 4px; }
-    .pe-ghost-line.short { width: 60%; }
-    .pe-ghost-line.med { width: 80%; }
-    .pe-ghost-stat { margin-top: 8px; height: 20px; background: #EF4444; border-radius: 4px; width: 70%; opacity: .5; }
+    .pe-ghost-head { padding: 8px 10px 6px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 2px; }
+    .pe-ghost-name { font-weight: 700; font-size: 9.5px; color: var(--t1); }
+    .pe-ghost-role { font-size: 8.5px; color: var(--t3); }
+    .pe-ghost-body { padding: 8px 10px; font-size: 9.5px; line-height: 1.5; }
+    .pe-ghost-stat { border-top: 1px solid var(--border); padding: 6px 10px; font-size: 9px; font-weight: 700; color: #EF4444; }
     .pe-center { flex: 1; z-index: 1; }
 
     /* LinkedIn card */
@@ -217,13 +220,12 @@
 
             <!-- GHOST GAUCHE -->
             <div class="pe-ghost">
-              <div class="pe-ghost-line"></div>
-              <div class="pe-ghost-line med"></div>
-              <div class="pe-ghost-line short"></div>
-              <div class="pe-ghost-line med"></div>
-              <div class="pe-ghost-line short"></div>
-              <div class="pe-ghost-line"></div>
-              <div class="pe-ghost-stat"></div>
+              <div class="pe-ghost-head">
+                <div class="pe-ghost-name">Marc Duval</div>
+                <div class="pe-ghost-role">Gérant · Plastinov</div>
+              </div>
+              <div class="pe-ghost-body">Plastinov est spécialisé dans l'injection plastique depuis 30 ans dans le Jura. Grâce à nos équipements de pointe, nous répondons à tous vos besoins. Contactez-nous pour un devis.</div>
+              <div class="pe-ghost-stat">1 réaction · 0 commentaire</div>
             </div>
 
             <!-- POST CENTRAL -->
@@ -237,19 +239,19 @@
                   </div>
                 </div>
                 <div class="li-reactions">👍 ❤️ 💡 · <strong>94 réactions</strong> · 38 commentaires</div>
-                <div class="li-body">On vient de signer avec un industriel allemand.
-Grâce à une machine que personne d'autre dans le Jura ne possède encore. 👇
+                <div class="li-body">3 fournisseurs ont refusé cette pièce.
+On vient de la livrer à 80 000 exemplaires. 👇
 
-Notre nouvelle presse bi-matière 2 000T nous permet de faire en une injection ce qui nécessite habituellement deux opérations — et deux fournisseurs.
+Notre client avait un problème : pièce bi-matière, tolérance ±0,02mm, délai 3 semaines. "Impossible" pour ses prestataires habituels.
 
-Résultat pour notre client :
-→ Délai divisé par 2
-→ Coût réduit de 30%
-→ Qualité certifiée dès le 1er essai
+On a dit oui. Voici pourquoi on a pu :
+→ Notre nouvelle presse 2 000T — une seule injection là où il en faut 2
+→ Outillage étudié en interne en 48h
+→ Premier essai conforme. Zéro retouche.
 
-Ce contrat, c'est 3 ans de R&D qui payent.
+Ce contrat existe parce qu'on a dit oui quand les autres ont dit non.
 
-Vous avez un projet qui demande ce niveau d'exigence ? 📩</div>
+Vous avez une pièce que personne ne veut faire ? 📩</div>
                 <div class="li-footer">
                   <div class="li-stat"><div class="v">3 leads générés · 1 contrat signé</div><div class="l">grâce à ce post</div></div>
                 </div>
@@ -258,13 +260,12 @@ Vous avez un projet qui demande ce niveau d'exigence ? 📩</div>
 
             <!-- GHOST DROITE -->
             <div class="pe-ghost">
-              <div class="pe-ghost-line short"></div>
-              <div class="pe-ghost-line"></div>
-              <div class="pe-ghost-line med"></div>
-              <div class="pe-ghost-line short"></div>
-              <div class="pe-ghost-line"></div>
-              <div class="pe-ghost-line med"></div>
-              <div class="pe-ghost-stat"></div>
+              <div class="pe-ghost-head">
+                <div class="pe-ghost-name">Marc Duval</div>
+                <div class="pe-ghost-role">Gérant · Plastinov</div>
+              </div>
+              <div class="pe-ghost-body">Nous sommes fiers de participer au salon Industrie Lyon 2026. Venez découvrir notre savoir-faire sur notre stand. Nous vous attendons nombreux ! 🏭</div>
+              <div class="pe-ghost-stat">3 réactions · 0 commentaire</div>
             </div>
 
           </div>
