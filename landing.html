@@ -379,6 +379,54 @@
     .footer-right { font-size: 13px; color: var(--t3); text-align: right; }
     .footer-right a { color: var(--t2); text-decoration: none; }
     .footer-right a:hover { color: var(--t1); }
+
+    /* ── COMPARE SCROLL WRAPPER ── */
+    .compare-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .compare-scroll > div { min-width: 520px; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px) {
+      .hero { padding: 110px 32px 72px; }
+      .proof-bar { padding: 20px 32px; }
+    }
+
+    @media(max-width:768px) {
+      nav { padding: 0 20px; }
+      .nav-links .nav-link { display: none; }
+      .btn-nav { padding: 8px 16px; font-size: 13px; }
+    }
+
+    @media(max-width:680px) {
+      section { padding: 60px 20px; }
+      .hero { padding: 100px 20px 60px; }
+      .hero p { font-size: 15px; }
+      .s-sub { font-size: 15px; }
+      .btn-primary { font-size: 14px; padding: 12px 20px; width: 100%; justify-content: center; }
+      .btn-outline { font-size: 13px; padding: 12px 18px; width: 100%; text-align: center; }
+      .hero-cta { flex-direction: column; }
+      .proof-bar { padding: 16px 20px; }
+      .proof-bar-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+      .pb-stat { padding: 12px 8px; text-align: center; }
+      .pb-stat + .pb-stat { border-left: none; }
+      .pb-stat:nth-child(odd) { border-right: 1px solid var(--border); }
+      .pb-stat:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+      .offer-top { gap: 20px; }
+      .deliverables { padding: 20px; }
+      .adaptive-card { padding: 20px; }
+      .plan-card.popular { margin-top: 16px; }
+      .plan-pop-badge { font-size: 9.5px; padding: 3px 12px; }
+      .price-tabs { width: 100%; }
+      .price-tab { flex: 1; text-align: center; padding: 9px 12px; font-size: 12.5px; }
+      footer { padding: 40px 20px 28px; }
+      .footer-right { text-align: left; margin-top: 20px; }
+    }
+
+    @media(max-width:480px) {
+      .pb-num { font-size: 22px; }
+      .plan-num { font-size: 40px; }
+      .rc-stat { font-size: 34px; }
+      .faq-q { font-size: 14px; }
+    }
   </style>
 </head>
 <body>
@@ -642,7 +690,7 @@
       <div class="s-title">Phare vs une agence<br>de communication.</div>
       <div class="s-sub" style="margin-bottom:44px">Même objectif. Prix divisé par 20. Et un contenu qui s'adapte à votre actualité chaque semaine.</div>
 
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.05)">
+      <div class="compare-scroll"><div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.05)">
         <!-- Header row -->
         <div style="display:grid;grid-template-columns:2fr 1fr 1fr">
           <div style="padding:18px 22px;background:var(--bg2);border-bottom:1px solid var(--border);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);display:flex;align-items:center">Critère</div>
@@ -711,7 +759,7 @@
           <div style="padding:16px 22px;text-align:center;border-left:1px solid var(--border);font-size:13px;color:var(--t3);display:flex;align-items:center;justify-content:center">6 – 12 mois</div>
           <div style="padding:16px 22px;text-align:center;border-left:1px solid rgba(108,71,255,.15);background:var(--accent-xl);font-size:13px;font-weight:600;color:var(--t1);display:flex;align-items:center;justify-content:center">À partir de 3 mois</div>
         </div>
-      </div>
+      </div></div><!-- /compare-scroll -->
 
       <div style="margin-top:32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
         <a href="form.html" class="btn-primary">Essayer gratuitement — 1 semaine →</a>
