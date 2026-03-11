@@ -62,7 +62,6 @@
       display: flex; align-items: center;
       position: relative; overflow: hidden;
     }
-    /* Decorative background blobs */
     .hero-blob1 {
       position: absolute; top: -120px; right: -80px;
       width: 600px; height: 600px; border-radius: 50%;
@@ -94,7 +93,6 @@
       mask-image: radial-gradient(ellipse 60% 80% at 80% 40%, black 0%, transparent 70%);
     }
 
-    /* Hero layout */
     .hero-inner { max-width: 1180px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; position: relative; z-index: 1; }
     @media(max-width:900px){ .hero-inner{ grid-template-columns:1fr; } .hero-right{ display:none; } }
 
@@ -104,7 +102,8 @@
       color: var(--accent); font-size: 12.5px; font-weight: 600;
       padding: 6px 14px; border-radius: 20px; margin-bottom: 24px;
     }
-    .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
     .hero h1 {
       font-size: clamp(36px, 4.5vw, 58px); font-weight: 700;
       line-height: 1.1; letter-spacing: -.03em; color: var(--t1);
@@ -139,7 +138,7 @@
     }
     .proof-chip .ic { font-size: 13px; }
 
-    /* Hero right — product visual */
+    /* Hero right */
     .hero-right { position: relative; }
     .browser-mock {
       background: var(--card); border: 1px solid var(--border);
@@ -157,7 +156,6 @@
     }
     .browser-iframe { display: block; width: 100%; height: 440px; border: none; }
 
-    /* Floating cards around browser */
     .float-card {
       position: absolute; background: var(--card);
       border: 1px solid var(--border); border-radius: 12px;
@@ -215,8 +213,8 @@
 
     /* ── OFFER ── */
     .offer-section { background: var(--bg2); }
-    .offer-grid { display: grid; grid-template-columns: 1fr 360px; gap: 28px; margin-top: 48px; align-items: start; }
-    @media(max-width:820px){ .offer-grid{ grid-template-columns:1fr; } }
+    .offer-top { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 48px; align-items: start; }
+    @media(max-width:820px){ .offer-top{ grid-template-columns:1fr; } }
     .deliverables { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 30px; }
     .del-head { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t3); margin-bottom: 18px; }
     .del-item { display: flex; align-items: flex-start; gap: 13px; padding: 13px 0; border-bottom: 1px solid var(--border); }
@@ -225,73 +223,70 @@
     .del-text { font-size: 13.5px; color: var(--t2); line-height: 1.5; padding-top: 2px; }
     .del-text strong { font-weight: 600; color: var(--t1); }
 
-    .price-card {
-      background: var(--t1); border-radius: var(--r); padding: 30px;
-      color: #fff; position: sticky; top: 80px; overflow: hidden;
+    /* Adaptive signal card */
+    .adaptive-card {
+      background: linear-gradient(135deg, var(--accent-xl) 0%, #fff 60%);
+      border: 1.5px solid rgba(108,71,255,.2); border-radius: var(--r); padding: 28px 26px;
+      position: relative; overflow: hidden;
     }
-    .pc-blob {
-      position: absolute; top: -60px; right: -60px;
-      width: 220px; height: 220px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(108,71,255,.5) 0%, transparent 65%);
-      pointer-events: none;
-    }
-    .pc-blob2 {
-      position: absolute; bottom: -40px; left: -40px;
+    .adaptive-card::before {
+      content: ''; position: absolute; top: -40px; right: -40px;
       width: 160px; height: 160px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(167,139,250,.3) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(108,71,255,.12), transparent 65%);
       pointer-events: none;
     }
-    .pc-tag { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 12px; position: relative; }
-    .pc-price { display: flex; align-items: flex-start; gap: 4px; margin-bottom: 4px; position: relative; }
-    .pc-currency { font-size: 26px; font-weight: 600; color: rgba(255,255,255,.6); margin-top: 8px; }
-    .pc-num { font-size: 68px; font-weight: 700; letter-spacing: -.04em; line-height: 1; color: #fff; }
-    .pc-period { font-size: 13px; color: rgba(255,255,255,.45); margin-bottom: 26px; position: relative; }
-    .pc-feats { display: flex; flex-direction: column; gap: 11px; margin-bottom: 26px; position: relative; }
-    .pc-feat { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: rgba(255,255,255,.8); }
-    .pc-check { width: 18px; height: 18px; border-radius: 50%; background: rgba(16,185,129,.25); display: flex; align-items: center; justify-content: center; font-size: 10px; color: #6EE7B7; flex-shrink: 0; }
-    .btn-pc {
-      display: block; width: 100%; background: #fff; color: var(--accent);
-      text-decoration: none; text-align: center; border: none;
-      border-radius: 9px; padding: 13px; font-size: 15px; font-weight: 700;
-      cursor: pointer; transition: all .2s; position: relative;
+    .ac-week { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+    .ac-title { font-size: 17px; font-weight: 700; color: var(--t1); margin-bottom: 10px; letter-spacing: -.01em; line-height: 1.3; }
+    .ac-sub { font-size: 13.5px; color: var(--t2); line-height: 1.65; margin-bottom: 18px; }
+    .ac-examples { display: flex; flex-direction: column; gap: 8px; }
+    .ac-ex {
+      display: flex; align-items: center; gap: 10px;
+      background: #fff; border: 1px solid var(--border); border-radius: 8px;
+      padding: 9px 12px; font-size: 12.5px; color: var(--t2);
     }
-    .btn-pc:hover { background: var(--accent-l); }
-    .pc-note { font-size: 11px; color: rgba(255,255,255,.3); text-align: center; margin-top: 10px; position: relative; }
+    .ac-ex-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
 
-    /* ── FORM ── */
-    .form-section { background: var(--bg); }
-    .form-outer { max-width: 600px; margin: 0 auto; }
-    .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; box-shadow: 0 12px 48px rgba(0,0,0,.07); }
-    .form-head {
-      padding: 30px 32px; position: relative; overflow: hidden;
-      background: linear-gradient(135deg, var(--accent) 0%, #A78BFA 100%);
+    /* ── PLANS ── */
+    .plans-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 36px; }
+    @media(max-width:820px){ .plans-row{ grid-template-columns:1fr; } }
+    .plan-card {
+      background: var(--card); border: 1.5px solid var(--border); border-radius: var(--r);
+      padding: 28px 24px; position: relative; transition: all .2s;
     }
-    .form-head::after { content: ''; position: absolute; top: -40px; right: -40px; width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,.1); }
-    .form-head::before { content: ''; position: absolute; bottom: -30px; left: 40%; width: 120px; height: 120px; border-radius: 50%; background: rgba(255,255,255,.07); }
-    .form-head h3 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 5px; position: relative; z-index: 1; letter-spacing: -.02em; }
-    .form-head p { font-size: 14px; color: rgba(255,255,255,.8); position: relative; z-index: 1; }
-    .form-body { padding: 30px 32px; }
-    .field { margin-bottom: 16px; }
-    .field label { display: block; font-size: 13px; font-weight: 600; color: var(--t1); margin-bottom: 6px; }
-    .field input, .field select, .field textarea {
-      width: 100%; padding: 11px 14px; font-size: 14px; font-family: inherit;
-      border: 1.5px solid var(--border); border-radius: 8px;
-      background: var(--bg); color: var(--t1); outline: none; transition: all .15s;
+    .plan-card:hover { border-color: rgba(108,71,255,.3); box-shadow: 0 8px 32px rgba(108,71,255,.1); }
+    .plan-card.popular {
+      border-color: var(--accent);
+      box-shadow: 0 8px 32px rgba(108,71,255,.15);
     }
-    .field input:focus, .field select:focus, .field textarea:focus {
-      border-color: var(--accent); background: #fff; box-shadow: 0 0 0 3px var(--accent-xl);
+    .plan-pop-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: #fff; font-size: 10.5px; font-weight: 700;
+      letter-spacing: .05em; text-transform: uppercase;
+      padding: 4px 14px; border-radius: 20px; white-space: nowrap;
     }
-    .field textarea { resize: vertical; min-height: 84px; }
-    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media(max-width:500px){ .field-row{ grid-template-columns:1fr; } }
-    .btn-submit {
-      width: 100%; background: var(--accent); color: #fff; border: none;
-      border-radius: 9px; padding: 14px; font-size: 15px; font-weight: 700;
-      cursor: pointer; margin-top: 6px;
-      box-shadow: 0 4px 20px rgba(108,71,255,.3); transition: all .2s; font-family: inherit;
+    .plan-duration { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--t3); margin-bottom: 14px; }
+    .plan-price { display: flex; align-items: flex-end; gap: 3px; margin-bottom: 2px; }
+    .plan-currency { font-size: 18px; font-weight: 600; color: var(--t2); line-height: 1.6; }
+    .plan-num { font-size: 48px; font-weight: 700; letter-spacing: -.04em; line-height: 1; color: var(--t1); }
+    .plan-unit { font-size: 13px; color: var(--t3); margin-bottom: 4px; align-self: flex-end; padding-bottom: 6px; }
+    .plan-total { font-size: 12px; color: var(--t3); margin-bottom: 22px; }
+    .plan-save { display: inline-block; background: var(--green-l); color: var(--green); font-size: 11px; font-weight: 700; border-radius: 4px; padding: 2px 8px; margin-left: 6px; }
+    .plan-feats { display: flex; flex-direction: column; gap: 9px; margin-bottom: 22px; }
+    .plan-feat { display: flex; align-items: flex-start; gap: 9px; font-size: 12.5px; color: var(--t2); line-height: 1.4; }
+    .plan-check { width: 17px; height: 17px; border-radius: 50%; background: var(--accent-xl); display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--accent); flex-shrink: 0; margin-top: 1px; }
+    .popular .plan-check { background: rgba(108,71,255,.15); color: var(--accent); }
+    .btn-plan {
+      display: block; width: 100%; background: var(--bg2); color: var(--t1);
+      text-decoration: none; text-align: center; border: 1.5px solid var(--border);
+      border-radius: 9px; padding: 12px; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: all .2s;
     }
-    .btn-submit:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 6px 28px rgba(108,71,255,.4); }
-    .form-note { font-size: 12px; color: var(--t3); text-align: center; margin-top: 12px; }
+    .btn-plan:hover { background: var(--accent-xl); border-color: var(--accent); color: var(--accent); }
+    .plan-card.popular .btn-plan {
+      background: var(--accent); color: #fff; border-color: var(--accent);
+    }
+    .plan-card.popular .btn-plan:hover { background: var(--accent2); }
+    .plans-note { font-size: 12px; color: var(--t3); text-align: center; margin-top: 16px; }
 
     /* ── FAQ ── */
     .faq-section { background: var(--bg2); }
@@ -327,7 +322,7 @@
     <div class="nav-links">
       <a href="#comment" class="nav-link">Comment ça marche</a>
       <a href="#offre" class="nav-link">L'offre</a>
-      <a href="form.html" class="btn-nav">Commencer — 50€</a>
+      <a href="form.html" class="btn-nav">Commencer →</a>
     </div>
   </nav>
 
@@ -341,23 +336,22 @@
     <div class="hero-inner">
 
       <div class="hero-left">
-        <div class="hero-badge"><span class="dot"></span> Offre de lancement · 50€</div>
-        <h1>Vos posts LinkedIn<br>rédigés pour vous,<br><strong>instantanément.</strong></h1>
-        <p>Répondez à 5 questions sur votre activité. On génère 12 posts LinkedIn calibrés pour votre secteur et prêts à publier.</p>
+        <div class="hero-badge"><span class="dot"></span> Contenu calé sur votre actu — chaque semaine</div>
+        <h1>Vos posts LinkedIn<br>rédigés pour vous,<br><strong>chaque semaine.</strong></h1>
+        <p>On apprend à connaître votre activité. Chaque semaine, on s'adapte à vos actualités — un lancement, un chantier livré, une news de votre secteur — et on rédige vos posts avant que vous ayez besoin de les publier.</p>
         <div class="hero-cta">
           <a href="form.html" class="btn-primary">Commencer maintenant →</a>
           <a href="exemple.html" class="btn-outline">Voir un exemple</a>
         </div>
         <div class="hero-proof">
-          <div class="proof-chip"><span class="ic">⚡</span> Livraison instantanée</div>
-          <div class="proof-chip"><span class="ic">✍️</span> 12 posts rédigés</div>
+          <div class="proof-chip"><span class="ic">🗞️</span> Adapté à votre actu</div>
+          <div class="proof-chip"><span class="ic">✍️</span> 4 posts / semaine</div>
           <div class="proof-chip"><span class="ic">📅</span> Calendrier inclus</div>
-          <div class="proof-chip"><span class="ic">🔄</span> 1 révision offerte</div>
+          <div class="proof-chip"><span class="ic">⚡</span> Livraison instantanée</div>
         </div>
       </div>
 
       <div class="hero-right">
-        <!-- Floating stats cards -->
         <div class="float-card fc1">
           <div class="fc-label">Cette semaine</div>
           <div class="fc-post-ic">📝</div>
@@ -375,7 +369,6 @@
           <div class="fc-val fc-green">+3</div>
           <div class="fc-sub">via LinkedIn</div>
         </div>
-        <!-- Browser mock -->
         <div class="browser-mock">
           <div class="browser-bar">
             <div class="b-dot" style="background:#FF5F57"></div>
@@ -394,23 +387,23 @@
   <section class="steps-section" id="comment">
     <div class="section-inner">
       <div class="s-tag">Comment ça marche</div>
-      <div class="s-title">Simple comme bonjour.</div>
-      <div class="s-sub">Pas de réunion, pas de brief. Un formulaire et vos posts sont prêts instantanément.</div>
+      <div class="s-title">Simple au départ.<br>Intelligent chaque semaine.</div>
+      <div class="s-sub">Pas de réunion, pas de brief hebdo. On apprend, on suit, on s'adapte — vous publiez.</div>
       <div class="steps">
         <div class="step">
           <div class="step-num">1</div>
-          <h3>Remplissez le formulaire</h3>
-          <p>5 minutes. On comprend votre activité, vos clients, vos objectifs et votre ton. Pas de jargon marketing.</p>
+          <h3>Parlez-nous de vous</h3>
+          <p>5 minutes. On comprend votre activité, vos clients, vos objectifs et votre ton. C'est la base sur laquelle tout est construit.</p>
         </div>
         <div class="step">
           <div class="step-num">2</div>
-          <h3>On génère votre contenu</h3>
-          <p>12 posts LinkedIn calibrés pour votre secteur, enrichis par les performances des meilleurs contenus de votre verticale.</p>
+          <h3>On s'adapte à votre actu</h3>
+          <p>Chaque semaine, on intègre vos nouveautés — un projet livré, une news de votre secteur, un événement à venir — dans vos posts. Rien de générique.</p>
         </div>
         <div class="step">
           <div class="step-num">3</div>
-          <h3>Vous publiez, vous développez</h3>
-          <p>Copiez-collez, publiez au bon moment, regardez votre audience grandir. Révision offerte si besoin.</p>
+          <h3>Vous publiez, l'audience grandit</h3>
+          <p>Copiez-collez, publiez au bon moment. Mois après mois, votre présence s'installe et les leads arrivent naturellement.</p>
         </div>
       </div>
     </div>
@@ -420,40 +413,100 @@
   <section class="offer-section" id="offre">
     <div class="section-inner">
       <div class="s-tag">L'offre</div>
-      <div class="s-title">Tout ce qu'il vous faut<br>pour un mois.</div>
-      <div class="s-sub">Une offre claire, un prix fixe, aucune surprise.</div>
-      <div class="offer-grid">
+      <div class="s-title">Un service qui suit<br>le rythme de votre entreprise.</div>
+      <div class="s-sub">LinkedIn récompense la régularité. On s'en occupe — semaine après semaine.</div>
+
+      <!-- Top row: deliverables + adaptive signal -->
+      <div class="offer-top">
         <div class="deliverables">
-          <div class="del-head">Ce que vous recevez</div>
-          <div class="del-item"><div class="del-ic">✍️</div><div class="del-text"><strong>12 posts LinkedIn rédigés</strong> — 3 par semaine, formats variés</div></div>
-          <div class="del-item"><div class="del-ic">📅</div><div class="del-text"><strong>Calendrier éditorial du mois</strong> — jours et horaires optimaux pour votre secteur</div></div>
+          <div class="del-head">Ce que vous recevez chaque semaine</div>
+          <div class="del-item"><div class="del-ic">🗞️</div><div class="del-text"><strong>Contenu calé sur votre actualité</strong> — on intègre vos news, lancements et projets en cours chaque semaine</div></div>
+          <div class="del-item"><div class="del-ic">✍️</div><div class="del-text"><strong>4 posts LinkedIn rédigés</strong> — formats variés, prêts à copier-coller, publiables le jour J</div></div>
+          <div class="del-item"><div class="del-ic">📅</div><div class="del-text"><strong>Calendrier éditorial hebdomadaire</strong> — jours et horaires optimaux pour votre secteur</div></div>
           <div class="del-item"><div class="del-ic">🎯</div><div class="del-text"><strong>4 formats couverts</strong> — Avant/Après, Éducatif, Coulisses, Témoignage</div></div>
-          <div class="del-item"><div class="del-ic">🎙️</div><div class="del-text"><strong>Adapté à votre ton</strong> — expert, accessible, storytelling selon votre préférence</div></div>
-          <div class="del-item"><div class="del-ic">🔄</div><div class="del-text"><strong>1 révision offerte</strong> — on ajuste ce qui ne vous convient pas</div></div>
-          <div class="del-item"><div class="del-ic">⚡</div><div class="del-text"><strong>Livraison instantanée</strong> — document partagé, prêt à copier-coller</div></div>
+          <div class="del-item"><div class="del-ic">🎙️</div><div class="del-text"><strong>Adapté à votre ton</strong> — expert, accessible ou storytelling, on reste cohérent dans la durée</div></div>
+          <div class="del-item"><div class="del-ic">🔄</div><div class="del-text"><strong>Révisions illimitées</strong> — si un post ne vous convient pas, on ajuste sans discussion</div></div>
         </div>
-        <div>
-          <div class="price-card">
-            <div class="pc-blob"></div>
-            <div class="pc-blob2"></div>
-            <div class="pc-tag">Offre de lancement</div>
-            <div class="pc-price">
-              <span class="pc-currency">€</span>
-              <span class="pc-num">50</span>
-            </div>
-            <div class="pc-period">pour un mois de contenu complet</div>
-            <div class="pc-feats">
-              <div class="pc-feat"><div class="pc-check">✓</div> Livraison instantanée</div>
-              <div class="pc-feat"><div class="pc-check">✓</div> 12 posts rédigés</div>
-              <div class="pc-feat"><div class="pc-check">✓</div> 1 révision incluse</div>
-              <div class="pc-feat"><div class="pc-check">✓</div> Calibrés pour votre secteur</div>
-              <div class="pc-feat"><div class="pc-check">✓</div> Paiement sécurisé</div>
-            </div>
-            <a href="form.html" class="btn-pc">Je commence maintenant →</a>
-            <div class="pc-note">Sans abonnement · Commande unique</div>
+
+        <div class="adaptive-card">
+          <div class="ac-week">🔄 Adaptation hebdomadaire</div>
+          <div class="ac-title">On suit votre entreprise,<br>pas un template.</div>
+          <div class="ac-sub">Chaque lundi, vos posts tiennent compte de ce qui se passe chez vous — et dans votre secteur. Résultat : du contenu qui sonne vrai, pas généré en masse.</div>
+          <div class="ac-examples">
+            <div class="ac-ex"><div class="ac-ex-dot"></div>Vous livrez un chantier → on en fait un post Avant/Après</div>
+            <div class="ac-ex"><div class="ac-ex-dot"></div>Une réglementation change → on explique ce que ça change pour vos clients</div>
+            <div class="ac-ex"><div class="ac-ex-dot"></div>Vous recrutez → on raconte pourquoi votre équipe grandit</div>
+            <div class="ac-ex"><div class="ac-ex-dot"></div>Rien de particulier → on puise dans vos piliers de contenu</div>
           </div>
         </div>
       </div>
+
+      <!-- Plans -->
+      <div style="margin-top:56px">
+        <div class="s-tag">Tarifs</div>
+        <div style="font-size:clamp(20px,2.5vw,28px);font-weight:700;letter-spacing:-.02em;color:var(--t1);margin-bottom:8px;line-height:1.2">Choisissez votre engagement.<br><span style="color:var(--t2);font-weight:400;font-size:.85em">Plus vous vous engagez, plus les effets sont durables.</span></div>
+      </div>
+      <div class="plans-row">
+
+        <!-- 3 mois -->
+        <div class="plan-card">
+          <div class="plan-duration">Engagement 3 mois</div>
+          <div class="plan-price">
+            <span class="plan-currency">€</span>
+            <span class="plan-num">15</span>
+            <span class="plan-unit">/sem</span>
+          </div>
+          <div class="plan-total">~65€/mois · soit 195€ sur 3 mois</div>
+          <div class="plan-feats">
+            <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Révisions incluses</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Livraison instantanée chaque semaine</div>
+          </div>
+          <a href="form.html" class="btn-plan">Démarrer — 3 mois →</a>
+        </div>
+
+        <!-- 12 mois — populaire -->
+        <div class="plan-card popular">
+          <div class="plan-pop-badge">⭐ Le plus populaire</div>
+          <div class="plan-duration">Engagement 12 mois</div>
+          <div class="plan-price">
+            <span class="plan-currency">€</span>
+            <span class="plan-num">11</span>
+            <span class="plan-unit">/sem</span>
+          </div>
+          <div class="plan-total">~48€/mois · soit 572€ sur 12 mois <span class="plan-save">−27%</span></div>
+          <div class="plan-feats">
+            <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Révisions illimitées</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Rapport mensuel de performance</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Ajustement de stratégie trimestriel</div>
+          </div>
+          <a href="form.html" class="btn-plan">Démarrer — 12 mois →</a>
+        </div>
+
+        <!-- 36 mois -->
+        <div class="plan-card">
+          <div class="plan-duration">Engagement 36 mois</div>
+          <div class="plan-price">
+            <span class="plan-currency">€</span>
+            <span class="plan-num">8</span>
+            <span class="plan-unit">/sem</span>
+          </div>
+          <div class="plan-total">~35€/mois · soit 1 248€ sur 36 mois <span class="plan-save">−47%</span></div>
+          <div class="plan-feats">
+            <div class="plan-feat"><div class="plan-check">✓</div>4 posts / semaine adaptés à votre actu</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Calendrier éditorial hebdomadaire</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Révisions illimitées</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Rapport mensuel + stratégie trimestrielle</div>
+            <div class="plan-feat"><div class="plan-check">✓</div>Accès prioritaire aux nouvelles fonctionnalités</div>
+          </div>
+          <a href="form.html" class="btn-plan">Démarrer — 36 mois →</a>
+        </div>
+
+      </div>
+      <div class="plans-note">Sans frais cachés · Résiliable à la fin de la période · Paiement sécurisé</div>
     </div>
   </section>
 
@@ -464,10 +517,10 @@
     <div style="position:absolute;top:50%;right:8%;transform:translateY(-50%);width:200px;height:200px;border-radius:50%;border:1px solid rgba(255,255,255,.05);pointer-events:none"></div>
     <div style="max-width:580px;margin:0 auto;position:relative;z-index:1">
       <div style="font-size:13px;font-weight:600;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Commencer</div>
-      <div style="font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-.03em;color:#fff;margin-bottom:16px;line-height:1.15">Votre premier post LinkedIn<br>vous attend déjà.</div>
-      <div style="font-size:16px;color:rgba(255,255,255,.55);margin-bottom:32px;line-height:1.7;max-width:440px;margin-left:auto;margin-right:auto">Rejoignez les TPE/PME qui ont arrêté de se demander quoi poster — et qui voient leur audience grandir chaque semaine.</div>
-      <a href="form.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;text-decoration:none;border-radius:9px;padding:15px 34px;font-size:16px;font-weight:700;box-shadow:0 4px 24px rgba(108,71,255,.5)">Générer mes posts — 50€ →</a>
-      <div style="font-size:12px;color:rgba(255,255,255,.25);margin-top:14px">Sans abonnement · Livraison instantanée · Paiement sécurisé</div>
+      <div style="font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-.03em;color:#fff;margin-bottom:16px;line-height:1.15">Votre contenu de cette semaine<br>vous attend déjà.</div>
+      <div style="font-size:16px;color:rgba(255,255,255,.55);margin-bottom:32px;line-height:1.7;max-width:440px;margin-left:auto;margin-right:auto">Rejoignez les TPE/PME qui ont arrêté de se demander quoi poster — et dont la présence LinkedIn grandit semaine après semaine.</div>
+      <a href="form.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;text-decoration:none;border-radius:9px;padding:15px 34px;font-size:16px;font-weight:700;box-shadow:0 4px 24px rgba(108,71,255,.5)">Démarrer maintenant →</a>
+      <div style="font-size:12px;color:rgba(255,255,255,.25);margin-top:14px">Engagement au choix · Adapté à votre actu chaque semaine · Paiement sécurisé</div>
     </div>
   </section>
 
@@ -478,28 +531,28 @@
       <div class="s-title">Les questions fréquentes.</div>
       <div class="faq-list">
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(this)">Comment sont rédigés les posts ? <div class="faq-ic">▼</div></div>
-          <div class="faq-a">À partir de vos réponses au formulaire, on génère des posts calibrés pour votre secteur, enrichis par les performances des meilleurs contenus de votre verticale. Chaque post est relu et ajusté avant livraison.</div>
+          <div class="faq-q" onclick="toggleFaq(this)">Comment adaptez-vous le contenu à mon actualité ? <div class="faq-ic">▼</div></div>
+          <div class="faq-a">Chaque semaine, on croise vos actualités d'entreprise (ce que vous nous partagez : chantiers livrés, recrutements, événements...) avec les tendances de votre secteur. Si vous n'avez rien de particulier à signaler, on s'appuie sur vos piliers de contenu définis au départ. Le résultat : des posts qui sonnent vrais, pas des templates recyclés.</div>
         </div>
         <div class="faq-item">
           <div class="faq-q" onclick="toggleFaq(this)">Sous quel format sont livrés les posts ? <div class="faq-ic">▼</div></div>
-          <div class="faq-a">Vous recevez un document partagé (Google Docs ou Notion) avec les 12 posts, le calendrier éditorial et les horaires de publication recommandés. Tout est prêt à copier-coller directement sur LinkedIn.</div>
+          <div class="faq-a">Vous recevez chaque semaine un espace partagé (Notion ou Google Docs) avec vos 4 posts, le calendrier de publication et les horaires recommandés. Tout est prêt à copier-coller directement sur LinkedIn en quelques secondes.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Pourquoi un engagement sur plusieurs mois ? <div class="faq-ic">▼</div></div>
+          <div class="faq-a">LinkedIn est un canal de long terme. Les résultats — abonnés, leads entrants, notoriété — se construisent sur la durée et la cohérence. Un engagement de 12 ou 36 mois vous permet aussi de bénéficier d'un tarif bien plus avantageux, et d'un contenu qui s'améliore chaque semaine en apprenant mieux votre ton et votre marché.</div>
         </div>
         <div class="faq-item">
           <div class="faq-q" onclick="toggleFaq(this)">Et si les posts ne me conviennent pas ? <div class="faq-ic">▼</div></div>
-          <div class="faq-a">Vous bénéficiez d'une révision complète offerte. Dites-nous ce qui ne colle pas — ton, sujet, style — et on re-livre. Notre objectif est que vous soyez 100% satisfait.</div>
+          <div class="faq-a">Vous bénéficiez de révisions illimitées. Dites-nous ce qui ne colle pas — ton, sujet, angle — et on re-livre. Plus on travaille ensemble, mieux on vous connaît, et moins les révisions sont nécessaires.</div>
         </div>
         <div class="faq-item">
           <div class="faq-q" onclick="toggleFaq(this)">Est-ce que vous publiez les posts à ma place ? <div class="faq-ic">▼</div></div>
-          <div class="faq-a">Non — dans cette offre, vous publiez vous-même. LinkedIn valorise les posts publiés directement depuis l'interface native. Vous copiez-collez au bon moment, c'est tout.</div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(this)">Puis-je commander pour plusieurs mois ? <div class="faq-ic">▼</div></div>
-          <div class="faq-a">Oui, il suffit de re-commander chaque mois. Pour une offre récurrente à tarif préférentiel, écrivez-nous à contact@phare.io</div>
+          <div class="faq-a">Non — dans cette offre, vous publiez vous-même. LinkedIn valorise les posts publiés directement depuis l'interface native. Vous copiez-collez au bon moment, c'est tout. Une option de publication automatique est en cours de développement.</div>
         </div>
         <div class="faq-item">
           <div class="faq-q" onclick="toggleFaq(this)">C'est quoi Phare exactement ? <div class="faq-ic">▼</div></div>
-          <div class="faq-a">Phare est un co-pilote marketing pour les TPE/PME qui n'ont pas les ressources pour recruter un pôle communication. Cette offre à 50€ est notre point d'entrée — pour aller plus loin, on construit une plateforme qui automatise toute la stratégie digitale.</div>
+          <div class="faq-a">Phare est le co-pilote marketing des TPE/PME qui veulent une présence LinkedIn sérieuse sans recruter un pôle communication. Ce service hebdomadaire est notre cœur de métier — on construit en parallèle une plateforme qui automatise toute la stratégie digitale.</div>
         </div>
       </div>
     </div>
@@ -523,10 +576,6 @@
   function toggleFaq(el) {
     el.classList.toggle('open');
     el.nextElementSibling.classList.toggle('open');
-  }
-  function submitForm(e) {
-    e.preventDefault();
-    alert('Merci ! Vous allez être redirigé vers le paiement sécurisé.\n\n(Intégration Stripe à connecter)');
   }
 </script>
 </body>
