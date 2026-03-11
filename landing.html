@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phare — Vos posts LinkedIn du mois, rédigés pour vous</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --accent: #6C47FF; --accent-l: #EDE9FF; --accent-h: #5835EE;
+      --green: #10B981; --green-l: #ECFDF5;
+      --t1: #1A1A1A; --t2: #6B7280; --t3: #9CA3AF;
+      --bg: #fff; --bg2: #F7F7F5; --bg3: #F0F0ED;
+      --border: #E5E5E5; --radius: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--t1); background: var(--bg); line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px; height: 58px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 16px; text-decoration: none; color: var(--t1); }
+    .logo-dot { width: 28px; height: 28px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .nav-link { font-size: 13.5px; color: var(--t2); text-decoration: none; font-weight: 500; }
+    .nav-link:hover { color: var(--t1); }
+    .btn-nav { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 13.5px; font-weight: 600; cursor: pointer; text-decoration: none; }
+    .btn-nav:hover { background: var(--accent-h); }
+
+    /* HERO */
+    .hero { max-width: 780px; margin: 0 auto; padding: 80px 24px 60px; text-align: center; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent-l); color: var(--accent);
+      font-size: 12.5px; font-weight: 600; padding: 5px 14px;
+      border-radius: 20px; margin-bottom: 22px;
+    }
+    .hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 800; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 20px; }
+    .hero h1 span { color: var(--accent); }
+    .hero p { font-size: 18px; color: var(--t2); max-width: 540px; margin: 0 auto 32px; line-height: 1.65; }
+    .btn-primary {
+      background: var(--accent); color: #fff; border: none;
+      border-radius: 10px; padding: 15px 36px;
+      font-size: 16px; font-weight: 700; cursor: pointer;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+      box-shadow: 0 4px 20px rgba(108,71,255,.3); transition: all .2s;
+    }
+    .btn-primary:hover { background: var(--accent-h); transform: translateY(-1px); box-shadow: 0 6px 24px rgba(108,71,255,.4); }
+    .hero-note { font-size: 12.5px; color: var(--t3); margin-top: 10px; display: block; }
+    .hero-proof {
+      display: flex; align-items: center; justify-content: center;
+      gap: 24px; margin-top: 40px; padding-top: 32px;
+      border-top: 1px solid var(--border); flex-wrap: wrap;
+    }
+    .proof-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--t2); }
+
+    /* DEMO PREVIEW */
+    .demo-wrap { max-width: 900px; margin: 0 auto 80px; padding: 0 24px; }
+    .demo-frame {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.08);
+    }
+    .demo-bar {
+      background: var(--bg); border-bottom: 1px solid var(--border);
+      padding: 10px 16px; display: flex; align-items: center; gap: 8px;
+    }
+    .demo-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .demo-url {
+      flex: 1; margin: 0 12px; background: var(--bg2); border-radius: 6px;
+      padding: 5px 12px; font-size: 12px; color: var(--t3);
+      border: 1px solid var(--border); text-align: center;
+    }
+    .demo-inner { padding: 4px; }
+    .demo-inner iframe { width: 100%; height: 500px; border: none; border-radius: 10px; }
+    .demo-cta-wrap { text-align: center; padding: 12px 28px 20px; }
+    .demo-cta-wrap a { font-size: 13.5px; color: var(--accent); font-weight: 600; text-decoration: none; }
+
+    /* SECTIONS */
+    section { padding: 72px 24px; }
+    .section-inner { max-width: 860px; margin: 0 auto; }
+    .section-tag { font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+    .section-title { font-size: clamp(24px, 3vw, 36px); font-weight: 800; letter-spacing: -.02em; margin-bottom: 12px; }
+    .section-sub { font-size: 16px; color: var(--t2); max-width: 520px; line-height: 1.6; }
+
+    /* STEPS */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 44px; }
+    @media (max-width: 640px) { .steps { grid-template-columns: 1fr; } }
+    .step { background: var(--bg2); border-radius: var(--radius); padding: 24px; }
+    .step-num { width: 36px; height: 36px; border-radius: 9px; background: var(--accent); color: #fff; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+    .step h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .step p { font-size: 13.5px; color: var(--t2); line-height: 1.6; }
+
+    /* OFFER */
+    .offer-section { background: var(--bg2); }
+    .offer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; margin-top: 44px; }
+    @media (max-width: 680px) { .offer-grid { grid-template-columns: 1fr; } }
+    .deliverables { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; }
+    .deliverables h4 { font-size: 13px; font-weight: 700; color: var(--t2); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 16px; }
+    .del-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+    .del-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .del-check { color: var(--green); font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+    .del-text { font-size: 13.5px; line-height: 1.5; }
+    .del-text strong { font-weight: 600; }
+    .price-card { background: var(--accent); border-radius: var(--radius); padding: 32px; color: #fff; position: sticky; top: 80px; }
+    .price-label { font-size: 12px; font-weight: 700; opacity: .75; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+    .price-amount { font-size: 52px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+    .price-period { font-size: 14px; opacity: .8; margin-bottom: 24px; }
+    .price-perks { margin-bottom: 28px; }
+    .price-perk { display: flex; align-items: center; gap: 8px; font-size: 13.5px; margin-bottom: 9px; opacity: .92; }
+    .btn-white {
+      background: #fff; color: var(--accent); border: none;
+      border-radius: 9px; padding: 14px; font-size: 15px; font-weight: 700;
+      cursor: pointer; width: 100%; text-decoration: none;
+      display: block; text-align: center; transition: opacity .15s;
+    }
+    .btn-white:hover { opacity: .92; }
+    .price-note { font-size: 11.5px; opacity: .65; text-align: center; margin-top: 10px; }
+
+    /* FORM */
+    .form-section { background: var(--bg); border-top: 1px solid var(--border); }
+    .form-wrap { max-width: 600px; margin: 0 auto; background: var(--bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,.06); }
+    .form-head { background: linear-gradient(135deg, var(--accent), #8B5CF6); padding: 28px 32px; color: #fff; }
+    .form-head h3 { font-size: 20px; font-weight: 800; margin-bottom: 5px; }
+    .form-head p { font-size: 13.5px; opacity: .88; }
+    .form-body { padding: 28px 32px; }
+    .field { margin-bottom: 18px; }
+    .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 10px 14px; font-size: 13.5px; font-family: inherit;
+      border: 1px solid var(--border); border-radius: 8px; background: var(--bg2);
+      color: var(--t1); outline: none; transition: border-color .15s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); background: #fff; }
+    .field textarea { resize: vertical; min-height: 80px; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
+    .btn-submit { width: 100%; background: var(--accent); color: #fff; border: none; border-radius: 9px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 6px; transition: all .2s; }
+    .btn-submit:hover { background: var(--accent-h); }
+    .form-footer { font-size: 11.5px; color: var(--t3); text-align: center; margin-top: 12px; }
+
+    /* FAQ */
+    .faq-section { background: var(--bg2); }
+    .faq-list { margin-top: 36px; max-width: 640px; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q { padding: 16px 0; font-size: 14.5px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .faq-q .arr { font-size: 12px; color: var(--t3); transition: transform .2s; }
+    .faq-q.open .arr { transform: rotate(180deg); }
+    .faq-a { font-size: 13.5px; color: var(--t2); line-height: 1.7; padding-bottom: 16px; display: none; }
+    .faq-a.open { display: block; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; font-size: 12.5px; color: var(--t3); }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="logo"><div class="logo-dot">🔦</div> Phare</a>
+    <div class="nav-right">
+      <a href="#comment" class="nav-link">Comment ça marche</a>
+      <a href="#form" class="btn-nav">Commencer — 50€</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">🔦 Offre de lancement</div>
+    <h1>Vos posts LinkedIn du mois,<br><span>rédigés pour vous.</span></h1>
+    <p>Répondez à 5 questions sur votre activité. On rédige 12 posts LinkedIn calibrés pour votre secteur et prêts à publier — sous 48h.</p>
+    <a href="#form" class="btn-primary">Commencer maintenant — 50€ →</a>
+    <span class="hero-note">Livraison sous 48h · Sans engagement · Paiement sécurisé</span>
+    <div class="hero-proof">
+      <div class="proof-item">⚡ Livraison sous 48h</div>
+      <div class="proof-item">✍️ 12 posts rédigés</div>
+      <div class="proof-item">📅 Calendrier éditorial inclus</div>
+      <div class="proof-item">🔄 1 révision offerte</div>
+    </div>
+  </div>
+
+  <!-- DEMO -->
+  <div class="demo-wrap">
+    <div class="demo-frame">
+      <div class="demo-bar">
+        <div class="demo-dot" style="background:#FF5F57"></div>
+        <div class="demo-dot" style="background:#FFBD2E"></div>
+        <div class="demo-dot" style="background:#28CA41"></div>
+        <div class="demo-url">aperçu de votre livrable — exemple Rennov Architecture</div>
+      </div>
+      <div class="demo-inner">
+        <iframe src="index.html" title="Exemple de stratégie Phare"></iframe>
+      </div>
+      <div class="demo-cta-wrap">
+        <a href="index.html" target="_blank">Voir l'exemple en plein écran →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section id="comment">
+    <div class="section-inner">
+      <div class="section-tag">Comment ça marche</div>
+      <div class="section-title">Simple comme bonjour.</div>
+      <div class="section-sub">Pas de brief interminable, pas de réunion. Un formulaire, 48h, et vos posts sont prêts.</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Remplissez le formulaire</h3>
+          <p>5 minutes. On comprend votre activité, vos clients, vos objectifs et votre ton. Pas de jargon marketing.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>On rédige vos posts</h3>
+          <p>Sous 48h, vous recevez 12 posts LinkedIn calibrés pour votre secteur avec un calendrier éditorial complet.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Vous publiez, vous développez</h3>
+          <p>Copiez-collez, publiez au bon moment, et regardez votre audience grandir. Une révision offerte si besoin.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFFER -->
+  <section class="offer-section">
+    <div class="section-inner">
+      <div class="section-tag">L'offre</div>
+      <div class="section-title">Tout ce qu'il vous faut pour un mois.</div>
+      <div class="section-sub">Une offre claire, un prix fixe, aucune surprise.</div>
+      <div class="offer-grid">
+        <div class="deliverables">
+          <h4>Ce que vous recevez</h4>
+          <div class="del-item"><span class="del-check">✓</span><div class="del-text"><strong>12 posts LinkedIn rédigés</strong> — 3 par semaine, formats variés</div></div>
+          <div class="del-item"><span class="del-check">✓</span><div class="del-text"><strong>Calendrier éditorial du mois</strong> — jours et horaires optimaux pour votre secteur</div></div>
+          <div class="del-item"><span class="del-check">✓</span><div class="del-text"><strong>4 formats couverts</strong> — Avant/Après, Éducatif, Coulisses, Témoignage</div></div>
+          <div class="del-item"><span class="del-check">✓</span><div class="del-text"><strong>Adapté à votre ton</strong> — expert, accessible, storytelling selon votre préférence</div></div>
+          <div class="del-item"><span class="del-check">✓</span><div class="del-text"><strong>1 révision offerte</strong> — on ajuste ce qui ne vous convient pas</div></div>
+          <div class="del-item"><span class="del-check">✓</span><div class="del-text"><strong>Livraison sous 48h</strong> — en document partagé, prêt à copier-coller</div></div>
+        </div>
+        <div>
+          <div class="price-card">
+            <div class="price-label">Offre de lancement</div>
+            <div class="price-amount">50€</div>
+            <div class="price-period">pour un mois de contenu complet</div>
+            <div class="price-perks">
+              <div class="price-perk">⚡ Livraison sous 48h</div>
+              <div class="price-perk">✍️ 12 posts rédigés</div>
+              <div class="price-perk">🔄 1 révision incluse</div>
+              <div class="price-perk">🎯 Calibrés pour votre secteur</div>
+              <div class="price-perk">🔒 Paiement sécurisé</div>
+            </div>
+            <a href="#form" class="btn-white">Je commence maintenant →</a>
+            <div class="price-note">Sans abonnement · Commande unique</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section class="form-section" id="form">
+    <div class="section-inner" style="display:flex;flex-direction:column;align-items:center">
+      <div class="section-tag" style="text-align:center">Le formulaire</div>
+      <div class="section-title" style="text-align:center;margin-bottom:8px">5 minutes. On fait le reste.</div>
+      <p style="font-size:15px;color:var(--t2);text-align:center;margin-bottom:36px">Remplissez les champs ci-dessous — on vous envoie vos posts sous 48h.</p>
+      <div class="form-wrap">
+        <div class="form-head">
+          <h3>🔦 Votre stratégie Phare</h3>
+          <p>Dites-nous où vous en êtes — on s'occupe du reste.</p>
+        </div>
+        <form class="form-body" onsubmit="submitForm(event)">
+          <div class="field-row">
+            <div class="field">
+              <label>Prénom *</label>
+              <input type="text" placeholder="Thomas" required />
+            </div>
+            <div class="field">
+              <label>Email *</label>
+              <input type="email" placeholder="thomas@monentreprise.fr" required />
+            </div>
+          </div>
+          <div class="field">
+            <label>Nom de votre entreprise *</label>
+            <input type="text" placeholder="ex. Rennov, Menuiserie Dupont..." required />
+          </div>
+          <div class="field">
+            <label>Secteur d'activité *</label>
+            <select required>
+              <option value="">Sélectionnez votre secteur</option>
+              <option>Bâtiment & rénovation</option>
+              <option>Menuiserie & ébénisterie</option>
+              <option>Architecture & design d'intérieur</option>
+              <option>Plomberie & chauffage</option>
+              <option>Électricité</option>
+              <option>Paysagisme & jardinage</option>
+              <option>Comptabilité & expertise-comptable</option>
+              <option>Conseil & formation</option>
+              <option>Santé & bien-être</option>
+              <option>Restauration & traiteur</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Où en êtes-vous sur LinkedIn ? *</label>
+            <select required>
+              <option value="">Sélectionnez une option</option>
+              <option>Je n'ai jamais posté</option>
+              <option>J'ai posté quelques fois mais irrégulièrement</option>
+              <option>Je poste régulièrement mais sans stratégie</option>
+              <option>J'ai une stratégie mais je manque de temps</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Quel est votre objectif principal ? *</label>
+            <select required>
+              <option value="">Sélectionnez un objectif</option>
+              <option>Générer des leads / prospects</option>
+              <option>Développer ma notoriété locale</option>
+              <option>Attirer des partenaires ou prescripteurs</option>
+              <option>Recruter des collaborateurs</option>
+              <option>Me positionner comme expert de mon secteur</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Décrivez votre activité en 2-3 phrases *</label>
+            <textarea placeholder="Ex. Rennov est une entreprise de rénovation haut de gamme basée dans le Jura. On accompagne les propriétaires de maisons anciennes de A à Z, de la conception à la livraison." required></textarea>
+          </div>
+          <div class="field">
+            <label>Quel ton préférez-vous ?</label>
+            <select>
+              <option>Expert & professionnel</option>
+              <option>Accessible & humain</option>
+              <option>Storytelling & émotionnel</option>
+              <option>Direct & concis</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-submit">Envoyer ma commande — 50€ →</button>
+          <div class="form-footer">🔒 Paiement sécurisé · Vous serez redirigé vers la page de paiement · Livraison sous 48h</div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="section-inner">
+      <div class="section-tag">FAQ</div>
+      <div class="section-title">Les questions fréquentes.</div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Comment sont rédigés les posts ? <span class="arr">▼</span></div>
+          <div class="faq-a">À partir de vos réponses au formulaire, on génère des posts calibrés pour votre secteur, enrichis par les performances des meilleurs contenus de votre verticale. Chaque post est relu et ajusté avant livraison.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Sous quel format sont livrés les posts ? <span class="arr">▼</span></div>
+          <div class="faq-a">Vous recevez un document partagé (Google Docs ou Notion) avec les 12 posts, le calendrier éditorial et les horaires de publication recommandés. Tout est prêt à copier-coller directement sur LinkedIn.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Et si les posts ne me conviennent pas ? <span class="arr">▼</span></div>
+          <div class="faq-a">Vous bénéficiez d'une révision complète offerte. Dites-nous ce qui ne colle pas (ton, sujet, style) et on re-livre sous 24h.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Est-ce que vous publiez les posts à ma place ? <span class="arr">▼</span></div>
+          <div class="faq-a">Non — dans cette offre, vous publiez vous-même. C'est volontaire : LinkedIn valorise les posts publiés directement depuis l'interface native. Vous copiez-collez au bon moment, c'est tout.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Puis-je commander pour plusieurs mois ? <span class="arr">▼</span></div>
+          <div class="faq-a">Oui, il suffit de re-commander chaque mois. Si vous souhaitez une offre récurrente à tarif préférentiel, écrivez-nous à contact@phare.io</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">C'est quoi Phare exactement ? <span class="arr">▼</span></div>
+          <div class="faq-a">Phare est un co-pilote marketing pour les TPE/PME qui n'ont pas les ressources pour recruter un pôle communication. Cette offre à 50€ est notre point d'entrée — pour les entreprises prêtes à aller plus loin, on construit une plateforme complète qui automatise toute la stratégie digitale.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div style="margin-bottom:8px"><a href="#" style="font-weight:700;color:var(--t1);text-decoration:none">🔦 Phare</a></div>
+    <div>© 2026 Phare · <a href="mailto:contact@phare.io">contact@phare.io</a></div>
+  </footer>
+
+<script>
+  function toggleFaq(el) {
+    el.classList.toggle('open');
+    el.nextElementSibling.classList.toggle('open');
+  }
+
+  function submitForm(e) {
+    e.preventDefault();
+    // TODO: connecter à Stripe Payment Link
+    alert('Merci ! Vous allez être redirigé vers le paiement sécurisé.\n\n(Intégration Stripe à connecter)');
+  }
+</script>
+
+</body>
+</html>
