@@ -64,39 +64,49 @@
     .pl-text strong { font-size: 13.5px; font-weight: 600; color: var(--t1); display: block; margin-bottom: 1px; }
     .pl-text span { font-size: 12.5px; color: var(--t2); }
 
-    .pl-example { margin-top: 6px; display: flex; flex-direction: column; gap: 0; }
-    .pl-example .bad-wrap { margin-right: 12%; }
-    .pl-example .good-wrap { margin-left: 12%; }
-    .pe-arrow {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 0 10px 20%;
-      font-size: 11.5px; font-weight: 700; color: var(--accent);
-    }
-    .pe-arrow-line { flex: 0 0 auto; width: 28px; height: 2px; background: var(--accent); border-radius: 2px; position: relative; }
-    .pe-arrow-line::after { content: ''; position: absolute; right: -1px; top: -3px; border: 4px solid transparent; border-left: 6px solid var(--accent); }
-    .pe-label { display: inline-flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px; }
-    .pe-label.bad { color: #EF4444; }
-    .pe-label.good { color: var(--green); }
-    .li-card {
+    /* EXAMPLE SECTION */
+    .pl-example { margin-top: 6px; display: flex; flex-direction: column; gap: 12px; }
+
+    /* Brief notification */
+    .pe-brief {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+      border-radius: 11px; padding: 12px 14px;
+      display: flex; gap: 10px; align-items: flex-start;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
     }
-    .li-card.bad { border-color: #FECACA; background: #FFFAFA; opacity: .85; }
-    .li-card.good { border-color: rgba(16,185,129,.25); box-shadow: 0 4px 20px rgba(16,185,129,.1); }
+    .pe-brief-ic { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .pe-brief-title { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 3px; }
+    .pe-brief-text { font-size: 12px; color: var(--t2); line-height: 1.55; }
+    .pe-brief-text strong { color: var(--t1); }
+
+    /* Stage with ghost posts */
+    .pe-stage { position: relative; display: flex; align-items: stretch; gap: 8px; }
+    .pe-ghost {
+      flex: 0 0 22%; opacity: 0.18; filter: blur(2px);
+      pointer-events: none; display: flex; flex-direction: column; gap: 5px;
+      padding-top: 4px;
+    }
+    .pe-ghost-line { height: 7px; background: var(--t2); border-radius: 4px; }
+    .pe-ghost-line.short { width: 60%; }
+    .pe-ghost-line.med { width: 80%; }
+    .pe-ghost-stat { margin-top: 8px; height: 20px; background: #EF4444; border-radius: 4px; width: 70%; opacity: .5; }
+    .pe-center { flex: 1; z-index: 1; }
+
+    /* LinkedIn card */
+    .li-card {
+      background: var(--card); border: 1px solid rgba(16,185,129,.3);
+      border-radius: 12px; overflow: hidden;
+      box-shadow: 0 6px 28px rgba(16,185,129,.12), 0 2px 8px rgba(0,0,0,.06);
+    }
     .li-header { padding: 12px 14px 8px; display: flex; align-items: center; gap: 9px; }
     .li-av { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg,#1B2B4B,#2D4A7A); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
     .li-name { font-size: 12.5px; font-weight: 700; color: var(--t1); line-height: 1.3; }
     .li-role { font-size: 11px; color: var(--t3); }
-    .li-body { padding: 0 14px 12px; font-size: 12px; color: var(--t2); line-height: 1.7; white-space: pre-wrap; }
-    .li-card.good .li-body { color: var(--t1); }
-    .li-footer { border-top: 1px solid var(--border); padding: 9px 14px; display: flex; justify-content: center; }
-    .li-stat { text-align: center; }
-    .li-stat .v { font-size: 13px; font-weight: 700; }
-    .li-stat .l { font-size: 10px; color: var(--t3); }
-    .li-stat.red .v { color: #EF4444; }
-    .li-stat.green .v { color: var(--green); }
+    .li-body { padding: 0 14px 12px; font-size: 12px; color: var(--t1); line-height: 1.7; white-space: pre-wrap; }
     .li-reactions { font-size: 11px; color: var(--t3); padding: 6px 14px 0; }
+    .li-footer { border-top: 1px solid var(--border); padding: 9px 14px; display: flex; justify-content: center; }
+    .li-stat .v { font-size: 13px; font-weight: 700; color: var(--green); }
+    .li-stat .l { font-size: 10px; color: var(--t3); }
 
     /* RIGHT — form */
     .page-right { padding: 48px 56px; display: flex; flex-direction: column; justify-content: center; background: var(--card); overflow-y: auto; }
@@ -193,63 +203,70 @@
 
         <div class="pl-example">
 
-          <!-- AVANT -->
-          <div class="bad-wrap">
-            <div class="pe-label bad">✕ Ce que vous postez aujourd'hui</div>
-            <div class="li-card bad">
-              <div class="li-header">
-                <div class="li-av">🏭</div>
-                <div>
-                  <div class="li-name">Marc Duval</div>
-                  <div class="li-role">Gérant · Plastinov · Injection plastique · Jura</div>
-                </div>
-              </div>
-              <div class="li-body">Plastinov est spécialisé dans l'injection plastique depuis 30 ans dans le Jura. Grâce à nos équipements de pointe et notre savoir-faire, nous répondons à tous vos besoins industriels.
-
-Contactez-nous pour un devis personnalisé.</div>
-              <div class="li-footer">
-                <div class="li-stat red"><div class="v">2 réactions · 0 commentaire</div><div class="l">0 lead généré</div></div>
-              </div>
+          <!-- BRIEF NOTIFICATION -->
+          <div class="pe-brief">
+            <div class="pe-brief-ic">📬</div>
+            <div>
+              <div class="pe-brief-title">Actu de la semaine · Plastinov</div>
+              <div class="pe-brief-text"><strong>Marc a informé Phare :</strong> signature d'un contrat avec un industriel allemand, rendue possible par leur nouvelle presse bi-matière 2 000T — une première dans le Jura.</div>
             </div>
           </div>
 
-          <!-- FLÈCHE -->
-          <div class="pe-arrow">
-            <div class="pe-arrow-line"></div>
-            Phare réécrit ça chaque semaine
-          </div>
+          <!-- STAGE : ghost posts + post central -->
+          <div class="pe-stage">
 
-          <!-- APRÈS -->
-          <div class="good-wrap">
-            <div class="pe-label good">✓ Ce que vos prospects voient avec Phare</div>
-            <div class="li-card good">
-              <div class="li-header">
-                <div class="li-av">🏭</div>
-                <div>
-                  <div class="li-name">Marc Duval</div>
-                  <div class="li-role">Gérant · Plastinov · Injection plastique · Jura</div>
+            <!-- GHOST GAUCHE -->
+            <div class="pe-ghost">
+              <div class="pe-ghost-line"></div>
+              <div class="pe-ghost-line med"></div>
+              <div class="pe-ghost-line short"></div>
+              <div class="pe-ghost-line med"></div>
+              <div class="pe-ghost-line short"></div>
+              <div class="pe-ghost-line"></div>
+              <div class="pe-ghost-stat"></div>
+            </div>
+
+            <!-- POST CENTRAL -->
+            <div class="pe-center">
+              <div class="li-card">
+                <div class="li-header">
+                  <div class="li-av">🏭</div>
+                  <div>
+                    <div class="li-name">Marc Duval</div>
+                    <div class="li-role">Gérant · Plastinov · Jura</div>
+                  </div>
+                </div>
+                <div class="li-reactions">👍 ❤️ 💡 · <strong>94 réactions</strong> · 38 commentaires</div>
+                <div class="li-body">On vient de signer avec un industriel allemand.
+Grâce à une machine que personne d'autre dans le Jura ne possède encore. 👇
+
+Notre nouvelle presse bi-matière 2 000T nous permet de faire en une injection ce qui nécessite habituellement deux opérations — et deux fournisseurs.
+
+Résultat pour notre client :
+→ Délai divisé par 2
+→ Coût réduit de 30%
+→ Qualité certifiée dès le 1er essai
+
+Ce contrat, c'est 3 ans de R&D qui payent.
+
+Vous avez un projet qui demande ce niveau d'exigence ? 📩</div>
+                <div class="li-footer">
+                  <div class="li-stat"><div class="v">3 leads générés · 1 contrat signé</div><div class="l">grâce à ce post</div></div>
                 </div>
               </div>
-              <div class="li-reactions">👍 ❤️ 💡 · <strong>87 réactions</strong> · 34 commentaires</div>
-              <div class="li-body">On vient de livrer 80 000 pièces à un équipementier automobile.
-Délai : 3 semaines. Tolérance : ±0,02mm. Premier essai : conforme.
-
-Notre client avait consulté 4 fournisseurs avant nous.
-Les 3 premiers avaient refusé — trop complexe, délai trop court.
-
-Ce qu'on a fait différemment :
-→ Outillage étudié en interne en 48h
-→ Simulation de remplissage avant l'accord client
-→ Équipe dédiée sur toute la durée du run
-
-La complexité, c'est exactement ce qu'on cherche.
-
-Vous avez une pièce que personne ne veut faire ?
-Envoyez-nous le cahier des charges. 📩</div>
-              <div class="li-footer">
-                <div class="li-stat green"><div class="v">3 leads générés · 1 contrat signé</div><div class="l">grâce à ce post</div></div>
-              </div>
             </div>
+
+            <!-- GHOST DROITE -->
+            <div class="pe-ghost">
+              <div class="pe-ghost-line short"></div>
+              <div class="pe-ghost-line"></div>
+              <div class="pe-ghost-line med"></div>
+              <div class="pe-ghost-line short"></div>
+              <div class="pe-ghost-line"></div>
+              <div class="pe-ghost-line med"></div>
+              <div class="pe-ghost-stat"></div>
+            </div>
+
           </div>
 
         </div>
