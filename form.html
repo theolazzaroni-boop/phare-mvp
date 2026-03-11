@@ -34,7 +34,7 @@
 
     /* LAYOUT */
     .page { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 60px); overflow: hidden; }
-    @media(max-width: 860px) {
+    @media(max-width: 1024px) {
       .page { grid-template-columns: 1fr; height: auto; min-height: calc(100vh - 60px); overflow: visible; }
       .page-left { display: none; }
     }
@@ -121,7 +121,7 @@
 
     /* RIGHT — form */
     .page-right { padding: 48px 56px; display: flex; flex-direction: column; justify-content: center; background: var(--card); overflow-y: auto; }
-    @media(max-width:860px) {
+    @media(max-width:1024px) {
       .page-right { padding: 40px 28px; overflow-y: visible; height: auto; justify-content: flex-start; }
     }
 
