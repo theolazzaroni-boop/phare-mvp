@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phare — Exemple de livrable · Rennov Architecture</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --accent:   #6C47FF;
+      --accent2:  #8B6BFF;
+      --accent-l: #EDE9FF;
+      --accent-xl:#F5F2FF;
+      --t1: #0D0D14; --t2: #5A5A72; --t3: #9898AB;
+      --bg: #FAFAFA; --bg2: #F3F2F8;
+      --card: #FFFFFF; --border: #E4E3EF;
+      --green: #10B981; --green-l: #ECFDF5;
+    }
+    body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--t1); min-height: 100vh; }
+
+    /* NAV */
+    nav {
+      height: 60px; padding: 0 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--card); border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { display: flex; align-items: center; gap: 9px; text-decoration: none; }
+    .logo-mark { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), #A78BFA); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .logo-name { font-size: 16px; font-weight: 700; color: var(--t1); letter-spacing: -.02em; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .nav-back { font-size: 13.5px; color: var(--t2); text-decoration: none; font-weight: 500; transition: color .15s; }
+    .nav-back:hover { color: var(--t1); }
+    .btn-nav { background: var(--accent); color: #fff; text-decoration: none; border-radius: 8px; padding: 8px 20px; font-size: 13.5px; font-weight: 600; box-shadow: 0 2px 12px rgba(108,71,255,.25); transition: all .2s; }
+    .btn-nav:hover { background: var(--accent2); }
+
+    /* HEADER */
+    .page-header {
+      background: var(--card); border-bottom: 1px solid var(--border);
+      padding: 40px 48px 36px;
+    }
+    .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .header-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent-xl); border: 1px solid rgba(108,71,255,.2);
+      color: var(--accent); font-size: 12px; font-weight: 600;
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
+    }
+    .header-title { font-size: 28px; font-weight: 700; letter-spacing: -.025em; color: var(--t1); margin-bottom: 6px; }
+    .header-sub { font-size: 14px; color: var(--t2); line-height: 1.6; max-width: 480px; }
+    .header-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+    .meta-chip { display: flex; align-items: center; gap: 6px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 7px 13px; font-size: 12.5px; color: var(--t2); }
+    .meta-chip strong { font-weight: 600; color: var(--t1); }
+
+    /* CONTENT */
+    .content { max-width: 1100px; margin: 0 auto; padding: 36px 48px 80px; }
+    @media(max-width:700px) { .content { padding: 24px 20px 60px; } .page-header { padding: 28px 20px; } nav { padding: 0 20px; } }
+
+    /* TABS */
+    .tabs { display: flex; gap: 2px; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 4px; margin-bottom: 28px; width: fit-content; }
+    .tab { padding: 8px 20px; border-radius: 7px; font-size: 13.5px; font-weight: 500; color: var(--t2); cursor: pointer; transition: all .15s; user-select: none; white-space: nowrap; }
+    .tab.active { background: var(--card); color: var(--t1); font-weight: 600; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* CETTE SEMAINE */
+    .week-banner {
+      background: var(--accent-xl); border: 1px solid rgba(108,71,255,.15);
+      border-radius: 12px; padding: 14px 20px; margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    }
+    .wb-left { display: flex; align-items: center; gap: 10px; }
+    .wb-icon { font-size: 20px; }
+    .wb-title { font-size: 14px; font-weight: 600; color: var(--t1); }
+    .wb-sub { font-size: 12px; color: var(--t2); }
+    .wb-stats { display: flex; gap: 20px; }
+    .wb-stat { text-align: center; }
+    .wb-stat .v { font-size: 18px; font-weight: 700; color: var(--accent); }
+    .wb-stat .l { font-size: 10.5px; color: var(--t3); }
+
+    .posts-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+    .post-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      transition: box-shadow .2s, border-color .2s;
+    }
+    .post-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,.07); border-color: rgba(108,71,255,.2); }
+    .post-head {
+      padding: 12px 18px; background: var(--bg2); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .post-day { font-size: 12.5px; font-weight: 700; color: var(--t1); min-width: 72px; }
+    .post-date { font-size: 11.5px; color: var(--t3); }
+    .post-channel { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 5px; font-size: 11px; font-weight: 600; }
+    .post-channel.li { background: #EFF6FF; color: #2563EB; }
+    .post-channel.ig { background: #FDF2F8; color: #9333EA; }
+    .post-status { margin-left: auto; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 5px; }
+    .post-status.today { background: var(--accent-l); color: var(--accent); }
+    .post-status.todo { background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; }
+    .post-body { padding: 16px 18px; }
+    .post-text { font-size: 13px; line-height: 1.78; color: var(--t1); white-space: pre-wrap; margin-bottom: 12px; }
+    .post-footer { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .pillar-tag { background: var(--bg2); border: 1px solid var(--border); border-radius: 5px; padding: 3px 9px; font-size: 11px; color: var(--t2); }
+    .post-time { font-size: 11px; color: var(--t3); }
+    .copy-btn {
+      margin-left: auto; background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 5px 12px; font-size: 12px; font-weight: 500;
+      color: var(--t2); cursor: pointer; transition: all .15s; font-family: inherit;
+    }
+    .copy-btn:hover { background: var(--accent-l); color: var(--accent); border-color: transparent; }
+
+    /* OUTREACH */
+    .outreach-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      margin-bottom: 12px; overflow: hidden;
+    }
+    .oc-head { padding: 13px 18px; background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+    .oc-av { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-xl); border: 1px solid rgba(108,71,255,.15); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .oc-name { font-size: 13px; font-weight: 600; color: var(--t1); }
+    .oc-role { font-size: 11.5px; color: var(--t3); }
+    .oc-badge { margin-left: auto; font-size: 10.5px; font-weight: 600; padding: 3px 9px; border-radius: 5px; background: var(--green-l); color: var(--green); }
+    .oc-body { padding: 14px 18px; }
+    .oc-msg { font-size: 12.5px; line-height: 1.7; color: var(--t2); padding: 11px 14px; background: var(--bg2); border-radius: 8px; border-left: 3px solid var(--accent); margin-bottom: 10px; }
+    .oc-msg strong { color: var(--accent); }
+    .oc-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .oc-note { font-size: 11px; color: var(--t3); }
+
+    /* PILIERS */
+    .pillar-card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 12px; }
+    .pillar-head { padding: 13px 18px; background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+    .pillar-head:hover { background: var(--bg); }
+    .pillar-emoji { font-size: 18px; }
+    .pillar-head h4 { font-size: 14px; font-weight: 600; color: var(--t1); }
+    .pillar-head p { font-size: 12px; color: var(--t2); }
+    .pillar-arrow { margin-left: auto; font-size: 11px; color: var(--t3); transition: transform .2s; }
+    .pillar-head.open .pillar-arrow { transform: rotate(180deg); }
+    .pillar-body { padding: 6px 0; display: none; }
+    .pillar-body.open { display: block; }
+    .pi-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 18px; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.6; }
+    .pi-row:last-child { border-bottom: none; }
+    .pi-num { width: 22px; height: 22px; border-radius: 50%; background: var(--accent-xl); color: var(--accent); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .pi-actions { margin-left: auto; flex-shrink: 0; }
+
+    /* CALENDRIER */
+    .cal-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .cal-table th { text-align: left; padding: 10px 14px; background: var(--bg2); font-weight: 600; font-size: 11.5px; color: var(--t3); border-bottom: 1px solid var(--border); }
+    .cal-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .cal-table tr:last-child td { border-bottom: none; }
+    .cal-table tr:hover td { background: var(--bg2); }
+
+    /* CTA BOTTOM */
+    .bottom-cta {
+      background: linear-gradient(135deg, var(--accent-xl) 0%, #EEE9FF 100%);
+      border: 1px solid rgba(108,71,255,.15); border-radius: 16px;
+      padding: 40px; text-align: center; margin-top: 40px;
+    }
+    .bottom-cta h3 { font-size: 22px; font-weight: 700; letter-spacing: -.02em; color: var(--t1); margin-bottom: 8px; }
+    .bottom-cta p { font-size: 14px; color: var(--t2); margin-bottom: 24px; line-height: 1.65; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #fff; text-decoration: none;
+      border-radius: 9px; padding: 13px 28px; font-size: 15px; font-weight: 700;
+      box-shadow: 0 4px 18px rgba(108,71,255,.3); transition: all .2s;
+    }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+    .bottom-note { font-size: 12px; color: var(--t3); margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="landing.html" class="logo">
+      <div class="logo-mark">🔦</div>
+      <span class="logo-name">Phare</span>
+    </a>
+    <div class="nav-right">
+      <a href="landing.html" class="nav-back">← Retour</a>
+      <a href="form.html" class="btn-nav">Commencer — 50€</a>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="header-inner">
+      <div>
+        <div class="header-badge">📋 Exemple de livrable</div>
+        <div class="header-title">Rennov Architecture — Jura</div>
+        <div class="header-sub">Voici ce que Phare génère pour une entreprise de rénovation haut de gamme. Votre livrable sera identique, calibré pour votre secteur et votre ton.</div>
+      </div>
+      <div class="header-meta">
+        <div class="meta-chip">🏗️ <strong>Bâtiment & rénovation</strong></div>
+        <div class="meta-chip">💼 <strong>LinkedIn</strong> + 📸 Instagram</div>
+        <div class="meta-chip">🎯 Génération de leads</div>
+        <div class="meta-chip">✓ <strong>Pro actif</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('semaine', this)">📆 Cette semaine</div>
+      <div class="tab" onclick="switchTab('piliers', this)">✍️ Piliers de contenu</div>
+      <div class="tab" onclick="switchTab('calendrier', this)">📅 Calendrier</div>
+    </div>
+
+    <!-- CETTE SEMAINE -->
+    <div class="tab-panel active" id="tab-semaine">
+
+      <div class="week-banner">
+        <div class="wb-left">
+          <div class="wb-icon">📅</div>
+          <div>
+            <div class="wb-title">Semaine du 10 au 16 mars 2026</div>
+            <div class="wb-sub">3 posts LinkedIn · 3 outreach · Tout prêt à copier-coller</div>
+          </div>
+        </div>
+        <div class="wb-stats">
+          <div class="wb-stat"><div class="v">3</div><div class="l">posts</div></div>
+          <div class="wb-stat"><div class="v">3</div><div class="l">outreach</div></div>
+          <div class="wb-stat"><div class="v" style="color:var(--green)">0/6</div><div class="l">complétés</div></div>
+        </div>
+      </div>
+
+      <div style="font-size:11.5px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">Posts de la semaine</div>
+      <div class="posts-grid">
+
+        <div class="post-card">
+          <div class="post-head">
+            <span class="post-day">Lundi</span>
+            <span class="post-date">10 mars · 8h00</span>
+            <span class="post-channel li">💼 LinkedIn</span>
+            <span class="post-status today">Aujourd'hui</span>
+          </div>
+          <div class="post-body">
+            <div class="post-text">On a reçu les clés d'une maison des années 70 dans le Jura.
+4 mois plus tard, voici ce qu'elle est devenue.
+
+Le brief du client : "Je veux retrouver l'âme de la maison, sans la moderniser à l'excès."
+
+Ce qu'on a fait :
+→ Conservation des poutres d'origine (traitées, sublimées)
+→ Enduits à la chaux sur les murs porteurs
+→ Cuisine ouverte avec îlot en pierre locale
+
+Résultat : une maison qui respire et qui raconte une histoire.
+
+Vous avez un projet de rénovation dans le Jura ? Je réponds à tous les messages.</div>
+            <div class="post-footer">
+              <span class="pillar-tag">🏗️ Avant/Après</span>
+              <span class="post-time">8h00 recommandé</span>
+              <button class="copy-btn" onclick="copyPost(this)">Copier le post</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-card">
+          <div class="post-head">
+            <span class="post-day">Mercredi</span>
+            <span class="post-date">12 mars · 12h00</span>
+            <span class="post-channel li">💼 LinkedIn</span>
+            <span class="post-status todo">À publier</span>
+          </div>
+          <div class="post-body">
+            <div class="post-text">Les 3 erreurs que font 90% des propriétaires avant de rénover (et qui leur coûtent €15k de plus).
+
+Erreur #1 : Commencer par les matériaux avant de valider les plans
+→ Les matériaux se choisissent en dernier, pas en premier.
+
+Erreur #2 : Ne pas inclure le poste "imprévus" dans le budget
+→ Minimum 15% de marge sur tout projet de rénovation.
+
+Erreur #3 : Confier chaque corps de métier à un artisan différent
+→ Sans coordinateur, les délais s'accumulent et les coûts explosent.
+
+La solution : un interlocuteur unique qui pilote tout. C'est exactement notre rôle chez Rennov.</div>
+            <div class="post-footer">
+              <span class="pillar-tag">🎓 Éducation</span>
+              <span class="post-time">12h00 recommandé</span>
+              <button class="copy-btn" onclick="copyPost(this)">Copier le post</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-card">
+          <div class="post-head">
+            <span class="post-day">Vendredi</span>
+            <span class="post-date">14 mars · 8h00</span>
+            <span class="post-channel li">💼 LinkedIn</span>
+            <span class="post-status todo">À publier</span>
+          </div>
+          <div class="post-body">
+            <div class="post-text">"On avait peur de ne pas retrouver l'âme de la maison. En fait, ils l'ont sublimée."
+
+Sophie &amp; Marc nous ont contactés après avoir vu notre compte Instagram. Ils avaient un projet flou, un budget défini, et beaucoup d'appréhensions.
+
+6 mois plus tard : chantier livré, ils nous ont recommandés à 3 de leurs amis.
+
+C'est pour ça qu'on fait ce métier.</div>
+            <div class="post-footer">
+              <span class="pillar-tag">⭐ Témoignage</span>
+              <span class="post-time">8h00 recommandé</span>
+              <button class="copy-btn" onclick="copyPost(this)">Copier le post</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="font-size:11.5px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">Outreach de la semaine</div>
+
+      <div class="outreach-card">
+        <div class="oc-head">
+          <div class="oc-av">🏡</div>
+          <div><div class="oc-name">Agent immobilier · Lons-le-Saunier</div><div class="oc-role">Prescripteur prioritaire · Connexion en attente</div></div>
+          <div class="oc-badge">Prioritaire</div>
+        </div>
+        <div class="oc-body">
+          <div class="oc-msg">Bonjour <strong>[Prénom]</strong>, je tombe sur votre profil et votre activité dans l'immobilier me parle — on travaille régulièrement avec des professionnels comme vous sur des projets de rénovation haut de gamme dans le Jura. Ravi d'échanger si l'occasion se présente !</div>
+          <div class="oc-footer"><span class="oc-note">✓ Taux d'acceptation cible 40–55%</span><button class="copy-btn" onclick="copyPost(this)">Copier</button></div>
+        </div>
+      </div>
+      <div class="outreach-card">
+        <div class="oc-head">
+          <div class="oc-av">⚖️</div>
+          <div><div class="oc-name">Notaire · Dole</div><div class="oc-role">Connexion acceptée il y a 5 jours</div></div>
+          <div class="oc-badge">Suivi</div>
+        </div>
+        <div class="oc-body">
+          <div class="oc-msg">Merci pour la connexion <strong>[Prénom]</strong> ! Je voulais partager ce projet qu'on vient de livrer à Lons-le-Saunier — une maison des années 60 complètement repensée. Si vous croisez quelqu'un en réflexion sur une rénovation, n'hésitez pas 🙂</div>
+          <div class="oc-footer"><span class="oc-note">✓ Apporte de la valeur · Active le bouche-à-oreille</span><button class="copy-btn" onclick="copyPost(this)">Copier</button></div>
+        </div>
+      </div>
+      <div class="outreach-card">
+        <div class="oc-head">
+          <div class="oc-av">🏗️</div>
+          <div><div class="oc-name">Architecte indépendant · Besançon</div><div class="oc-role">Nouveau profil identifié</div></div>
+          <div class="oc-badge">Nouveau</div>
+        </div>
+        <div class="oc-body">
+          <div class="oc-msg">Bonjour <strong>[Prénom]</strong>, j'ai découvert votre travail sur des projets de réhabilitation — vraiment en phase avec ce qu'on fait chez Rennov. On cherche à collaborer avec des architectes locaux qui partagent notre exigence. Vous auriez 20 minutes pour échanger ?</div>
+          <div class="oc-footer"><span class="oc-note">✓ Proposition de collaboration directe</span><button class="copy-btn" onclick="copyPost(this)">Copier</button></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PILIERS -->
+    <div class="tab-panel" id="tab-piliers">
+      <div class="pillar-card">
+        <div class="pillar-head open" onclick="togglePillar(this)">
+          <span class="pillar-emoji">🏗️</span>
+          <div><h4>Avant / Après</h4><p>Vos transformations comme preuve sociale</p></div>
+          <span class="pillar-arrow">▼</span>
+        </div>
+        <div class="pillar-body open">
+          <div class="pi-row"><span class="pi-num">1</span><span>« On a reçu les clés d'une maison des années 70. 4 mois plus tard, voici ce qu'elle est devenue. » [Carrousel avant/après]</span><div class="pi-actions"><button class="copy-btn" onclick="copyPost(this)">Copier</button></div></div>
+          <div class="pi-row"><span class="pi-num">2</span><span>« Le client nous a dit "faites-moi confiance". On l'a pris au mot. Résultat : une cuisine de 22m² transformée. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyPost(this)">Copier</button></div></div>
+          <div class="pi-row"><span class="pi-num">3</span><span>« 3 semaines, 1 salle de bain, 0 compromis sur les matériaux. Voici comment on travaille chez Rennov. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyPost(this)">Copier</button></div></div>
+        </div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-head open" onclick="togglePillar(this)">
+          <span class="pillar-emoji">🎓</span>
+          <div><h4>Éducation</h4><p>Positionner Rennov comme expert de confiance</p></div>
+          <span class="pillar-arrow">▼</span>
+        </div>
+        <div class="pillar-body open">
+          <div class="pi-row"><span class="pi-num">1</span><span>« Les 3 erreurs que font 90% des propriétaires avant de rénover (et qui leur coûtent €15k de plus). »</span><div class="pi-actions"><button class="copy-btn" onclick="copyPost(this)">Copier</button></div></div>
+          <div class="pi-row"><span class="pi-num">2</span><span>« Comment choisir son architecte d'intérieur dans le Jura ? Les 5 questions à poser avant de signer. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyPost(this)">Copier</button></div></div>
+          <div class="pi-row"><span class="pi-num">3</span><span>« Rénovation ou construction neuve : ce que personne ne vous dit sur les coûts cachés. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyPost(this)">Copier</button></div></div>
+        </div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-head" onclick="togglePillar(this)">
+          <span class="pillar-emoji">👥</span>
+          <div><h4>Coulisses</h4><p>L'humain derrière les chantiers</p></div>
+          <span class="pillar-arrow">▼</span>
+        </div>
+        <div class="pillar-body">
+          <div class="pi-row"><span class="pi-num">1</span><span>« 6h du matin sur un chantier en plein Jura. Voici à quoi ressemble notre journée type. » [Vidéo 60s]</span><div class="pi-actions"><button class="copy-btn" onclick="copyPost(this)">Copier</button></div></div>
+          <div class="pi-row"><span class="pi-num">2</span><span>« On vient de recevoir ce carrelage artisanal du Portugal. Ce détail va changer toute la pièce. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyPost(this)">Copier</button></div></div>
+          <div class="pi-row"><span class="pi-num">3</span><span>« Derrière chaque projet Rennov, il y a une équipe de 6 personnes. Voici comment on s'organise. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyPost(this)">Copier</button></div></div>
+        </div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-head" onclick="togglePillar(this)">
+          <span class="pillar-emoji">⭐</span>
+          <div><h4>Témoignages</h4><p>La voix de vos clients comme meilleur commercial</p></div>
+          <span class="pillar-arrow">▼</span>
+        </div>
+        <div class="pillar-body">
+          <div class="pi-row"><span class="pi-num">1</span><span>« "On avait peur de ne pas retrouver l'âme de la maison. En fait, ils l'ont sublimée." — Sophie & Marc »</span><div class="pi-actions"><button class="copy-btn" onclick="copyPost(this)">Copier</button></div></div>
+          <div class="pi-row"><span class="pi-num">2</span><span>« Ce client nous a contactés après avoir vu nos posts LinkedIn. Voici comment son projet a pris vie. »</span><div class="pi-actions"><button class="copy-btn" onclick="copyPost(this)">Copier</button></div></div>
+          <div class="pi-row"><span class="pi-num">3</span><span>« Bilan : 8 projets livrés, 8 clients satisfaits. Voici ce qu'ils nous ont dit. » [Compilation]</span><div class="pi-actions"><button class="copy-btn" onclick="copyPost(this)">Copier</button></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALENDRIER -->
+    <div class="tab-panel" id="tab-calendrier">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+        <div style="padding:14px 18px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:14px;font-weight:600">Semaine type</span>
+          <span style="font-size:12px;font-weight:600;padding:4px 10px;border-radius:20px;background:var(--green-l);color:var(--green)">7 publications</span>
+        </div>
+        <table class="cal-table">
+          <thead><tr><th>Jour</th><th>Canal</th><th>Contenu</th><th>Pilier</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Lundi</strong><br><span style="font-size:11px;color:var(--t3)">8h–9h</span></td><td><span class="post-channel li">💼 LinkedIn</span></td><td>Post texte — Avant/Après chantier</td><td><span style="font-size:11.5px;color:var(--t2)">🏗️ Transformation</span></td></tr>
+            <tr><td><strong>Mercredi</strong><br><span style="font-size:11px;color:var(--t3)">12h–13h</span></td><td><span class="post-channel li">💼 LinkedIn</span></td><td>Post éducatif — Erreur à éviter</td><td><span style="font-size:11.5px;color:var(--t2)">🎓 Éducation</span></td></tr>
+            <tr><td><strong>Jeudi</strong><br><span style="font-size:11px;color:var(--t3)">18h–20h</span></td><td><span class="post-channel ig">📸 Instagram</span></td><td>Carrousel — Coulisses chantier</td><td><span style="font-size:11.5px;color:var(--t2)">👥 Coulisses</span></td></tr>
+            <tr><td><strong>Vendredi</strong><br><span style="font-size:11px;color:var(--t3)">8h–9h</span></td><td><span class="post-channel li">💼 LinkedIn</span></td><td>Témoignage client — Format story</td><td><span style="font-size:11.5px;color:var(--t2)">⭐ Témoignage</span></td></tr>
+            <tr><td><strong>Samedi</strong><br><span style="font-size:11px;color:var(--t3)">18h–20h</span></td><td><span class="post-channel ig">📸 Instagram</span></td><td>Photo portfolio — Détail matériaux</td><td><span style="font-size:11.5px;color:var(--t2)">🏗️ Transformation</span></td></tr>
+            <tr><td><strong>Dimanche</strong><br><span style="font-size:11px;color:var(--t3)">18h–20h</span></td><td><span class="post-channel ig">📸 Instagram</span></td><td>Reel 30s — Timelapse chantier</td><td><span style="font-size:11.5px;color:var(--t2)">👥 Coulisses</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BOTTOM CTA -->
+    <div class="bottom-cta">
+      <h3>Votre livrable vous attend.</h3>
+      <p>Répondez à 5 questions — on génère votre contenu calibré pour votre secteur, instantanément.</p>
+      <a href="form.html" class="btn-primary">Générer mes posts — 50€ →</a>
+      <div class="bottom-note">Sans abonnement · Livraison instantanée · Paiement sécurisé</div>
+    </div>
+
+  </div>
+
+<script>
+  function switchTab(id, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('tab-' + id).classList.add('active');
+  }
+  function togglePillar(head) {
+    head.classList.toggle('open');
+    head.nextElementSibling.classList.toggle('open');
+  }
+  function copyPost(btn) {
+    btn.textContent = '✓ Copié';
+    btn.style.background = 'var(--green-l)';
+    btn.style.color = 'var(--green)';
+    setTimeout(() => { btn.textContent = btn.dataset.label || 'Copier'; btn.style.background = ''; btn.style.color = ''; }, 2000);
+  }
+</script>
+
+</body>
+</html>
