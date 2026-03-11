@@ -64,7 +64,16 @@
     .pl-text strong { font-size: 13.5px; font-weight: 600; color: var(--t1); display: block; margin-bottom: 1px; }
     .pl-text span { font-size: 12.5px; color: var(--t2); }
 
-    .pl-example { margin-top: 6px; display: flex; flex-direction: column; gap: 12px; }
+    .pl-example { margin-top: 6px; display: flex; flex-direction: column; gap: 0; }
+    .pl-example .bad-wrap { margin-right: 12%; }
+    .pl-example .good-wrap { margin-left: 12%; }
+    .pe-arrow {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 0 10px 20%;
+      font-size: 11.5px; font-weight: 700; color: var(--accent);
+    }
+    .pe-arrow-line { flex: 0 0 auto; width: 28px; height: 2px; background: var(--accent); border-radius: 2px; position: relative; }
+    .pe-arrow-line::after { content: ''; position: absolute; right: -1px; top: -3px; border: 4px solid transparent; border-left: 6px solid var(--accent); }
     .pe-label { display: inline-flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px; }
     .pe-label.bad { color: #EF4444; }
     .pe-label.good { color: var(--green); }
@@ -185,8 +194,8 @@
         <div class="pl-example">
 
           <!-- AVANT -->
-          <div>
-            <div class="pe-label bad">✕ Sans Phare</div>
+          <div class="bad-wrap">
+            <div class="pe-label bad">✕ Ce que vous postez aujourd'hui</div>
             <div class="li-card bad">
               <div class="li-header">
                 <div class="li-av">🏭</div>
@@ -204,9 +213,15 @@ Contactez-nous pour un devis personnalisé.</div>
             </div>
           </div>
 
+          <!-- FLÈCHE -->
+          <div class="pe-arrow">
+            <div class="pe-arrow-line"></div>
+            Phare réécrit ça chaque semaine
+          </div>
+
           <!-- APRÈS -->
-          <div>
-            <div class="pe-label good">✓ Avec Phare</div>
+          <div class="good-wrap">
+            <div class="pe-label good">✓ Ce que vos prospects voient avec Phare</div>
             <div class="li-card good">
               <div class="li-header">
                 <div class="li-av">🏭</div>
