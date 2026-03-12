@@ -29,6 +29,7 @@ model Post {
   weekStart   DateTime   // Lundi de la semaine
   dayOfWeek   Int        // 1=Lundi … 5=Vendredi
   publishTime String     // ex. "08:00"
+  title       String     @default("")
   content     String
   postType    String     @default("Général")
   status      PostStatus @default(DRAFT)

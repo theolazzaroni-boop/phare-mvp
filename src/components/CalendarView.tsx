@@ -5,25 +5,26 @@ import PostCard from "./PostCard";
 
 const DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
 
-const TYPE_CONFIG: Record<string, { emoji: string; color: string; bg: string; border: string }> = {
-  "Avant / Après":  { emoji: "🔄", color: "text-violet-600",  bg: "bg-violet-100",  border: "border-violet-200" },
-  "Opinion":        { emoji: "💬", color: "text-rose-600",    bg: "bg-rose-100",    border: "border-rose-200" },
-  "Coulisses":      { emoji: "🎬", color: "text-amber-600",   bg: "bg-amber-100",   border: "border-amber-200" },
-  "Témoignage":     { emoji: "🤝", color: "text-green-600",   bg: "bg-green-100",   border: "border-green-200" },
-  "Éducatif":       { emoji: "💡", color: "text-blue-600",    bg: "bg-blue-100",    border: "border-blue-200" },
-  "Storytelling":   { emoji: "📖", color: "text-orange-600",  bg: "bg-orange-100",  border: "border-orange-200" },
-  "Général":        { emoji: "✍️", color: "text-t2",          bg: "bg-bg-2",        border: "border-border" },
+const TYPE_CONFIG: Record<string, { emoji: string; color: string }> = {
+  "Avant / Après":  { emoji: "🔄", color: "text-violet-600" },
+  "Opinion":        { emoji: "💬", color: "text-rose-600"   },
+  "Coulisses":      { emoji: "🎬", color: "text-amber-600"  },
+  "Témoignage":     { emoji: "🤝", color: "text-green-600"  },
+  "Éducatif":       { emoji: "💡", color: "text-blue-600"   },
+  "Storytelling":   { emoji: "📖", color: "text-orange-600" },
+  "Général":        { emoji: "✍️", color: "text-t2"         },
 };
 
-const STATUS_DOT: Record<string, string> = {
-  DRAFT:              "bg-t3",
-  READY:              "bg-green",
-  PUBLISHED:          "bg-accent",
-  REVISION_REQUESTED: "bg-amber-400",
+const STATUS_LABEL: Record<string, { label: string; color: string }> = {
+  DRAFT:              { label: "En préparation", color: "text-t3"        },
+  READY:              { label: "Prêt à publier", color: "text-green"     },
+  PUBLISHED:          { label: "Publié",          color: "text-accent"    },
+  REVISION_REQUESTED: { label: "Révision",        color: "text-amber-500" },
 };
 
 interface Post {
   id: string;
+  title?: string;
   content: string;
   dayOfWeek: number;
   publishTime: string;
@@ -55,15 +56,6 @@ export default function CalendarView({ posts, days, weekLabel }: {
         <p className="text-sm text-t2">{weekLabel}</p>
       </div>
 
-      {/* Legend */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        {Object.entries(TYPE_CONFIG).filter(([k]) => k !== "Général").map(([type, cfg]) => (
-          <span key={type} className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full border ${cfg.bg} ${cfg.color} ${cfg.border}`}>
-            {cfg.emoji} {type}
-          </span>
-        ))}
-      </div>
-
       {/* Calendar grid */}
       <div className="grid grid-cols-5 gap-3">
         {days.map((day, idx) => {
@@ -88,20 +80,24 @@ export default function CalendarView({ posts, days, weekLabel }: {
                     <button
                       key={post.id}
                       onClick={() => setSelected(post)}
-                      className={`w-full text-left rounded-xl border p-3 transition-all hover:shadow-md hover:-translate-y-0.5 ${type.bg} ${type.border}`}
+                      className="w-full text-left rounded-xl border border-border bg-white p-3 transition-all hover:shadow-md hover:-translate-y-0.5"
                     >
                       {/* Time + status */}
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-xs font-semibold text-t3">{post.publishTime}</span>
-                        <span className={`w-2 h-2 rounded-full ${STATUS_DOT[post.status] ?? "bg-t3"}`}></span>
+                        <span className={`text-xs font-semibold ${(STATUS_LABEL[post.status] ?? STATUS_LABEL.DRAFT).color}`}>
+                          {(STATUS_LABEL[post.status] ?? STATUS_LABEL.DRAFT).label}
+                        </span>
                       </div>
                       {/* Type */}
                       <div className={`flex items-center gap-1.5 text-xs font-semibold ${type.color}`}>
                         <span>{type.emoji}</span>
                         <span>{post.postType}</span>
                       </div>
-                      {/* Hint */}
-                      <div className="mt-2 text-xs text-t3 italic">Cliquer pour voir →</div>
+                      {/* Title */}
+                      <div className="mt-1.5 text-xs text-t1 font-medium leading-snug line-clamp-2">
+                        {post.title ?? "Cliquer pour voir →"}
+                      </div>
                     </button>
                   );
                 })
@@ -133,7 +129,7 @@ export default function CalendarView({ posts, days, weekLabel }: {
                 ✕ Fermer
               </button>
             </div>
-            <PostCard post={selected} />
+            <PostCard post={selected} defaultExpanded />
           </div>
         </div>
       )}

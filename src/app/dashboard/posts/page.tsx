@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
-import PostCard from "@/components/PostCard";
+import PostsCarousel from "@/components/PostsCarousel";
 
 
 function getThisWeekStart() {
@@ -40,11 +40,7 @@ export default async function PostsPage() {
           <div className="text-sm text-t2">Partagez vos actus de la semaine pour qu&apos;on puisse les intégrer.</div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {posts.map(post => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
+        <PostsCarousel posts={posts.map(p => ({ ...p, title: p.title || undefined }))} />
       )}
     </div>
   );

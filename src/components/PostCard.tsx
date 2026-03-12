@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import RevisionModal from "./RevisionModal";
 
 const TYPE_CONFIG: Record<string, { emoji: string; color: string; bg: string; border: string }> = {
   "Avant / Après":  { emoji: "🔄", color: "text-violet-600",  bg: "bg-violet-50",  border: "border-l-violet-400" },
@@ -24,6 +25,7 @@ const DAYS = ["", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
 
 interface Post {
   id: string;
+  title?: string;
   content: string;
   dayOfWeek: number;
   publishTime: string;
@@ -31,19 +33,19 @@ interface Post {
   status: string;
 }
 
-export default function PostCard({ post }: { post: Post }) {
-  const [expanded, setExpanded] = useState(false);
+export default function PostCard({ post, defaultExpanded = false }: { post: Post; defaultExpanded?: boolean }) {
+  const [expanded, setExpanded] = useState(defaultExpanded);
   const [copied, setCopied] = useState(false);
   const [showRevision, setShowRevision] = useState(false);
-  const [message, setMessage] = useState("");
   const [status, setStatus] = useState(post.status);
   const [loading, setLoading] = useState<string | null>(null);
   const router = useRouter();
 
   const type = TYPE_CONFIG[post.postType] ?? TYPE_CONFIG["Général"];
   const statusCfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.DRAFT;
-  const preview = post.content.slice(0, 160);
-  const isLong = post.content.length > 160;
+  const content = post.content.trim();
+  const preview = content.slice(0, 160);
+  const isLong = content.length > 160;
 
   async function handleCopy() {
     await navigator.clipboard.writeText(post.content);
@@ -56,11 +58,9 @@ export default function PostCard({ post }: { post: Post }) {
     await fetch(`/api/posts/${post.id}/publish`, { method: "POST" });
     setStatus("PUBLISHED");
     setLoading(null);
-    router.refresh();
   }
 
-  async function submitRevision() {
-    if (!message.trim()) return;
+  async function submitRevision(message: string) {
     setLoading("revision");
     await fetch(`/api/posts/${post.id}/revision`, {
       method: "POST",
@@ -74,30 +74,49 @@ export default function PostCard({ post }: { post: Post }) {
   }
 
   return (
-    <div className={`bg-white rounded-2xl border border-border border-l-4 ${type.border} overflow-hidden flex flex-col`}>
+    <div className={`rounded-2xl border border-border border-l-4 ${type.border} overflow-hidden flex flex-col bg-white`}>
+
+      {/* Published banner */}
+      {status === "PUBLISHED" && (
+        <div className="px-5 py-2 bg-green flex items-center gap-2">
+          <span className="text-white text-xs font-bold">✓ Publié sur LinkedIn</span>
+        </div>
+      )}
 
       {/* Header */}
       <div className="px-5 pt-4 pb-3 flex items-start justify-between gap-3">
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex flex-col gap-1.5">
+          {/* Day + time — prominent */}
+          <div className="flex items-baseline gap-2">
+            <span className="text-base font-bold text-t1">{DAYS[post.dayOfWeek]}</span>
+            <span className="text-sm text-t3 font-medium">{post.publishTime}</span>
+          </div>
           {/* Type badge */}
-          <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full ${type.bg} ${type.color}`}>
+          <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full w-fit ${type.bg} ${type.color}`}>
             <span>{type.emoji}</span>
             {post.postType}
           </span>
-          {/* Day + time */}
-          <span className="text-xs text-t3 font-medium">{DAYS[post.dayOfWeek]} · {post.publishTime}</span>
         </div>
-        {/* Status */}
-        <span className={`inline-flex items-center gap-1.5 text-xs font-semibold shrink-0 ${statusCfg.text}`}>
-          <span className={`w-1.5 h-1.5 rounded-full ${statusCfg.dot}`}></span>
-          {statusCfg.label}
-        </span>
+        {/* Status (only show non-published states here) */}
+        {status !== "PUBLISHED" && (
+          <span className={`inline-flex items-center gap-1.5 text-xs font-semibold shrink-0 ${statusCfg.text}`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${statusCfg.dot}`}></span>
+            {statusCfg.label}
+          </span>
+        )}
       </div>
+
+      {/* Title */}
+      {post.title && (
+        <div className="px-5 pb-2">
+          <h3 className="text-sm font-bold text-t1 leading-snug">{post.title}</h3>
+        </div>
+      )}
 
       {/* Content */}
       <div className="px-5 pb-4 flex-1">
         <p className="text-sm text-t1 leading-relaxed whitespace-pre-wrap">
-          {expanded ? post.content : preview}
+          {expanded ? content : preview}
           {!expanded && isLong && "…"}
         </p>
         {isLong && (
@@ -110,30 +129,13 @@ export default function PostCard({ post }: { post: Post }) {
         )}
       </div>
 
-      {/* Revision form */}
+      {/* Revision modal */}
       {showRevision && (
-        <div className="px-5 pb-4 space-y-2 border-t border-border pt-3">
-          <p className="text-xs font-semibold text-t2">Qu'est-ce qui doit changer ?</p>
-          <textarea
-            value={message}
-            onChange={e => setMessage(e.target.value)}
-            placeholder="Ton trop formel, ajouter notre nouveau délai de livraison, reformuler l'accroche…"
-            rows={3}
-            className="w-full text-sm px-3 py-2 border border-border rounded-lg bg-bg-base resize-none outline-none focus:border-accent transition"
-          />
-          <div className="flex gap-2">
-            <button
-              onClick={submitRevision}
-              disabled={!message.trim() || loading === "revision"}
-              className="text-xs font-semibold bg-accent text-white px-3 py-1.5 rounded-lg disabled:opacity-50 transition hover:bg-accent/90"
-            >
-              {loading === "revision" ? "Envoi…" : "Envoyer"}
-            </button>
-            <button onClick={() => setShowRevision(false)} className="text-xs text-t2 hover:text-t1 transition">
-              Annuler
-            </button>
-          </div>
-        </div>
+        <RevisionModal
+          onClose={() => setShowRevision(false)}
+          onSubmit={submitRevision}
+          loading={loading === "revision"}
+        />
       )}
 
       {/* Actions */}
@@ -169,7 +171,7 @@ export default function PostCard({ post }: { post: Post }) {
             </button>
           )}
           {status === "PUBLISHED" && (
-            <span className="text-xs font-semibold text-accent bg-accent-xl px-3 py-1.5 rounded-lg">
+            <span className="text-xs font-semibold text-green-600">
               ✦ En ligne
             </span>
           )}

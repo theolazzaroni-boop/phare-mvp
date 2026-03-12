@@ -41,6 +41,7 @@ export default async function CalendarPage() {
     <CalendarView
       posts={posts.map(p => ({
         id: p.id,
+        title: p.title || undefined,
         content: p.content,
         dayOfWeek: p.dayOfWeek,
         publishTime: p.publishTime,

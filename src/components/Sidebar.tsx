@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import ContactModal from "./ContactModal";
 
 const NAV = [
   { href: "/dashboard/posts",    label: "Mes posts",    icon: "✍️" },
@@ -21,6 +23,7 @@ export default function Sidebar({ userName, company, isAdmin }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const supabase = createClient();
+  const [showContact, setShowContact] = useState(false);
 
   async function handleLogout() {
     await supabase.auth.signOut();
@@ -29,6 +32,7 @@ export default function Sidebar({ userName, company, isAdmin }: SidebarProps) {
   }
 
   return (
+    <>
     <aside className="w-60 shrink-0 bg-white border-r border-border flex flex-col h-screen sticky top-0">
 
       {/* Logo */}
@@ -92,6 +96,17 @@ export default function Sidebar({ userName, company, isAdmin }: SidebarProps) {
         )}
       </nav>
 
+      {/* Contact */}
+      <div className="px-3 pb-1">
+        <button
+          onClick={() => setShowContact(true)}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-t2 hover:bg-bg-2 hover:text-t1 transition-colors"
+        >
+          <span className="text-base">💬</span>
+          Contacter l'équipe
+        </button>
+      </div>
+
       {/* Logout */}
       <div className="px-3 py-4 border-t border-border">
         <button
@@ -104,5 +119,8 @@ export default function Sidebar({ userName, company, isAdmin }: SidebarProps) {
       </div>
 
     </aside>
+
+    {showContact && <ContactModal onClose={() => setShowContact(false)} />}
+    </>
   );
 }

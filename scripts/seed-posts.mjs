@@ -16,6 +16,7 @@ await prisma.post.createMany({
       publishTime: '08:00',
       status: 'READY',
       postType: 'Avant / Après',
+      title: 'Une maison "abîmée" — 18 mois plus tard',
       content: `On a reçu les clés d'une maison de 1965 dans le Jura.
 Le client avait un mot pour la décrire : "abîmée".
 
@@ -42,6 +43,7 @@ Vous avez un projet de rénovation qui vous semble compliqué ? 📩`,
       publishTime: '08:00',
       status: 'READY',
       postType: 'Opinion',
+      title: 'Pourquoi on est plus chers — et pourquoi ça vaut le coup',
       content: `Question qu'on nous pose souvent : "Pourquoi vous êtes plus chers que les autres ?"
 
 Voici notre réponse honnête.
@@ -66,6 +68,7 @@ Dans la rénovation, le moins cher est rarement le moins cher. 📌`,
       publishTime: '12:00',
       status: 'READY',
       postType: 'Coulisses',
+      title: 'Coulisses : fenêtres sur mesure dans un corps de ferme du XVIIIe',
       content: `Coulisses de chantier 👇
 
 Ce matin, pose des fenêtres sur un corps de ferme du XVIIIe siècle à Lons-le-Saunier.
@@ -87,6 +90,7 @@ C'est ça, un artisan qui aime son métier.
       publishTime: '08:00',
       status: 'READY',
       postType: 'Témoignage',
+      title: 'Michel nous recommande à sa fille — 8 ans après',
       content: `Il y a 8 ans, on a rénové la maison de Michel.
 
 La semaine dernière, il nous a appelés pour nous dire que sa fille venait d'acheter la maison voisine.
