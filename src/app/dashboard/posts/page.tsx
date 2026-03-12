@@ -37,7 +37,10 @@ export default async function PostsPage() {
         <div className="bg-white border border-border rounded-2xl p-12 text-center">
           <div className="text-3xl mb-3">✍️</div>
           <div className="text-base font-semibold text-t1 mb-1">Vos posts arrivent lundi matin.</div>
-          <div className="text-sm text-t2">Partagez vos actus de la semaine pour qu&apos;on puisse les intégrer.</div>
+          <div className="text-sm text-t2">En attendant, vous pouvez partager vos actus de la semaine.</div>
+          <a href="/dashboard/news" className="inline-block mt-4 text-sm font-semibold text-accent hover:underline">
+            Partager mes actus →
+          </a>
         </div>
       ) : (
         <PostsCarousel posts={posts.map(p => ({ ...p, title: p.title || undefined }))} />

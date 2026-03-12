@@ -47,12 +47,20 @@ export default async function AdminClientsPage() {
                   {client.createdAt.toLocaleDateString("fr-FR")}
                 </td>
                 <td className="px-5 py-3 text-right">
-                  <Link
-                    href={`/admin/deliver?clientId=${client.id}`}
-                    className="text-xs font-semibold text-accent hover:underline"
-                  >
-                    Livrer →
-                  </Link>
+                  <div className="flex items-center justify-end gap-3">
+                    <Link
+                      href={`/admin/clients/${client.id}`}
+                      className="text-xs font-semibold text-t2 hover:text-t1 transition"
+                    >
+                      Voir la semaine
+                    </Link>
+                    <Link
+                      href={`/admin/deliver?clientId=${client.id}`}
+                      className="text-xs font-semibold text-accent hover:underline"
+                    >
+                      Livrer →
+                    </Link>
+                  </div>
                 </td>
               </tr>
             ))}

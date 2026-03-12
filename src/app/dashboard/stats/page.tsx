@@ -30,10 +30,24 @@ export default async function StatsPage() {
       </div>
 
       {!latest ? (
-        <div className="bg-white border border-border rounded-2xl p-12 text-center">
-          <div className="text-3xl mb-3">📈</div>
-          <div className="text-base font-semibold text-t1 mb-1">Vos premières stats arrivent bientôt.</div>
-          <div className="text-sm text-t2">On met à jour vos métriques chaque semaine.</div>
+        <div className="bg-white border border-border rounded-2xl p-12 text-center max-w-md mx-auto">
+          <div className="text-3xl mb-4">📈</div>
+          <div className="text-base font-semibold text-t1 mb-2">Disponible dès votre 2ème semaine</div>
+          <div className="text-sm text-t2 leading-relaxed">
+            On remplit vos statistiques après votre première semaine complète — impressions, engagements, nouveaux abonnés et leads déclarés.
+          </div>
+          <div className="mt-6 flex flex-col gap-2 text-left max-w-xs mx-auto">
+            {[
+              "👁️ Impressions hebdomadaires",
+              "💬 Engagements",
+              "👥 Nouveaux abonnés",
+              "🎯 Leads déclarés",
+            ].map(item => (
+              <div key={item} className="flex items-center gap-2 text-sm text-t3">
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
         </div>
       ) : (
         <>

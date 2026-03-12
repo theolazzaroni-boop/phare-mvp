@@ -37,6 +37,7 @@ export default function PostCard({ post, defaultExpanded = false }: { post: Post
   const [expanded, setExpanded] = useState(defaultExpanded);
   const [copied, setCopied] = useState(false);
   const [showRevision, setShowRevision] = useState(false);
+  const [confirmPublish, setConfirmPublish] = useState(false);
   const [status, setStatus] = useState(post.status);
   const [loading, setLoading] = useState<string | null>(null);
   const router = useRouter();
@@ -153,7 +154,7 @@ export default function PostCard({ post, defaultExpanded = false }: { post: Post
         </button>
 
         <div className="flex items-center gap-2">
-          {status === "READY" && !showRevision && (
+          {status === "READY" && !showRevision && !confirmPublish && (
             <button
               onClick={() => setShowRevision(true)}
               className="text-xs text-t3 hover:text-t2 transition underline underline-offset-2"
@@ -161,14 +162,31 @@ export default function PostCard({ post, defaultExpanded = false }: { post: Post
               Demander une révision
             </button>
           )}
-          {status === "READY" && (
+          {status === "READY" && !confirmPublish && (
             <button
-              onClick={handlePublish}
-              disabled={loading === "publish"}
-              className="flex items-center gap-1.5 text-xs font-semibold bg-green/10 text-green border border-green/30 px-3 py-1.5 rounded-lg hover:bg-green/20 transition disabled:opacity-50"
+              onClick={() => setConfirmPublish(true)}
+              className="flex items-center gap-1.5 text-xs font-semibold bg-green/10 text-green border border-green/30 px-3 py-1.5 rounded-lg hover:bg-green/20 transition"
             >
-              {loading === "publish" ? "…" : "✓ Publié"}
+              ✓ Marquer comme publié
             </button>
+          )}
+          {status === "READY" && confirmPublish && (
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-t2">Vous avez bien publié ce post ?</span>
+              <button
+                onClick={handlePublish}
+                disabled={loading === "publish"}
+                className="text-xs font-semibold bg-green text-white px-3 py-1.5 rounded-lg hover:bg-green/90 transition disabled:opacity-50"
+              >
+                {loading === "publish" ? "…" : "Oui"}
+              </button>
+              <button
+                onClick={() => setConfirmPublish(false)}
+                className="text-xs text-t3 hover:text-t1 transition"
+              >
+                Non
+              </button>
+            </div>
           )}
           {status === "PUBLISHED" && (
             <span className="text-xs font-semibold text-green-600">

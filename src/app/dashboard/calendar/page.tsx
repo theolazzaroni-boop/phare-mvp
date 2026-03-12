@@ -3,19 +3,23 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import CalendarView from "@/components/CalendarView";
 
-function getThisWeekStart() {
+function getWeekStart(offsetWeeks = 0) {
   const now = new Date();
   const day = now.getUTCDay();
   const diff = day === 0 ? -6 : 1 - day;
-  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + diff));
+  const base = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + diff));
+  base.setUTCDate(base.getUTCDate() + offsetWeeks * 7);
+  return base;
 }
 
-export default async function CalendarPage() {
+export default async function CalendarPage({ searchParams }: { searchParams: Promise<{ week?: string }> }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const weekStart = getThisWeekStart();
+  const { week } = await searchParams;
+  const offset = parseInt(week ?? "0", 10) || 0;
+  const weekStart = getWeekStart(offset);
 
   const posts = await prisma.post.findMany({
     where: { profileId: user.id, weekStart },
@@ -50,6 +54,7 @@ export default async function CalendarPage() {
       }))}
       days={days}
       weekLabel={weekLabel}
+      weekOffset={offset}
     />
   );
 }

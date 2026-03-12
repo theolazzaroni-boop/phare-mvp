@@ -7,10 +7,11 @@ import { createClient } from "@/lib/supabase/client";
 import ContactModal from "./ContactModal";
 
 const NAV = [
-  { href: "/dashboard/posts",    label: "Mes posts",    icon: "✍️" },
-  { href: "/dashboard/calendar", label: "Calendrier",   icon: "📅" },
-  { href: "/dashboard/stats",    label: "Statistiques", icon: "📈" },
-  { href: "/dashboard/news",     label: "Mes actus",    icon: "📬" },
+  { href: "/dashboard",          label: "Tableau de bord", icon: "🏠" },
+  { href: "/dashboard/posts",    label: "Mes posts",       icon: "✍️" },
+  { href: "/dashboard/calendar", label: "Calendrier",      icon: "📅" },
+  { href: "/dashboard/stats",    label: "Statistiques",    icon: "📈" },
+  { href: "/dashboard/news",     label: "Mes actus",       icon: "📬" },
 ];
 
 interface SidebarProps {
@@ -50,7 +51,7 @@ export default function Sidebar({ userName, company, isAdmin }: SidebarProps) {
       {/* Nav */}
       <nav className="flex-1 px-3 py-4 space-y-0.5">
         {NAV.map(item => {
-          const active = pathname.startsWith(item.href);
+          const active = item.href === "/dashboard" ? pathname === "/dashboard" : pathname.startsWith(item.href);
           return (
             <Link
               key={item.href}

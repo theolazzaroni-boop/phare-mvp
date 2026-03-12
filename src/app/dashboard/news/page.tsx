@@ -32,7 +32,7 @@ export default async function NewsPage() {
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-t1 tracking-tight mb-1">Mes actus de la semaine</h1>
         <p className="text-sm text-t2">
-          Partagez vos nouveautés — on les intègre dans vos posts de la semaine prochaine.
+          Partagez ce qui s'est passé cette semaine — on l'intègre dans vos posts <strong>de la semaine prochaine</strong>.
         </p>
       </div>
 
