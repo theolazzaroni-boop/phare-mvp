@@ -227,8 +227,8 @@ export default function PostCard({
           >
             {!manualStep ? (
               <>
-                <h3 className="text-base font-bold text-t1 mb-1">Publier ce post</h3>
-                <p className="text-sm text-t2 mb-5">Comment souhaitez-vous publier ce post sur LinkedIn ?</p>
+                <h3 className="text-base font-bold text-t1 mb-1">Phare le publie pour vous</h3>
+                <p className="text-sm text-t2 mb-5">Votre post va être publié à l'heure et au jour prévu.</p>
 
                 {error && (
                   <div className="mb-4 text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
