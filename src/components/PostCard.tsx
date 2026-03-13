@@ -208,7 +208,7 @@ export default function PostCard({
                 disabled={loading === "unpublish"}
                 className="text-xs text-t3 hover:text-red-500 transition underline underline-offset-2 disabled:opacity-50"
               >
-                {loading === "unpublish" ? "…" : "Annuler"}
+                {loading === "unpublish" ? "…" : "Mon post n'est pas encore publié"}
               </button>
             </div>
           )}
