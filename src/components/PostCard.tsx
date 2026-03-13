@@ -292,7 +292,7 @@ export default function PostCard({
                       disabled={!!loading}
                       className="w-full flex items-start gap-3 p-4 rounded-xl border-2 border-accent/30 bg-accent-xl hover:border-accent transition disabled:opacity-50 text-left"
                     >
-                      <span className="text-xl mt-0.5">🚀</span>
+                      <span className="text-xl mt-0.5">🎯</span>
                       <div>
                         <div className="text-sm font-semibold text-t1">Phare le publie pour vous</div>
                         <div className="text-xs text-t2 mt-0.5">Votre post va être publié à l'heure et au jour prévu</div>
