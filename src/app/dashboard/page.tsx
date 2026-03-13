@@ -13,7 +13,7 @@ function getThisWeekStart() {
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
   DRAFT:              { label: "En préparation", color: "text-t3",         bg: "bg-bg-2" },
   READY:              { label: "Prêt à publier", color: "text-green",      bg: "bg-green/10" },
-  PUBLISHED:          { label: "Publié",          color: "text-accent",     bg: "bg-accent-xl" },
+  PUBLISHED:          { label: "Publié",          color: "text-green",      bg: "bg-green/10" },
   REVISION_REQUESTED: { label: "Révision",        color: "text-amber-600",  bg: "bg-amber-50" },
 };
 

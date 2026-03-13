@@ -18,7 +18,7 @@ const STATUS_CONFIG: Record<string, { label: string; dot: string; text: string }
   DRAFT:              { label: "En préparation",    dot: "bg-t3",         text: "text-t3" },
   READY:              { label: "Prêt à publier",    dot: "bg-green",      text: "text-green" },
   SCHEDULED:          { label: "Programmé",         dot: "bg-blue-400",   text: "text-blue-600" },
-  PUBLISHED:          { label: "Publié",             dot: "bg-accent",     text: "text-accent" },
+  PUBLISHED:          { label: "Publié",             dot: "bg-green",      text: "text-green" },
   REVISION_REQUESTED: { label: "Révision en cours", dot: "bg-amber-400",  text: "text-amber-600" },
 };
 
