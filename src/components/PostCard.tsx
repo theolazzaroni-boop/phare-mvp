@@ -46,6 +46,7 @@ export default function PostCard({
   const [copied, setCopied] = useState(false);
   const [showRevision, setShowRevision] = useState(false);
   const [showPublishModal, setShowPublishModal] = useState(false);
+  const [manualStep, setManualStep] = useState(false);
   const [status, setStatus] = useState(post.status);
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -74,10 +75,23 @@ export default function PostCard({
     if (res.ok) {
       setStatus("PUBLISHED");
       setShowPublishModal(false);
+      setManualStep(false);
     } else {
       const data = await res.json();
       setError(data.error ?? "Une erreur est survenue.");
     }
+    setLoading(null);
+  }
+
+  async function handleManualChoice() {
+    await navigator.clipboard.writeText(post.content);
+    setManualStep(true);
+  }
+
+  async function handleUnpublish() {
+    setLoading("unpublish");
+    await fetch(`/api/posts/${post.id}/unpublish`, { method: "POST" });
+    setStatus("READY");
     setLoading(null);
   }
 
@@ -187,7 +201,16 @@ export default function PostCard({
             </button>
           )}
           {status === "PUBLISHED" && (
-            <span className="text-xs font-semibold text-green-600">✦ En ligne</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-green-600">✦ En ligne</span>
+              <button
+                onClick={handleUnpublish}
+                disabled={loading === "unpublish"}
+                className="text-xs text-t3 hover:text-red-500 transition underline underline-offset-2 disabled:opacity-50"
+              >
+                {loading === "unpublish" ? "…" : "Annuler"}
+              </button>
+            </div>
           )}
         </div>
       </div>
@@ -196,66 +219,102 @@ export default function PostCard({
       {showPublishModal && (
         <div
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-          onClick={() => !loading && setShowPublishModal(false)}
+          onClick={() => { if (!loading) { setShowPublishModal(false); setManualStep(false); } }}
         >
           <div
             className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6"
             onClick={e => e.stopPropagation()}
           >
-            <h3 className="text-base font-bold text-t1 mb-1">Publier ce post</h3>
-            <p className="text-sm text-t2 mb-5">Comment souhaitez-vous publier ce post sur LinkedIn ?</p>
+            {!manualStep ? (
+              <>
+                <h3 className="text-base font-bold text-t1 mb-1">Publier ce post</h3>
+                <p className="text-sm text-t2 mb-5">Comment souhaitez-vous publier ce post sur LinkedIn ?</p>
 
-            {error && (
-              <div className="mb-4 text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
-                {error}
-              </div>
-            )}
-
-            <div className="flex flex-col gap-3">
-              {linkedinConnected && (
-                <button
-                  onClick={() => handlePublish(true)}
-                  disabled={!!loading}
-                  className="w-full flex items-start gap-3 p-4 rounded-xl border-2 border-accent/30 bg-accent-xl hover:border-accent transition disabled:opacity-50 text-left"
-                >
-                  <span className="text-xl mt-0.5">🚀</span>
-                  <div>
-                    <div className="text-sm font-semibold text-t1">Publier via Phare</div>
-                    <div className="text-xs text-t2 mt-0.5">On s'en occupe directement sur votre LinkedIn</div>
+                {error && (
+                  <div className="mb-4 text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                    {error}
                   </div>
-                  {loading === "publish" && <span className="ml-auto text-xs text-t3 self-center">…</span>}
-                </button>
-              )}
+                )}
 
-              <button
-                onClick={() => handlePublish(false)}
-                disabled={!!loading}
-                className="w-full flex items-start gap-3 p-4 rounded-xl border-2 border-border hover:border-t2 transition disabled:opacity-50 text-left"
-              >
-                <span className="text-xl mt-0.5">📋</span>
-                <div>
-                  <div className="text-sm font-semibold text-t1">Je le publie moi-même</div>
-                  <div className="text-xs text-t2 mt-0.5">Copiez le post et publiez-le sur votre profil</div>
+                <div className="flex flex-col gap-3">
+                  {linkedinConnected && (
+                    <button
+                      onClick={() => handlePublish(true)}
+                      disabled={!!loading}
+                      className="w-full flex items-start gap-3 p-4 rounded-xl border-2 border-accent/30 bg-accent-xl hover:border-accent transition disabled:opacity-50 text-left"
+                    >
+                      <span className="text-xl mt-0.5">🚀</span>
+                      <div>
+                        <div className="text-sm font-semibold text-t1">Publier via Phare</div>
+                        <div className="text-xs text-t2 mt-0.5">On s'en occupe directement sur votre LinkedIn</div>
+                      </div>
+                      {loading === "publish" && <span className="ml-auto text-xs text-t3 self-center">…</span>}
+                    </button>
+                  )}
+
+                  <button
+                    onClick={handleManualChoice}
+                    disabled={!!loading}
+                    className="w-full flex items-start gap-3 p-4 rounded-xl border-2 border-border hover:border-t2 transition disabled:opacity-50 text-left"
+                  >
+                    <span className="text-xl mt-0.5">📋</span>
+                    <div>
+                      <div className="text-sm font-semibold text-t1">Je publie le post moi-même</div>
+                      <div className="text-xs text-t2 mt-0.5">Copiez le post et publiez-le sur votre profil</div>
+                    </div>
+                  </button>
+
+                  {!linkedinConnected && (
+                    <a
+                      href="/api/linkedin/connect"
+                      className="w-full flex items-center justify-center gap-2 text-xs font-medium text-accent hover:underline py-1"
+                    >
+                      Connecter mon LinkedIn pour publier automatiquement →
+                    </a>
+                  )}
                 </div>
-              </button>
 
-              {!linkedinConnected && (
-                <a
-                  href="/api/linkedin/connect"
-                  className="w-full flex items-center justify-center gap-2 text-xs font-medium text-accent hover:underline py-1"
+                <button
+                  onClick={() => setShowPublishModal(false)}
+                  disabled={!!loading}
+                  className="mt-4 w-full text-xs text-t3 hover:text-t1 transition"
                 >
-                  Connecter mon LinkedIn pour publier automatiquement →
-                </a>
-              )}
-            </div>
+                  Annuler
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="text-center mb-5">
+                  <div className="text-3xl mb-3">📋</div>
+                  <h3 className="text-base font-bold text-t1 mb-1">Post copié !</h3>
+                  <p className="text-sm text-t2">Vous pouvez directement aller le poster sur LinkedIn.</p>
+                </div>
 
-            <button
-              onClick={() => setShowPublishModal(false)}
-              disabled={!!loading}
-              className="mt-4 w-full text-xs text-t3 hover:text-t1 transition"
-            >
-              Annuler
-            </button>
+                <a
+                  href="https://www.linkedin.com/feed/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 text-sm font-semibold text-accent border border-accent/30 bg-accent-xl rounded-xl py-3 hover:bg-accent hover:text-white transition mb-3"
+                >
+                  Ouvrir LinkedIn →
+                </a>
+
+                <button
+                  onClick={() => handlePublish(false)}
+                  disabled={loading === "publish"}
+                  className="w-full py-3 rounded-xl bg-green text-white text-sm font-semibold hover:bg-green/90 transition disabled:opacity-50"
+                >
+                  {loading === "publish" ? "…" : "J'ai bien publié mon post ✓"}
+                </button>
+
+                <button
+                  onClick={() => setManualStep(false)}
+                  className="mt-3 w-full text-xs text-t3 hover:text-t1 transition"
+                >
+                  Retour
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
