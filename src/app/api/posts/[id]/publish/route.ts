@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 
-const LI_VERSION = "202401";
+const LI_VERSION = "202503";
 
 export async function POST(
   req: NextRequest,
@@ -32,38 +32,61 @@ export async function POST(
     if (!authorUrn)
       return NextResponse.json({ error: "Auteur LinkedIn non configuré" }, { status: 400 });
 
-    const body: Record<string, unknown> = {
-      author: authorUrn,
-      commentary: post.content,
-      visibility: "PUBLIC",
-      distribution: {
-        feedDistribution: "MAIN_FEED",
-        targetEntities: [],
-        thirdPartyDistributionChannels: [],
-      },
-      lifecycleState: "PUBLISHED",
-      isReshareDisabledByAuthor: false,
-    };
+    let shareRes: Response;
 
     if (imageUrn) {
-      body.content = {
-        media: { id: imageUrn },
+      // Nouvelle API /rest/posts pour les posts avec image
+      const body = {
+        author: authorUrn,
+        commentary: post.content,
+        visibility: "PUBLIC",
+        distribution: {
+          feedDistribution: "MAIN_FEED",
+          targetEntities: [],
+          thirdPartyDistributionChannels: [],
+        },
+        content: { media: { id: imageUrn } },
+        lifecycleState: "PUBLISHED",
+        isReshareDisabledByAuthor: false,
       };
+      shareRes = await fetch("https://api.linkedin.com/rest/posts", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${profile.linkedinAccessToken}`,
+          "Content-Type": "application/json",
+          "LinkedIn-Version": LI_VERSION,
+          "X-Restli-Protocol-Version": "2.0.0",
+        },
+        body: JSON.stringify(body),
+      });
+    } else {
+      // API legacy ugcPosts pour les posts texte (pas de version requise)
+      shareRes = await fetch("https://api.linkedin.com/v2/ugcPosts", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${profile.linkedinAccessToken}`,
+          "Content-Type": "application/json",
+          "X-Restli-Protocol-Version": "2.0.0",
+        },
+        body: JSON.stringify({
+          author: authorUrn,
+          lifecycleState: "PUBLISHED",
+          specificContent: {
+            "com.linkedin.ugc.ShareContent": {
+              shareCommentary: { text: post.content },
+              shareMediaCategory: "NONE",
+            },
+          },
+          visibility: {
+            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC",
+          },
+        }),
+      });
     }
-
-    const shareRes = await fetch("https://api.linkedin.com/rest/posts", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${profile.linkedinAccessToken}`,
-        "Content-Type": "application/json",
-        "LinkedIn-Version": LI_VERSION,
-        "X-Restli-Protocol-Version": "2.0.0",
-      },
-      body: JSON.stringify(body),
-    });
 
     if (!shareRes.ok) {
       const err = await shareRes.json().catch(() => ({}));
+      console.error("[LinkedIn publish] failed:", JSON.stringify(err), "body:", JSON.stringify(body));
       return NextResponse.json({ error: "Erreur LinkedIn", details: err }, { status: 500 });
     }
   }

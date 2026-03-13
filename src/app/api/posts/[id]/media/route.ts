@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 
-const LI_VERSION = "202401";
+const LI_VERSION = "202503";
 
 export async function POST(
   req: NextRequest,
@@ -47,6 +47,7 @@ export async function POST(
 
   if (!initRes.ok) {
     const err = await initRes.json();
+    console.error("[LinkedIn media] initializeUpload failed:", JSON.stringify(err), "ownerUrn:", ownerUrn);
     return NextResponse.json({ error: "Erreur init upload LinkedIn", details: err }, { status: 500 });
   }
 
