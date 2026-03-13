@@ -245,8 +245,8 @@ export default function PostCard({
                     >
                       <span className="text-xl mt-0.5">🚀</span>
                       <div>
-                        <div className="text-sm font-semibold text-t1">Publier via Phare</div>
-                        <div className="text-xs text-t2 mt-0.5">On s'en occupe directement sur votre LinkedIn</div>
+                        <div className="text-sm font-semibold text-t1">Phare le publie pour vous</div>
+                        <div className="text-xs text-t2 mt-0.5">Votre post va être publié à l'heure et au jour prévu</div>
                       </div>
                       {loading === "publish" && <span className="ml-auto text-xs text-t3 self-center">…</span>}
                     </button>
