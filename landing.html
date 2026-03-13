@@ -429,6 +429,89 @@
       .rc-stat { font-size: 34px; }
       .faq-q { font-size: 14px; }
     }
+
+    /* ── MARQUEE ── */
+    .marquee-section {
+      overflow: hidden; padding: 16px 0;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: var(--card);
+    }
+    .marquee-wrap {
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 7%, black 93%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0%, black 7%, black 93%, transparent 100%);
+    }
+    .marquee-track {
+      display: flex; width: max-content;
+      animation: marquee-scroll 32s linear infinite;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee-scroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+    .marquee-item {
+      display: flex; align-items: center; gap: 9px;
+      padding: 0 36px; font-size: 13px; font-weight: 600; color: var(--t2); white-space: nowrap;
+    }
+    .marquee-sep { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+    /* ── ROTATING WORD ── */
+    .hero-rotate {
+      display: inline-block; position: relative;
+      color: var(--accent);
+    }
+
+    /* ── DARK SECTION (CTA + Testimonial) ── */
+    .dark-cta {
+      background: var(--dark); position: relative; overflow: hidden;
+      padding: 100px 48px; text-align: center;
+    }
+    .dark-cta::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.045;
+    }
+    .dark-cta::after {
+      content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(128,147,119,.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .dark-cta-inner { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+    .dark-cta-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.6); font-size: 12px; font-weight: 600;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 28px;
+      letter-spacing: .05em; text-transform: uppercase;
+    }
+    .dark-cta h2 {
+      font-size: clamp(30px, 4vw, 48px); font-weight: 700;
+      letter-spacing: -.03em; line-height: 1.12; color: #fff;
+      margin-bottom: 18px;
+    }
+    .dark-cta h2 span { color: var(--accent-l); }
+    .dark-cta p {
+      font-size: 16px; color: rgba(255,255,255,.6);
+      line-height: 1.75; margin-bottom: 36px; max-width: 460px;
+      margin-left: auto; margin-right: auto;
+    }
+    .btn-dark-cta {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: #fff; color: var(--dark);
+      text-decoration: none; border-radius: 10px;
+      padding: 15px 36px; font-size: 15px; font-weight: 700;
+      box-shadow: 0 4px 32px rgba(0,0,0,.25); transition: all .2s;
+    }
+    .btn-dark-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,0,0,.3); }
+    .dark-cta-note { font-size: 12px; color: rgba(255,255,255,.35); margin-top: 16px; }
+
+    /* ── CARD REFINEMENTS ── */
+    .result-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,.08); border-color: var(--accent-l); transform: translateY(-2px); }
+    .step:hover { box-shadow: 0 12px 40px rgba(0,0,0,.07); border-color: var(--accent-l); transform: translateY(-2px); }
+    .result-card, .step, .plan-card { transition: all .25s ease; }
+
+    /* ── NAV REFINEMENT ── */
+    nav { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+
+    @media(max-width:680px) { .dark-cta { padding: 72px 20px; } }
   </style>
 </head>
 <body>
@@ -445,6 +528,33 @@
     </div>
   </nav>
 
+  <!-- MARQUEE -->
+  <div class="marquee-section" style="margin-top:62px">
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <!-- duplicated for seamless loop -->
+        <div class="marquee-item"><span class="marquee-sep"></span>4 posts / semaine</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>Livré chaque lundi</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>Adapté à votre actu</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>Sans recruter</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>Révisable à la demande</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>Co-pilote marketing</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>Calendrier éditorial inclus</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>Votre ton, votre voix</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>1ère semaine offerte</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>4 posts / semaine</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>Livré chaque lundi</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>Adapté à votre actu</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>Sans recruter</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>Révisable à la demande</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>Co-pilote marketing</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>Calendrier éditorial inclus</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>Votre ton, votre voix</div>
+        <div class="marquee-item"><span class="marquee-sep"></span>1ère semaine offerte</div>
+      </div>
+    </div>
+  </div>
+
   <!-- HERO -->
   <div class="hero">
     <div class="hero-blob1"></div>
@@ -456,7 +566,7 @@
 
       <div class="hero-left">
         <div class="hero-badge"><span class="dot"></span> 1ère semaine offerte — résiliable avant J+7</div>
-        <h1>Vos posts LinkedIn<br>rédigés pour vous,<br><strong>chaque semaine.</strong></h1>
+        <h1>Vos posts <span class="hero-rotate" id="hero-rotate">LinkedIn</span><br>rédigés pour vous,<br><strong>chaque semaine.</strong></h1>
         <p>Vous savez que LinkedIn peut vous apporter des clients. Ce qui manque, c'est le temps et la régularité. Phare s'en charge — chaque semaine, à partir de ce qui se passe vraiment dans votre entreprise.</p>
         <p style="font-size:14px;color:var(--t3);margin-top:-16px;margin-bottom:32px;font-style:italic">LinkedIn est votre premier levier. On commence là — et on construit la suite avec vous.</p>
         <div class="hero-cta">
@@ -758,19 +868,16 @@
     </div>
   </section>
 
-  <!-- CTA BAND -->
-  <section style="background:linear-gradient(135deg,var(--accent) 0%,#CAD3C1 100%);padding:80px 48px;text-align:center;position:relative;overflow:hidden">
-    <div style="position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.12),transparent 65%);pointer-events:none"></div>
-    <div style="position:absolute;top:50%;left:8%;transform:translateY(-50%);width:280px;height:280px;border-radius:50%;border:1px solid rgba(255,255,255,.15);pointer-events:none"></div>
-    <div style="position:absolute;top:50%;right:8%;transform:translateY(-50%);width:180px;height:180px;border-radius:50%;border:1px solid rgba(255,255,255,.12);pointer-events:none"></div>
-    <div style="max-width:580px;margin:0 auto;position:relative;z-index:1">
-      <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Commencer maintenant</div>
-      <div style="font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-.03em;color:#fff;margin-bottom:16px;line-height:1.15">Votre communication commence<br>par LinkedIn. On s'en occupe.</div>
-      <div style="font-size:16px;color:rgba(255,255,255,.8);margin-bottom:32px;line-height:1.7;max-width:460px;margin-left:auto;margin-right:auto">Rejoignez les TPE/PME qui ont délégué leur visibilité — et qui construisent semaine après semaine une présence qui leur amène de vrais clients.</div>
-      <a href="form.html" style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--accent);text-decoration:none;border-radius:9px;padding:15px 34px;font-size:16px;font-weight:700;box-shadow:0 4px 24px rgba(0,0,0,.15)">Essayer gratuitement — 1 semaine →</a>
-      <div style="font-size:12px;color:rgba(255,255,255,.55);margin-top:14px">1ère semaine offerte · CB requise · résiliable avant J+7 · Paiement sécurisé</div>
+  <!-- CTA DARK -->
+  <div class="dark-cta">
+    <div class="dark-cta-inner">
+      <div class="dark-cta-tag">✦ Commencer maintenant</div>
+      <h2>Votre communication commence<br>par LinkedIn.<br><span>On s'en occupe.</span></h2>
+      <p>Rejoignez les TPE/PME qui ont délégué leur visibilité — et qui construisent semaine après semaine une présence qui leur amène de vrais clients.</p>
+      <a href="form.html" class="btn-dark-cta">Essayer gratuitement — 1 semaine →</a>
+      <div class="dark-cta-note">1ère semaine offerte · CB requise · résiliable avant J+7 · Paiement sécurisé</div>
     </div>
-  </section>
+  </div>
 
   <!-- FAQ -->
   <section class="faq-section">
@@ -820,6 +927,32 @@
   </footer>
 
 <script>
+  // Rotating word in hero
+  const rotateEl = document.getElementById('hero-rotate');
+  const words = ['LinkedIn', 'LinkedIn', 'LinkedIn', 'contenu', 'visibilité'];
+  let wi = 0;
+  if (rotateEl) {
+    setInterval(() => {
+      rotateEl.style.opacity = '0';
+      rotateEl.style.transform = 'translateY(-8px)';
+      setTimeout(() => {
+        wi = (wi + 1) % words.length;
+        rotateEl.textContent = words[wi];
+        rotateEl.style.transition = 'none';
+        rotateEl.style.transform = 'translateY(8px)';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            rotateEl.style.transition = 'all .4s ease';
+            rotateEl.style.opacity = '1';
+            rotateEl.style.transform = 'translateY(0)';
+          });
+        });
+      }, 300);
+      rotateEl.style.transition = 'all .3s ease';
+    }, 3000);
+    rotateEl.style.transition = 'all .3s ease';
+  }
+
   function switchPriceTab(panel, btn) {
     document.querySelectorAll('.price-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.price-tab').forEach(t => t.classList.remove('active'));
