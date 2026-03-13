@@ -21,10 +21,12 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
   const offset = parseInt(week ?? "0", 10) || 0;
   const weekStart = getWeekStart(offset);
 
-  const posts = await prisma.post.findMany({
-    where: { profileId: user.id, weekStart },
-    orderBy: { dayOfWeek: "asc" },
-  });
+  const [posts, profile] = await Promise.all([
+    prisma.post.findMany({ where: { profileId: user.id, weekStart }, orderBy: { dayOfWeek: "asc" } }),
+    prisma.profile.findUnique({ where: { id: user.id } }),
+  ]);
+
+  const linkedinConnected = !!profile?.linkedinAccessToken;
 
   const DAY_LABELS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
   const today = new Date().toDateString();
@@ -55,6 +57,7 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
       days={days}
       weekLabel={weekLabel}
       weekOffset={offset}
+      linkedinConnected={linkedinConnected}
     />
   );
 }

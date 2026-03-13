@@ -43,11 +43,12 @@ function isMorning(time: string) {
 }
 
 
-export default function CalendarView({ posts, days, weekLabel, weekOffset = 0 }: {
+export default function CalendarView({ posts, days, weekLabel, weekOffset = 0, linkedinConnected = false }: {
   posts: Post[];
   days: DayInfo[];
   weekLabel: string;
   weekOffset?: number;
+  linkedinConnected?: boolean;
 }) {
   const [selected, setSelected] = useState<Post | null>(null);
   const [reminders, setReminders] = useState<Set<string>>(new Set());
@@ -217,7 +218,7 @@ export default function CalendarView({ posts, days, weekLabel, weekOffset = 0 }:
                 ✕ Fermer
               </button>
             </div>
-            <PostCard post={selected} defaultExpanded />
+            <PostCard post={selected} defaultExpanded linkedinConnected={linkedinConnected} />
           </div>
         </div>
       )}
