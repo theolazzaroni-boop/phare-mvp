@@ -175,6 +175,9 @@ export default function CalendarView({ posts, days, weekLabel, weekOffset = 0 }:
           );
         })}
 
+        {/* Separator */}
+        <div className="col-span-6 border-t border-border my-1" />
+
         {/* Afternoon row label */}
         <div className="flex items-start justify-center pt-3">
           <span className="text-xs font-semibold text-t3 [writing-mode:vertical-rl] rotate-180 select-none">🌇 Après-midi</span>
