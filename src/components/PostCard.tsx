@@ -262,9 +262,18 @@ export default function PostCard({
           onClick={() => { if (!loading) { setShowPublishModal(false); setManualStep(false); } }}
         >
           <div
-            className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6"
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 relative"
             onClick={e => e.stopPropagation()}
           >
+            {/* Croix fermeture */}
+            <button
+              onClick={() => { if (!loading) { setShowPublishModal(false); setManualStep(false); } }}
+              disabled={!!loading}
+              className="absolute top-4 right-4 w-7 h-7 flex items-center justify-center rounded-full text-t3 hover:bg-bg-2 hover:text-t1 transition text-base disabled:opacity-30"
+            >
+              ✕
+            </button>
+
             {!manualStep ? (
               <>
                 <h3 className="text-base font-bold text-t1 mb-1">Publier ce post</h3>
@@ -273,32 +282,6 @@ export default function PostCard({
                 {error && (
                   <div className="mb-4 text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
                     {error}
-                  </div>
-                )}
-
-                {/* Sélecteur de média (optionnel) */}
-                {linkedinConnected && (
-                  <div className="mb-1">
-                    {!mediaFile ? (
-                      <label className="flex items-center gap-2 text-xs text-t2 cursor-pointer hover:text-accent transition w-fit">
-                        <span className="text-base">🖼️</span>
-                        <span className="underline underline-offset-2">Ajouter une photo (optionnel)</span>
-                        <input
-                          type="file"
-                          accept="image/jpeg,image/png,image/gif"
-                          className="hidden"
-                          onChange={handleMediaSelect}
-                        />
-                      </label>
-                    ) : (
-                      <div className="flex items-center gap-3">
-                        <img src={mediaPreview!} alt="" className="w-12 h-12 rounded-lg object-cover border border-border" />
-                        <div className="flex-1 min-w-0">
-                          <div className="text-xs font-medium text-t1 truncate">{mediaFile.name}</div>
-                          <button onClick={removeMedia} className="text-xs text-red-400 hover:text-red-600 transition">Retirer</button>
-                        </div>
-                      </div>
-                    )}
                   </div>
                 )}
 
@@ -340,13 +323,31 @@ export default function PostCard({
                   )}
                 </div>
 
-                <button
-                  onClick={() => setShowPublishModal(false)}
-                  disabled={!!loading}
-                  className="mt-4 w-full text-xs text-t3 hover:text-t1 transition"
-                >
-                  Annuler
-                </button>
+                {/* Sélecteur de média */}
+                {linkedinConnected && (
+                  <div className="mt-4 flex justify-center">
+                    {!mediaFile ? (
+                      <label className="flex items-center gap-2 text-xs text-t2 cursor-pointer hover:text-accent transition">
+                        <span>🖼️</span>
+                        <span className="underline underline-offset-2">Ajouter une photo (optionnel)</span>
+                        <input
+                          type="file"
+                          accept="image/jpeg,image/png,image/gif"
+                          className="hidden"
+                          onChange={handleMediaSelect}
+                        />
+                      </label>
+                    ) : (
+                      <div className="flex items-center gap-3">
+                        <img src={mediaPreview!} alt="" className="w-12 h-12 rounded-lg object-cover border border-border" />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs font-medium text-t1 truncate">{mediaFile.name}</div>
+                          <button onClick={removeMedia} className="text-xs text-red-400 hover:text-red-600 transition">Retirer</button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </>
             ) : (
               <>
@@ -377,7 +378,7 @@ export default function PostCard({
                   onClick={() => setManualStep(false)}
                   className="mt-3 w-full text-xs text-t3 hover:text-t1 transition"
                 >
-                  Retour
+                  ← Retour
                 </button>
               </>
             )}
