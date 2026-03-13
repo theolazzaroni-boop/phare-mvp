@@ -50,6 +50,8 @@ export default function PostCard({
   const [status, setStatus] = useState(post.status);
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [mediaFile, setMediaFile] = useState<File | null>(null);
+  const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const router = useRouter();
 
   const type = TYPE_CONFIG[post.postType] ?? TYPE_CONFIG["Général"];
@@ -64,18 +66,56 @@ export default function PostCard({
     setTimeout(() => setCopied(false), 2000);
   }
 
+  function handleMediaSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0] ?? null;
+    setMediaFile(file);
+    if (file) {
+      setMediaPreview(URL.createObjectURL(file));
+    } else {
+      setMediaPreview(null);
+    }
+  }
+
+  function removeMedia() {
+    setMediaFile(null);
+    setMediaPreview(null);
+  }
+
   async function handlePublish(auto: boolean) {
     setLoading("publish");
     setError(null);
+
+    let imageUrn: string | null = null;
+
+    // Upload l'image si présente
+    if (auto && mediaFile) {
+      const formData = new FormData();
+      formData.append("file", mediaFile);
+      const uploadRes = await fetch(`/api/posts/${post.id}/media`, {
+        method: "POST",
+        body: formData,
+      });
+      if (!uploadRes.ok) {
+        const data = await uploadRes.json();
+        setError(data.error ?? "Erreur lors de l'upload de l'image.");
+        setLoading(null);
+        return;
+      }
+      const { imageUrn: urn } = await uploadRes.json();
+      imageUrn = urn;
+    }
+
     const res = await fetch(`/api/posts/${post.id}/publish`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ auto }),
+      body: JSON.stringify({ auto, imageUrn }),
     });
     if (res.ok) {
       setStatus("PUBLISHED");
       setShowPublishModal(false);
       setManualStep(false);
+      setMediaFile(null);
+      setMediaPreview(null);
     } else {
       const data = await res.json();
       setError(data.error ?? "Une erreur est survenue.");
@@ -233,6 +273,32 @@ export default function PostCard({
                 {error && (
                   <div className="mb-4 text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
                     {error}
+                  </div>
+                )}
+
+                {/* Sélecteur de média (optionnel) */}
+                {linkedinConnected && (
+                  <div className="mb-1">
+                    {!mediaFile ? (
+                      <label className="flex items-center gap-2 text-xs text-t2 cursor-pointer hover:text-accent transition w-fit">
+                        <span className="text-base">🖼️</span>
+                        <span className="underline underline-offset-2">Ajouter une photo (optionnel)</span>
+                        <input
+                          type="file"
+                          accept="image/jpeg,image/png,image/gif"
+                          className="hidden"
+                          onChange={handleMediaSelect}
+                        />
+                      </label>
+                    ) : (
+                      <div className="flex items-center gap-3">
+                        <img src={mediaPreview!} alt="" className="w-12 h-12 rounded-lg object-cover border border-border" />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs font-medium text-t1 truncate">{mediaFile.name}</div>
+                          <button onClick={removeMedia} className="text-xs text-red-400 hover:text-red-600 transition">Retirer</button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
