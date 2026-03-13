@@ -4,6 +4,67 @@ import { prisma } from "@/lib/prisma";
 
 const LI_VERSION = "202503";
 
+export async function publishToLinkedIn({
+  token,
+  authorUrn,
+  content,
+  imageUrn,
+}: {
+  token: string;
+  authorUrn: string;
+  content: string;
+  imageUrn?: string | null;
+}) {
+  let res: Response;
+
+  if (imageUrn) {
+    res = await fetch("https://api.linkedin.com/rest/posts", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "LinkedIn-Version": LI_VERSION,
+        "X-Restli-Protocol-Version": "2.0.0",
+      },
+      body: JSON.stringify({
+        author: authorUrn,
+        commentary: content,
+        visibility: "PUBLIC",
+        distribution: { feedDistribution: "MAIN_FEED", targetEntities: [], thirdPartyDistributionChannels: [] },
+        content: { media: { id: imageUrn } },
+        lifecycleState: "PUBLISHED",
+        isReshareDisabledByAuthor: false,
+      }),
+    });
+  } else {
+    res = await fetch("https://api.linkedin.com/v2/ugcPosts", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "X-Restli-Protocol-Version": "2.0.0",
+      },
+      body: JSON.stringify({
+        author: authorUrn,
+        lifecycleState: "PUBLISHED",
+        specificContent: {
+          "com.linkedin.ugc.ShareContent": {
+            shareCommentary: { text: content },
+            shareMediaCategory: "NONE",
+          },
+        },
+        visibility: { "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC" },
+      }),
+    });
+  }
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    console.error("[LinkedIn publish] failed:", JSON.stringify(err));
+    throw new Error(JSON.stringify(err));
+  }
+}
+
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -32,63 +93,25 @@ export async function POST(
     if (!authorUrn)
       return NextResponse.json({ error: "Auteur LinkedIn non configuré" }, { status: 400 });
 
-    let shareRes: Response;
+    // Calculer l'heure exacte de publication
+    const scheduled = new Date(post.weekStart);
+    scheduled.setUTCDate(scheduled.getUTCDate() + (post.dayOfWeek - 1));
+    const [hours, minutes] = post.publishTime.split(":").map(Number);
+    scheduled.setUTCHours(hours, minutes, 0, 0);
 
-    if (imageUrn) {
-      // Nouvelle API /rest/posts pour les posts avec image
-      const body = {
-        author: authorUrn,
-        commentary: post.content,
-        visibility: "PUBLIC",
-        distribution: {
-          feedDistribution: "MAIN_FEED",
-          targetEntities: [],
-          thirdPartyDistributionChannels: [],
-        },
-        content: { media: { id: imageUrn } },
-        lifecycleState: "PUBLISHED",
-        isReshareDisabledByAuthor: false,
-      };
-      shareRes = await fetch("https://api.linkedin.com/rest/posts", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${profile.linkedinAccessToken}`,
-          "Content-Type": "application/json",
-          "LinkedIn-Version": LI_VERSION,
-          "X-Restli-Protocol-Version": "2.0.0",
-        },
-        body: JSON.stringify(body),
-      });
-    } else {
-      // API legacy ugcPosts pour les posts texte (pas de version requise)
-      shareRes = await fetch("https://api.linkedin.com/v2/ugcPosts", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${profile.linkedinAccessToken}`,
-          "Content-Type": "application/json",
-          "X-Restli-Protocol-Version": "2.0.0",
-        },
-        body: JSON.stringify({
-          author: authorUrn,
-          lifecycleState: "PUBLISHED",
-          specificContent: {
-            "com.linkedin.ugc.ShareContent": {
-              shareCommentary: { text: post.content },
-              shareMediaCategory: "NONE",
-            },
-          },
-          visibility: {
-            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC",
-          },
-        }),
-      });
+    // Si l'heure est déjà passée, publier immédiatement
+    if (scheduled <= new Date()) {
+      await publishToLinkedIn({ token: profile.linkedinAccessToken!, authorUrn, content: post.content, imageUrn });
+      await prisma.post.update({ where: { id }, data: { status: "PUBLISHED", scheduledPublishAt: null, scheduledImageUrn: null } });
+      return NextResponse.json({ ok: true, immediate: true });
     }
 
-    if (!shareRes.ok) {
-      const err = await shareRes.json().catch(() => ({}));
-      console.error("[LinkedIn publish] failed:", JSON.stringify(err), "body:", JSON.stringify(body));
-      return NextResponse.json({ error: "Erreur LinkedIn", details: err }, { status: 500 });
-    }
+    // Sinon programmer
+    await prisma.post.update({
+      where: { id },
+      data: { status: "SCHEDULED", scheduledPublishAt: scheduled, scheduledImageUrn: imageUrn ?? null },
+    });
+    return NextResponse.json({ ok: true, scheduled: scheduled.toISOString() });
   }
 
   await prisma.post.update({ where: { id }, data: { status: "PUBLISHED" } });

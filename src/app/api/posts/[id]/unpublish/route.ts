@@ -15,6 +15,9 @@ export async function POST(
   if (!post || post.profileId !== user.id)
     return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  await prisma.post.update({ where: { id }, data: { status: "READY" } });
+  await prisma.post.update({
+    where: { id },
+    data: { status: "READY", scheduledPublishAt: null, scheduledImageUrn: null },
+  });
   return NextResponse.json({ ok: true });
 }

@@ -15,10 +15,11 @@ const TYPE_CONFIG: Record<string, { emoji: string; color: string; bg: string; bo
 };
 
 const STATUS_CONFIG: Record<string, { label: string; dot: string; text: string }> = {
-  DRAFT:              { label: "En préparation",   dot: "bg-t3",         text: "text-t3" },
-  READY:              { label: "Prêt à publier",   dot: "bg-green",      text: "text-green" },
-  PUBLISHED:          { label: "Publié",            dot: "bg-accent",     text: "text-accent" },
-  REVISION_REQUESTED: { label: "Révision en cours", dot: "bg-amber-400", text: "text-amber-600" },
+  DRAFT:              { label: "En préparation",    dot: "bg-t3",         text: "text-t3" },
+  READY:              { label: "Prêt à publier",    dot: "bg-green",      text: "text-green" },
+  SCHEDULED:          { label: "Programmé",         dot: "bg-blue-400",   text: "text-blue-600" },
+  PUBLISHED:          { label: "Publié",             dot: "bg-accent",     text: "text-accent" },
+  REVISION_REQUESTED: { label: "Révision en cours", dot: "bg-amber-400",  text: "text-amber-600" },
 };
 
 const DAYS = ["", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
@@ -111,7 +112,8 @@ export default function PostCard({
       body: JSON.stringify({ auto, imageUrn }),
     });
     if (res.ok) {
-      setStatus("PUBLISHED");
+      const data = await res.json();
+      setStatus(data.scheduled ? "SCHEDULED" : "PUBLISHED");
       setShowPublishModal(false);
       setManualStep(false);
       setMediaFile(null);
@@ -239,6 +241,18 @@ export default function PostCard({
             >
               ✓ Publier
             </button>
+          )}
+          {status === "SCHEDULED" && (
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-blue-600">🕐 Programmé</span>
+              <button
+                onClick={handleUnpublish}
+                disabled={loading === "unpublish"}
+                className="text-xs text-t3 hover:text-red-500 transition underline underline-offset-2 disabled:opacity-50"
+              >
+                {loading === "unpublish" ? "…" : "Déprogrammer"}
+              </button>
+            </div>
           )}
           {status === "PUBLISHED" && (
             <div className="flex items-center gap-2">
