@@ -97,6 +97,21 @@ export default function Sidebar({ userName, company, isAdmin }: SidebarProps) {
         )}
       </nav>
 
+      {/* LinkedIn settings */}
+      <div className="px-3 pb-1">
+        <Link
+          href="/dashboard/settings/linkedin"
+          className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
+            ${pathname.startsWith("/dashboard/settings/linkedin")
+              ? "bg-accent-xl text-accent font-semibold"
+              : "text-t2 hover:bg-bg-2 hover:text-t1"
+            }`}
+        >
+          <span className="text-base">🔗</span>
+          Paramètres LinkedIn
+        </Link>
+      </div>
+
       {/* Contact */}
       <div className="px-3 pb-1">
         <button

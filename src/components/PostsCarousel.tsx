@@ -13,7 +13,7 @@ interface Post {
   status: string;
 }
 
-export default function PostsCarousel({ posts }: { posts: Post[] }) {
+export default function PostsCarousel({ posts, linkedinConnected = false }: { posts: Post[]; linkedinConnected?: boolean }) {
   const [index, setIndex] = useState(0);
   const touchStartX = useRef<number | null>(null);
 
@@ -74,7 +74,7 @@ export default function PostsCarousel({ posts }: { posts: Post[] }) {
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
-        <PostCard key={post.id} post={post} defaultExpanded />
+        <PostCard key={post.id} post={post} defaultExpanded linkedinConnected={linkedinConnected} />
       </div>
 
     </div>

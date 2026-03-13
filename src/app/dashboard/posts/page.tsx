@@ -18,10 +18,12 @@ export default async function PostsPage() {
 
   const weekStart = getThisWeekStart();
 
-  const posts = await prisma.post.findMany({
-    where: { profileId: user.id, weekStart },
-    orderBy: { dayOfWeek: "asc" },
-  });
+  const [posts, profile] = await Promise.all([
+    prisma.post.findMany({ where: { profileId: user.id, weekStart }, orderBy: { dayOfWeek: "asc" } }),
+    prisma.profile.findUnique({ where: { id: user.id } }),
+  ]);
+
+  const linkedinConnected = !!profile?.linkedinAccessToken;
 
   return (
     <div>
@@ -43,7 +45,7 @@ export default async function PostsPage() {
           </a>
         </div>
       ) : (
-        <PostsCarousel posts={posts.map(p => ({ ...p, title: p.title || undefined }))} />
+        <PostsCarousel posts={posts.map(p => ({ ...p, title: p.title || undefined }))} linkedinConnected={linkedinConnected} />
       )}
     </div>
   );

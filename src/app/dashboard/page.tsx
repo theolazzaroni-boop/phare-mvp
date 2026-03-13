@@ -50,8 +50,34 @@ export default async function DashboardPage() {
   const ready = posts.filter(p => p.status === "READY").length;
   const weekLabel = weekStart.toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
 
+  const linkedinConnected = !!profile.linkedinAccessToken;
+
   return (
     <div className="max-w-3xl space-y-6">
+
+      {/* LinkedIn connect banner */}
+      {!linkedinConnected && (
+        <a
+          href="/api/linkedin/connect"
+          className="flex items-center justify-between gap-4 bg-white border border-border rounded-2xl px-5 py-4 hover:border-accent/40 transition group"
+        >
+          <div className="flex items-center gap-3">
+            <span className="text-xl">🔗</span>
+            <div>
+              <div className="text-sm font-semibold text-t1">Connectez votre LinkedIn</div>
+              <div className="text-xs text-t2">Pour publier vos posts directement depuis Phare</div>
+            </div>
+          </div>
+          <span className="text-xs font-semibold text-accent group-hover:underline shrink-0">Connecter →</span>
+        </a>
+      )}
+
+      {linkedinConnected && (
+        <div className="flex items-center gap-3 bg-green/10 border border-green/20 rounded-2xl px-5 py-3">
+          <span className="text-base">✓</span>
+          <span className="text-sm font-medium text-green">LinkedIn connecté — vos posts peuvent être publiés automatiquement</span>
+        </div>
+      )}
 
       {/* Greeting */}
       <div>

@@ -15,9 +15,9 @@ const TYPE_CONFIG: Record<string, { emoji: string; color: string; bg: string; bo
 };
 
 const STATUS_CONFIG: Record<string, { label: string; dot: string; text: string }> = {
-  DRAFT:              { label: "En préparation", dot: "bg-t3",         text: "text-t3" },
-  READY:              { label: "Prêt à publier", dot: "bg-green",      text: "text-green" },
-  PUBLISHED:          { label: "Publié",          dot: "bg-accent",     text: "text-accent" },
+  DRAFT:              { label: "En préparation",   dot: "bg-t3",         text: "text-t3" },
+  READY:              { label: "Prêt à publier",   dot: "bg-green",      text: "text-green" },
+  PUBLISHED:          { label: "Publié",            dot: "bg-accent",     text: "text-accent" },
   REVISION_REQUESTED: { label: "Révision en cours", dot: "bg-amber-400", text: "text-amber-600" },
 };
 
@@ -33,13 +33,22 @@ interface Post {
   status: string;
 }
 
-export default function PostCard({ post, defaultExpanded = false }: { post: Post; defaultExpanded?: boolean }) {
+export default function PostCard({
+  post,
+  defaultExpanded = false,
+  linkedinConnected = false,
+}: {
+  post: Post;
+  defaultExpanded?: boolean;
+  linkedinConnected?: boolean;
+}) {
   const [expanded, setExpanded] = useState(defaultExpanded);
   const [copied, setCopied] = useState(false);
   const [showRevision, setShowRevision] = useState(false);
-  const [confirmPublish, setConfirmPublish] = useState(false);
+  const [showPublishModal, setShowPublishModal] = useState(false);
   const [status, setStatus] = useState(post.status);
   const [loading, setLoading] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const type = TYPE_CONFIG[post.postType] ?? TYPE_CONFIG["Général"];
@@ -54,10 +63,21 @@ export default function PostCard({ post, defaultExpanded = false }: { post: Post
     setTimeout(() => setCopied(false), 2000);
   }
 
-  async function handlePublish() {
+  async function handlePublish(auto: boolean) {
     setLoading("publish");
-    await fetch(`/api/posts/${post.id}/publish`, { method: "POST" });
-    setStatus("PUBLISHED");
+    setError(null);
+    const res = await fetch(`/api/posts/${post.id}/publish`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ auto }),
+    });
+    if (res.ok) {
+      setStatus("PUBLISHED");
+      setShowPublishModal(false);
+    } else {
+      const data = await res.json();
+      setError(data.error ?? "Une erreur est survenue.");
+    }
     setLoading(null);
   }
 
@@ -87,18 +107,15 @@ export default function PostCard({ post, defaultExpanded = false }: { post: Post
       {/* Header */}
       <div className="px-5 pt-4 pb-3 flex items-start justify-between gap-3">
         <div className="flex flex-col gap-1.5">
-          {/* Day + time — prominent */}
           <div className="flex items-baseline gap-2">
             <span className="text-base font-bold text-t1">{DAYS[post.dayOfWeek]}</span>
             <span className="text-sm text-t3 font-medium">{post.publishTime}</span>
           </div>
-          {/* Type badge */}
           <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full w-fit ${type.bg} ${type.color}`}>
             <span>{type.emoji}</span>
             {post.postType}
           </span>
         </div>
-        {/* Status (only show non-published states here) */}
         {status !== "PUBLISHED" && (
           <span className={`inline-flex items-center gap-1.5 text-xs font-semibold shrink-0 ${statusCfg.text}`}>
             <span className={`w-1.5 h-1.5 rounded-full ${statusCfg.dot}`}></span>
@@ -141,7 +158,6 @@ export default function PostCard({ post, defaultExpanded = false }: { post: Post
 
       {/* Actions */}
       <div className="px-5 py-3 border-t border-border bg-bg-base flex items-center justify-between gap-2">
-        {/* Copy */}
         <button
           onClick={handleCopy}
           className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border transition
@@ -154,7 +170,7 @@ export default function PostCard({ post, defaultExpanded = false }: { post: Post
         </button>
 
         <div className="flex items-center gap-2">
-          {status === "READY" && !showRevision && !confirmPublish && (
+          {status === "READY" && !showRevision && (
             <button
               onClick={() => setShowRevision(true)}
               className="text-xs text-t3 hover:text-t2 transition underline underline-offset-2"
@@ -162,39 +178,87 @@ export default function PostCard({ post, defaultExpanded = false }: { post: Post
               Demander une révision
             </button>
           )}
-          {status === "READY" && !confirmPublish && (
+          {status === "READY" && (
             <button
-              onClick={() => setConfirmPublish(true)}
+              onClick={() => setShowPublishModal(true)}
               className="flex items-center gap-1.5 text-xs font-semibold bg-green/10 text-green border border-green/30 px-3 py-1.5 rounded-lg hover:bg-green/20 transition"
             >
-              ✓ Marquer comme publié
+              ✓ Publier
             </button>
           )}
-          {status === "READY" && confirmPublish && (
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-t2">Vous avez bien publié ce post ?</span>
-              <button
-                onClick={handlePublish}
-                disabled={loading === "publish"}
-                className="text-xs font-semibold bg-green text-white px-3 py-1.5 rounded-lg hover:bg-green/90 transition disabled:opacity-50"
-              >
-                {loading === "publish" ? "…" : "Oui"}
-              </button>
-              <button
-                onClick={() => setConfirmPublish(false)}
-                className="text-xs text-t3 hover:text-t1 transition"
-              >
-                Non
-              </button>
-            </div>
-          )}
           {status === "PUBLISHED" && (
-            <span className="text-xs font-semibold text-green-600">
-              ✦ En ligne
-            </span>
+            <span className="text-xs font-semibold text-green-600">✦ En ligne</span>
           )}
         </div>
       </div>
+
+      {/* Publish modal */}
+      {showPublishModal && (
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+          onClick={() => !loading && setShowPublishModal(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6"
+            onClick={e => e.stopPropagation()}
+          >
+            <h3 className="text-base font-bold text-t1 mb-1">Publier ce post</h3>
+            <p className="text-sm text-t2 mb-5">Comment souhaitez-vous publier ce post sur LinkedIn ?</p>
+
+            {error && (
+              <div className="mb-4 text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                {error}
+              </div>
+            )}
+
+            <div className="flex flex-col gap-3">
+              {linkedinConnected && (
+                <button
+                  onClick={() => handlePublish(true)}
+                  disabled={!!loading}
+                  className="w-full flex items-start gap-3 p-4 rounded-xl border-2 border-accent/30 bg-accent-xl hover:border-accent transition disabled:opacity-50 text-left"
+                >
+                  <span className="text-xl mt-0.5">🚀</span>
+                  <div>
+                    <div className="text-sm font-semibold text-t1">Publier via Phare</div>
+                    <div className="text-xs text-t2 mt-0.5">On s'en occupe directement sur votre LinkedIn</div>
+                  </div>
+                  {loading === "publish" && <span className="ml-auto text-xs text-t3 self-center">…</span>}
+                </button>
+              )}
+
+              <button
+                onClick={() => handlePublish(false)}
+                disabled={!!loading}
+                className="w-full flex items-start gap-3 p-4 rounded-xl border-2 border-border hover:border-t2 transition disabled:opacity-50 text-left"
+              >
+                <span className="text-xl mt-0.5">📋</span>
+                <div>
+                  <div className="text-sm font-semibold text-t1">Je le publie moi-même</div>
+                  <div className="text-xs text-t2 mt-0.5">Copiez le post et publiez-le sur votre profil</div>
+                </div>
+              </button>
+
+              {!linkedinConnected && (
+                <a
+                  href="/api/linkedin/connect"
+                  className="w-full flex items-center justify-center gap-2 text-xs font-medium text-accent hover:underline py-1"
+                >
+                  Connecter mon LinkedIn pour publier automatiquement →
+                </a>
+              )}
+            </div>
+
+            <button
+              onClick={() => setShowPublishModal(false)}
+              disabled={!!loading}
+              className="mt-4 w-full text-xs text-t3 hover:text-t1 transition"
+            >
+              Annuler
+            </button>
+          </div>
+        </div>
+      )}
 
     </div>
   );
