@@ -125,7 +125,7 @@ export default function NewsForm({
             <button
               onClick={handleSubmit}
               disabled={loading || selected.length === 0}
-              className="text-sm font-semibold bg-accent text-white px-4 py-2 rounded-lg disabled:opacity-40 transition hover:bg-accent/90"
+              className="text-sm font-semibold bg-green text-white px-4 py-2 rounded-lg disabled:opacity-40 transition hover:bg-green/90"
             >
               {loading ? "Envoi…" : "Envoyer →"}
             </button>

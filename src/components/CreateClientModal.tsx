@@ -98,7 +98,7 @@ export default function CreateClientModal() {
               <div className="flex gap-3 pt-1">
                 <button
                   type="submit" disabled={loading}
-                  className="flex-1 bg-accent text-white text-sm font-semibold py-2.5 rounded-lg hover:bg-accent/90 disabled:opacity-50 transition"
+                  className="flex-1 bg-green text-white text-sm font-semibold py-2.5 rounded-lg hover:bg-green/90 disabled:opacity-50 transition"
                 >
                   {loading ? "Création…" : "Créer le client"}
                 </button>

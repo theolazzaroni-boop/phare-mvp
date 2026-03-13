@@ -137,7 +137,7 @@ export default function DeliverForm({
       <button
         type="submit"
         disabled={loading}
-        className="bg-accent text-white font-semibold text-sm px-6 py-2.5 rounded-xl disabled:opacity-50 hover:bg-accent/90 transition"
+        className="bg-green text-white font-semibold text-sm px-6 py-2.5 rounded-xl disabled:opacity-50 hover:bg-green/90 transition"
       >
         {loading ? "Livraison…" : "Livrer les 4 posts →"}
       </button>

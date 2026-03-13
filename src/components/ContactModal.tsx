@@ -108,7 +108,7 @@ export default function ContactModal({ onClose }: { onClose: () => void }) {
                   <button
                     onClick={handleSend}
                     disabled={!message.trim() || loading}
-                    className="mt-3 w-full bg-accent text-white text-sm font-semibold py-2.5 rounded-xl hover:bg-accent/90 transition disabled:opacity-40"
+                    className="mt-3 w-full bg-green text-white text-sm font-semibold py-2.5 rounded-xl hover:bg-green/90 transition disabled:opacity-40"
                   >
                     {loading ? "Envoi…" : "Envoyer le message →"}
                   </button>

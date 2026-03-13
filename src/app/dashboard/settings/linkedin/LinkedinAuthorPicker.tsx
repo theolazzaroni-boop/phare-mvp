@@ -69,7 +69,7 @@ export default function LinkedinAuthorPicker({
       <button
         onClick={handleSave}
         disabled={loading || saved}
-        className="mt-2 w-full py-3 rounded-xl bg-accent text-white text-sm font-semibold hover:bg-accent2 transition disabled:opacity-60"
+        className="mt-2 w-full py-3 rounded-xl bg-green text-white text-sm font-semibold hover:bg-green/90 transition disabled:opacity-60"
       >
         {saved ? "✓ Sauvegardé !" : loading ? "…" : "Confirmer"}
       </button>

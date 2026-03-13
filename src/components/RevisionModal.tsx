@@ -175,7 +175,7 @@ export default function RevisionModal({ onClose, onSubmit, loading }: Props) {
               <button
                 onClick={handleSubmit}
                 disabled={!canSubmit || loading}
-                className="w-full bg-accent text-white text-sm font-semibold py-2.5 rounded-xl hover:bg-accent/90 transition disabled:opacity-40"
+                className="w-full bg-green text-white text-sm font-semibold py-2.5 rounded-xl hover:bg-green/90 transition disabled:opacity-40"
               >
                 {loading ? "Envoi…" : "Envoyer la demande →"}
               </button>
