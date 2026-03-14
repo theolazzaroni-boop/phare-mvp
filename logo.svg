@@ -1,17 +1,13 @@
-<svg width="400" height="600" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
-  <!-- Forme gauche : rectangle -->
-  <rect x="20" y="50" width="100" height="500" rx="10" fill="#C20000" stroke="none"/>
+<svg viewBox="0 0 320 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Barre gauche -->
+  <rect x="18" y="20" width="56" height="345" rx="10" fill="#C20000"/>
 
-  <!-- Forme centrale : forme principale avec trou en bas -->
-  <path d="M 130 50 Q 170 100 170 300 Q 170 500 130 550 L 130 50 Z
-           M 130 500 Q 150 520 170 500 Q 170 480 150 480 Q 130 480 130 500 Z"
-        fill="#C20000" stroke="none"/>
+  <!-- Barre centrale -->
+  <rect x="87" y="52" width="46" height="275" rx="10" fill="#C20000"/>
 
-  <!-- Forme droite : rectangle avec bord courbe -->
-  <path d="M 200 50 L 360 50 Q 380 150 360 300 Q 340 500 300 550 L 200 550 Z"
-        fill="#C20000" stroke="none"/>
+  <!-- Petit arc en bas (entre barre centrale et D) -->
+  <path d="M 87 388 L 87 360 Q 110 334 133 360 L 133 388 Z" fill="#C20000"/>
 
-  <!-- Petit arc en bas centre -->
-  <path d="M 140 530 Q 155 545 170 530 Q 170 515 155 515 Q 140 515 140 530 Z"
-        fill="#C20000" stroke="none"/>
+  <!-- Forme D droite -->
+  <path d="M 152 20 L 152 380 C 310 380 310 20 152 20 Z" fill="#C20000"/>
 </svg>
