@@ -4,492 +4,540 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Phare — Commencer ma stratégie</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="description" content="Remplissez ce formulaire pour démarrer votre stratégie LinkedIn avec Phare." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: { brand: '#111111' }
+        }
+      }
+    }
+  </script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --accent:   #c20000;
-      --accent2:  #a50000;
-      --accent-l: #f5a0a0;
-      --accent-xl:#fff0f0;
-      --t1: #424242; --t2: #6b6b6b; --t3: #9e9e9e;
-      --bg: #FFFFFF; --bg2: #F0EEE9;
-      --card: #FFFFFF; --border: #E8E0D8;
-      --green: #10B981;
-    }
+    * { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
     html { scroll-behavior: smooth; }
-    body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--t1); min-height: 100vh; }
 
-    /* NAV */
-    nav {
-      height: 60px; padding: 0 40px;
-      display: flex; align-items: center; justify-content: space-between;
-      background: var(--card); border-bottom: 1px solid var(--border);
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    .logo { display: flex; align-items: center; gap: 9px; text-decoration: none; }
-    .logo-mark { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), #f5a0a0); display: flex; align-items: center; justify-content: center; font-size: 14px; }
-    .logo-name { font-size: 16px; font-weight: 700; color: var(--t1); letter-spacing: -.02em; }
-    .nav-back { font-size: 13.5px; color: var(--t2); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 5px; transition: color .15s; }
-    .nav-back:hover { color: var(--accent); }
+    .anim-up { animation: fadeInUp 0.45s ease-out both; }
+    .delay-1 { animation-delay: 0.06s; }
 
-    /* LAYOUT */
-    .page { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 60px); overflow: hidden; }
-    @media(max-width: 1200px) {
-      .page { grid-template-columns: 1fr !important; height: auto !important; overflow: visible !important; }
-      .page-left { display: none !important; }
-    }
-
-    /* LEFT — context */
-    .page-left {
-      background: linear-gradient(160deg, var(--accent-xl) 0%, #e8ede4 40%, #F0EEE9 100%);
-      padding: 56px 48px; display: flex; flex-direction: column; justify-content: flex-start;
-      position: relative; overflow-y: auto;
-      border-right: 1px solid var(--border);
-    }
-    .pl-blob1 { position: absolute; top: -80px; right: -80px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, rgba(194,0,0,.15), transparent 65%); pointer-events: none; }
-    .pl-blob2 { position: absolute; bottom: -60px; left: -60px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, rgba(202,211,193,.12), transparent 65%); pointer-events: none; }
-    .pl-circle { position: absolute; top: 50%; right: -100px; transform: translateY(-50%); width: 400px; height: 400px; border-radius: 50%; border: 1px solid rgba(194,0,0,.1); pointer-events: none; }
-
-    .pl-content { position: relative; z-index: 1; padding-top: 20px; }
-    .pl-badge {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: rgba(194,0,0,.1); border: 1px solid rgba(194,0,0,.2);
-      color: var(--accent); font-size: 12px; font-weight: 600;
-      padding: 5px 13px; border-radius: 20px; margin-bottom: 28px;
-    }
-    .pl-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-    .pl-title { font-size: 32px; font-weight: 700; letter-spacing: -.03em; line-height: 1.15; color: var(--t1); margin-bottom: 14px; }
-    .pl-sub { font-size: 15px; color: var(--t2); line-height: 1.7; margin-bottom: 36px; max-width: 380px; }
-
-    .pl-items { display: flex; flex-direction: column; gap: 14px; margin-bottom: 40px; }
-    .pl-item { display: flex; align-items: flex-start; gap: 12px; }
-    .pl-ic { width: 34px; height: 34px; border-radius: 9px; background: var(--card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
-    .pl-text strong { font-size: 13.5px; font-weight: 600; color: var(--t1); display: block; margin-bottom: 1px; }
-    .pl-text span { font-size: 12.5px; color: var(--t2); }
-
-    /* EXAMPLE SECTION */
-    .pl-example { margin-top: 6px; display: flex; flex-direction: column; gap: 12px; }
-
-    /* Brief notification */
-    .pe-brief {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 11px; padding: 12px 14px;
-      display: flex; gap: 10px; align-items: flex-start;
-      box-shadow: 0 2px 10px rgba(0,0,0,.05);
-    }
-    .pe-brief-ic { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-    .pe-brief-title { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 3px; }
-    .pe-brief-text { font-size: 12px; color: var(--t2); line-height: 1.55; }
-    .pe-brief-text strong { color: var(--t1); }
-
-    /* Stage labels */
-    .pe-stage-labels { display: flex; gap: 10px; margin-bottom: 8px; align-items: center; }
-    .pe-sl-bad { flex: 0 0 36%; text-align: center; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #EF4444; }
-    .pe-sl-good { flex: 1; text-align: center; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--green); background: rgba(16,185,129,.1); border-radius: 8px; padding: 5px 0; display: flex; align-items: center; justify-content: center; }
-
-    /* Stage with ghost posts */
-    .pe-stage { position: relative; display: flex; align-items: flex-start; gap: 8px; }
-    .pe-ghost {
-      flex: 0 0 36%; opacity: 0.7;
-      pointer-events: none;
-      background: var(--card); border: 1.5px solid #FECACA;
-      border-radius: 10px; overflow: hidden;
-      color: var(--t2); line-height: 1.55;
-    }
-    .pe-ghost-head { padding: 10px 12px 7px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 2px; }
-    .pe-ghost-name { font-weight: 700; font-size: 11px; color: var(--t1); }
-    .pe-ghost-role { font-size: 10px; color: var(--t3); }
-    .pe-ghost-body { padding: 10px 12px; font-size: 11px; line-height: 1.55; }
-    .pe-ghost-stat { border-top: 1px solid var(--border); padding: 7px 12px; font-size: 10.5px; font-weight: 700; color: #EF4444; }
-    .pe-center { flex: 1; z-index: 1; }
-
-    /* LinkedIn card */
-    .li-card {
-      background: var(--card); border: 1px solid rgba(16,185,129,.3);
-      border-radius: 12px; overflow: hidden;
-      box-shadow: 0 6px 28px rgba(16,185,129,.12), 0 2px 8px rgba(0,0,0,.06);
-    }
-    .li-header { padding: 12px 14px 8px; display: flex; align-items: center; gap: 9px; }
-    .li-av { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg,#1B2B4B,#2D4A7A); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
-    .li-name { font-size: 12.5px; font-weight: 700; color: var(--t1); line-height: 1.3; }
-    .li-role { font-size: 11px; color: var(--t3); }
-    .li-body { padding: 0 14px 12px; font-size: 12px; color: var(--t1); line-height: 1.7; white-space: pre-wrap; }
-    .li-reactions { font-size: 11px; color: var(--t3); padding: 6px 14px 0; }
-    .li-footer { border-top: 1px solid var(--border); padding: 9px 14px; display: flex; justify-content: center; }
-    .li-stat .v { font-size: 13px; font-weight: 700; color: var(--green); }
-    .li-stat .l { font-size: 10px; color: var(--t3); }
-
-    /* RIGHT — form */
-    .page-right { padding: 48px 56px; display: flex; flex-direction: column; justify-content: center; background: var(--card); overflow-y: auto; }
-    @media(max-width:1200px) {
-      .page-right { padding: 40px 28px !important; overflow-y: visible !important; height: auto !important; justify-content: flex-start !important; }
-    }
-
-    .form-header { margin-bottom: 32px; }
-    .form-step { font-size: 12px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
-    .form-title { font-size: 26px; font-weight: 700; letter-spacing: -.025em; color: var(--t1); margin-bottom: 6px; }
-    .form-sub { font-size: 14px; color: var(--t2); }
-
-    .progress { height: 3px; background: var(--bg2); border-radius: 2px; margin-bottom: 32px; }
-    .progress-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent), #f5a0a0); transition: width .4s ease; }
-
-    .field { margin-bottom: 18px; }
-    .field label { display: block; font-size: 13px; font-weight: 600; color: var(--t1); margin-bottom: 6px; }
-    .field input, .field select, .field textarea {
-      width: 100%; padding: 11px 14px; font-size: 14px; font-family: inherit;
-      border: 1.5px solid var(--border); border-radius: 9px;
-      background: var(--bg); color: var(--t1); outline: none; transition: all .15s;
-    }
-    .field input:focus, .field select:focus, .field textarea:focus {
-      border-color: var(--accent); background: #fff; box-shadow: 0 0 0 3px var(--accent-xl);
-    }
-    .field textarea { resize: vertical; min-height: 88px; }
-    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media(max-width:500px){ .field-row{ grid-template-columns:1fr; } }
-    .field-hint { font-size: 11.5px; color: var(--t3); margin-top: 4px; }
-
-    .form-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 8px; }
-    .btn-next {
-      background: var(--accent); color: #fff; border: none;
-      border-radius: 9px; padding: 13px 28px; font-size: 15px; font-weight: 700;
-      cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 8px;
-      box-shadow: 0 4px 18px rgba(194,0,0,.3); transition: all .2s;
-    }
-    .btn-next:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 6px 24px rgba(194,0,0,.4); }
-    .btn-prev { background: none; border: 1.5px solid var(--border); color: var(--t2); border-radius: 9px; padding: 13px 22px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all .2s; }
-    .btn-prev:hover { border-color: var(--t2); color: var(--t1); }
-
-    .form-note { font-size: 11.5px; color: var(--t3); margin-top: 16px; text-align: center; }
-
-    /* Steps */
-    .form-step-panel { display: none; }
-    .form-step-panel.active { display: block; }
-
-    /* Step indicators */
-    .step-indicators { display: flex; align-items: center; gap: 8px; margin-bottom: 28px; }
-    .si { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; border: 1.5px solid var(--border); color: var(--t3); transition: all .3s; flex-shrink: 0; }
-    .si.done { background: var(--green); border-color: var(--green); color: #fff; }
-    .si.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-    .si-line { flex: 1; height: 1.5px; background: var(--border); border-radius: 1px; }
-    .si-line.done { background: var(--green); }
+    /* Step panels */
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
 
     /* Choice cards */
-    .choice-cards { display: flex; flex-direction: row; gap: 10px; margin-bottom: 20px; }
-    .choice-card { flex: 1; }
-    @media(max-width:500px) { .choice-cards { flex-direction: column; } }
-    .choice-card { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; transition: all .15s; }
-    .choice-card:has(input:checked) { border-color: var(--accent); background: var(--accent-xl); }
-    .choice-card input[type="radio"] { display: none; }
-    .choice-card::after { content: ''; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--border); position: absolute; top: 12px; right: 12px; transition: all .15s; flex-shrink: 0; }
-    .choice-card { position: relative; }
-    .choice-card:has(input:checked)::after { content: '✓'; background: var(--accent); border-color: var(--accent); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
-    .choice-ic { font-size: 22px; flex-shrink: 0; }
-    .choice-title { font-size: 13.5px; font-weight: 600; color: var(--t1); margin-bottom: 2px; }
-    .choice-sub { font-size: 12px; color: var(--t2); line-height: 1.5; }
+    .choice-card.selected {
+      border-color: #111111 !important;
+      background: #F9F9F9;
+    }
 
-    /* RESPONSIVE */
-    @media(max-width:480px) {
-      nav { padding: 0 16px; }
-      .page-right { padding: 24px 16px; }
-      .form-title { font-size: 22px; }
-      .btn-next { width: 100%; justify-content: center; }
-      .form-actions { flex-direction: column-reverse; gap: 8px; }
-      .btn-prev { width: 100%; text-align: center; }
+    /* Progress bar */
+    .progress-fill { transition: width 0.4s ease; }
+
+    /* Custom select arrow */
+    select {
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%23888888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px !important;
+    }
+
+    /* Input focus */
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #111111 !important;
+      box-shadow: 0 0 0 3px rgba(17,17,17,0.06);
+    }
+
+    /* Error state */
+    .input-error { border-color: #EF4444 !important; }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
     }
   </style>
 </head>
-<body>
+<body class="bg-white text-[#111111]">
 
-  <nav>
-    <a href="landing.html" class="logo">
-      <img src="logo.svg" alt="Phare" height="40" style="display:block">
-    </a>
-    <a href="landing.html" class="nav-back">← Retour</a>
+  <!-- ===================== NAV ===================== -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#EEEEEE]" style="padding: 16px 24px;">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+
+      <a href="landing.html"
+         class="font-bold text-[#111111] text-xl tracking-tight flex items-center gap-1.5" style="letter-spacing: -0.01em;">
+        Phare
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M9 2 L9 16" stroke="#111111" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M5 16 L13 16" stroke="#111111" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M7 6 L11 6 L10.5 11 L7.5 11 Z" stroke="#111111" stroke-width="1.2" fill="none" stroke-linejoin="round"/>
+          <path d="M6 4 Q9 1 12 4" stroke="#111111" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <line x1="9" y1="6" x2="14" y2="3" stroke="#111111" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+          <line x1="9" y1="6" x2="15" y2="6" stroke="#111111" stroke-width="1" stroke-linecap="round" opacity="0.35"/>
+        </svg>
+      </a>
+
+      <a href="landing.html"
+         class="text-sm text-[#555555] hover:text-[#111111] transition-colors flex items-center gap-1.5 font-medium">
+        ← Retour
+      </a>
+
+    </div>
   </nav>
 
-  <div class="page">
+  <!-- ===================== MAIN ===================== -->
+  <main class="pt-20 pb-16 px-6 min-h-screen bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start pt-8">
 
-    <!-- LEFT -->
-    <div class="page-left">
-      <div class="pl-blob1"></div>
-      <div class="pl-blob2"></div>
-      <div class="pl-circle"></div>
-      <div class="pl-content">
-        <div class="pl-badge"><span></span> Offre de lancement · à partir de 49€/mois</div>
-        <div class="pl-title">Votre comm LinkedIn<br>démarre ici.</div>
-        <div class="pl-sub">Quelques minutes pour qu'on comprenne qui vous êtes, ce que vous faites, et comment vous parlez. Plus on vous connaît, plus le contenu qu'on produit vous ressemble — et convainc avant même que vous parliez.</div>
+        <!-- LEFT — Context -->
+        <div class="hidden lg:flex flex-col gap-5 pt-4 anim-up">
 
-        <div class="pl-items">
-          <div class="pl-item">
-            <div class="pl-ic">✍️</div>
-            <div class="pl-text"><strong>Vos posts LinkedIn clés en main</strong><span>4 par semaine · prêts à publier</span></div>
+          <div class="inline-flex items-center gap-2 bg-[#F5F5F5] rounded-full px-4 py-1.5 text-sm text-[#555555] w-fit">
+            <span class="w-2 h-2 rounded-full bg-green-500 inline-block" style="animation: pulse-dot 2s ease-in-out infinite;"></span>
+            Offre de lancement · à partir de 49€/mois
           </div>
-          <div class="pl-item">
-            <div class="pl-ic">📅</div>
-            <div class="pl-text"><strong>Calendrier éditorial du mois</strong><span>Jours et horaires optimaux pour votre secteur</span></div>
-          </div>
-          <div class="pl-item">
-            <div class="pl-ic">🔄</div>
-            <div class="pl-text"><strong>Jusqu'à 3 révisions par post</strong><span>On ajuste si quelque chose ne vous convient pas</span></div>
-          </div>
-          <div class="pl-item">
-            <div class="pl-ic">⚡</div>
-            <div class="pl-text"><strong>Livraison instantanée</strong><span>Disponible chaque lundi matin dans votre espace Phare</span></div>
-          </div>
-          <div class="pl-item">
-            <div class="pl-ic">📬</div>
-            <div class="pl-text"><strong>Actu de la semaine</strong><span>Chaque semaine, vous nous partagez vos nouveautés — contrat signé, recrutement, projet livré. On les intègre directement dans vos posts.</span></div>
-          </div>
-          <div class="pl-item">
-            <div class="pl-ic">🧭</div>
-            <div class="pl-text"><strong>LinkedIn d'abord, votre comm ensuite</strong><span>Phare devient progressivement votre co-pilote marketing complet. On commence par LinkedIn — et on construit la suite avec vous.</span></div>
-          </div>
-        </div>
 
-      </div>
-    </div>
+          <h2 class="text-3xl font-bold text-[#111111] leading-tight" style="letter-spacing: -0.02em;">
+            Votre comm LinkedIn<br>démarre ici.
+          </h2>
+          <p class="text-[#555555] text-[15px] leading-relaxed" style="max-width: 400px;">
+            Quelques minutes pour qu'on comprenne qui vous êtes, ce que vous faites, et comment vous parlez. Plus on vous connaît, plus le contenu qu'on produit vous ressemble — et convainc avant même que vous parliez.
+          </p>
 
-    <!-- RIGHT — multi-step form -->
-    <div class="page-right">
-      <div class="form-header">
-        <div class="form-step">Étape <span id="step-num">1</span> sur 4</div>
-        <div class="form-title" id="form-title">Parlez-nous de vous</div>
-        <div class="form-sub" id="form-sub">Les informations de base pour personnaliser votre contenu.</div>
-      </div>
+          <div class="flex flex-col gap-3 mt-2">
 
-      <div class="step-indicators">
-        <div class="si active" id="si1">👤</div>
-        <div class="si-line" id="sl1"></div>
-        <div class="si" id="si2">💬</div>
-        <div class="si-line" id="sl2"></div>
-        <div class="si" id="si3">✍️</div>
-        <div class="si-line" id="sl3"></div>
-        <div class="si" id="si4">🤝</div>
-      </div>
-
-      <div class="progress"><div class="progress-fill" id="progress-fill" style="width:25%"></div></div>
-
-      <form id="main-form" onsubmit="submitForm(event)">
-
-        <!-- ÉTAPE 1 -->
-        <div class="form-step-panel active" id="panel1">
-          <div class="field-row">
-            <div class="field"><label>Prénom *</label><input type="text" id="f-prenom" placeholder="Thomas" required /></div>
-            <div class="field"><label>Email *</label><input type="email" id="f-email" placeholder="thomas@entreprise.fr" required /></div>
-          </div>
-          <div class="field"><label>Nom de votre entreprise *</label><input type="text" id="f-entreprise" placeholder="ex. Rennov, Menuiserie Dupont..." required /></div>
-          <div class="field">
-            <label>Secteur d'activité *</label>
-            <select id="f-secteur" required>
-              <option value="">Sélectionnez votre secteur</option>
-              <option>Bâtiment & rénovation</option>
-              <option>Menuiserie & ébénisterie</option>
-              <option>Architecture & design d'intérieur</option>
-              <option>Plomberie & chauffage</option>
-              <option>Électricité</option>
-              <option>Paysagisme & jardinage</option>
-              <option>Comptabilité & expertise-comptable</option>
-              <option>Conseil & formation</option>
-              <option>Santé & bien-être</option>
-              <option>Restauration & traiteur</option>
-              <option>Autre</option>
-            </select>
-          </div>
-          <div class="form-actions">
-            <div></div>
-            <button type="button" class="btn-next" onclick="nextStep(2)">Continuer →</button>
-          </div>
-        </div>
-
-        <!-- ÉTAPE 2 -->
-        <div class="form-step-panel" id="panel2">
-          <div class="field">
-            <label>Où en êtes-vous sur LinkedIn ? *</label>
-            <select id="f-linkedin" required>
-              <option value="">Sélectionnez une option</option>
-              <option>Je n'ai jamais posté</option>
-              <option>J'ai posté quelques fois mais irrégulièrement</option>
-              <option>Je poste régulièrement mais sans stratégie</option>
-              <option>J'ai une stratégie mais je manque de temps</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Quel est votre objectif principal ? *</label>
-            <select id="f-objectif" required>
-              <option value="">Sélectionnez un objectif</option>
-              <option>Générer des leads / prospects</option>
-              <option>Développer ma notoriété locale</option>
-              <option>Attirer des partenaires ou prescripteurs</option>
-              <option>Recruter des collaborateurs</option>
-              <option>Me positionner comme expert de mon secteur</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Quel ton préférez-vous ?</label>
-            <select id="f-ton">
-              <option>Expert & professionnel</option>
-              <option>Accessible & humain</option>
-              <option>Storytelling & émotionnel</option>
-              <option>Direct & concis</option>
-            </select>
-          </div>
-          <div class="form-actions">
-            <button type="button" class="btn-prev" onclick="prevStep(1)">← Retour</button>
-            <button type="button" class="btn-next" onclick="nextStep(3)">Continuer →</button>
-          </div>
-        </div>
-
-        <!-- ÉTAPE 3 -->
-        <div class="form-step-panel" id="panel3">
-          <div class="field">
-            <label>Décrivez votre activité en 2-3 phrases *</label>
-            <textarea id="f-activite" placeholder="Ex. On accompagne les dirigeants de PME industrielles dans leur transformation digitale. Notre force : des projets sur-mesure livrés en moins de 3 mois." required></textarea>
-            <div class="field-hint">Nous ferons une découverte approfondie de votre entreprise dans un second temps !</div>
-          </div>
-          <div class="field">
-            <label>Vos 2-3 sujets de prédilection <span style="font-weight:400;color:var(--t3)">(optionnel)</span></label>
-            <textarea id="f-sujets" placeholder="Ex. Les résultats clients, les coulisses de notre façon de travailler, notre point de vue sur notre secteur..."></textarea>
-          </div>
-          <div class="form-actions">
-            <button type="button" class="btn-prev" onclick="prevStep(2)">← Retour</button>
-            <button type="button" class="btn-next" onclick="nextStep(4)">Continuer →</button>
-          </div>
-        </div>
-
-        <!-- ÉTAPE 4 -->
-        <div class="form-step-panel" id="panel4">
-          <div class="field">
-            <label>Comment souhaitez-vous vous lancer ?</label>
-            <div class="choice-cards">
-              <label class="choice-card">
-                <input type="radio" name="contact-pref" value="call" />
-                <div class="choice-ic">📞</div>
-                <div>
-                  <div class="choice-title">Je préfère qu'on m'appelle d'abord</div>
-                  <div class="choice-sub">Un échange de 15 minutes pour parler de votre stratégie avant de démarrer.</div>
-                </div>
-              </label>
-              <label class="choice-card">
-                <input type="radio" name="contact-pref" value="go" />
-                <div class="choice-ic">🚀</div>
-                <div>
-                  <div class="choice-title">Je me lance maintenant</div>
-                  <div class="choice-sub">Accès direct au paiement et à votre espace Phare dès aujourd'hui.</div>
-                </div>
-              </label>
+            <div class="flex items-start gap-3 p-4 rounded-xl border border-[#EEEEEE] bg-white">
+              <div class="w-8 h-8 rounded-lg bg-[#111111] flex items-center justify-center shrink-0">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 3h8M2 6h8M2 9h5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-[#111111]">Vos posts LinkedIn clés en main</p>
+                <p class="text-xs text-[#888888] mt-0.5">4 par semaine · prêts à publier</p>
+              </div>
             </div>
+
+            <div class="flex items-start gap-3 p-4 rounded-xl border border-[#EEEEEE] bg-white">
+              <div class="w-8 h-8 rounded-lg bg-[#111111] flex items-center justify-center shrink-0">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <rect x="1.5" y="1.5" width="9" height="9" rx="1.5" stroke="white" stroke-width="1"/>
+                  <line x1="1.5" y1="4" x2="10.5" y2="4" stroke="white" stroke-width="0.9"/>
+                  <line x1="4" y1="1.5" x2="4" y2="4" stroke="white" stroke-width="0.9"/>
+                  <line x1="8" y1="1.5" x2="8" y2="4" stroke="white" stroke-width="0.9"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-[#111111]">Calendrier éditorial du mois</p>
+                <p class="text-xs text-[#888888] mt-0.5">Jours et horaires optimaux pour votre secteur</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 p-4 rounded-xl border border-[#EEEEEE] bg-white">
+              <div class="w-8 h-8 rounded-lg bg-[#111111] flex items-center justify-center shrink-0">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 9 L5 6 L7.5 8.5 L10 4" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-[#111111]">Jusqu'à 3 révisions par post</p>
+                <p class="text-xs text-[#888888] mt-0.5">On ajuste si quelque chose ne vous convient pas</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 p-4 rounded-xl border border-[#EEEEEE] bg-white">
+              <div class="w-8 h-8 rounded-lg bg-[#111111] flex items-center justify-center shrink-0">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <circle cx="6" cy="6" r="4.5" stroke="white" stroke-width="1"/>
+                  <path d="M4 6 L5.5 7.5 L8 4.5" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-[#111111]">Livraison chaque lundi matin</p>
+                <p class="text-xs text-[#888888] mt-0.5">Disponible dans votre espace Phare dès le début de semaine</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 p-4 rounded-xl border border-[#EEEEEE] bg-white">
+              <div class="w-8 h-8 rounded-lg bg-[#111111] flex items-center justify-center shrink-0">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 2h8v6H7l-1 2-1-2H2V2Z" stroke="white" stroke-width="1" fill="none" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-[#111111]">Actu de la semaine intégrée</p>
+                <p class="text-xs text-[#888888] mt-0.5">Contrat signé, recrutement, projet livré — on les intègre dans vos posts</p>
+              </div>
+            </div>
+
           </div>
-          <div class="field" id="phone-field" style="display:none">
-            <label>Votre numéro de téléphone</label>
-            <input type="tel" id="f-phone" placeholder="06 XX XX XX XX" />
+
+          <p class="text-xs text-[#999999] mt-1">
+            Première semaine offerte · Résiliable avant J+7 · Paiement sécurisé
+          </p>
+
+        </div>
+
+        <!-- RIGHT — Multi-step form -->
+        <div class="anim-up delay-1">
+
+          <div class="mb-6">
+            <p class="text-xs font-semibold text-[#888888] uppercase tracking-widest mb-1">
+              Étape <span id="step-num">1</span> sur 4
+            </p>
+            <h1 class="text-2xl font-bold text-[#111111] mb-1" id="form-title" style="letter-spacing: -0.02em;">
+              Parlez-nous de vous
+            </h1>
+            <p class="text-sm text-[#555555]" id="form-sub">
+              Les informations de base pour personnaliser votre contenu.
+            </p>
           </div>
-          <div class="form-actions">
-            <button type="button" class="btn-prev" onclick="prevStep(3)">← Retour</button>
-            <button type="submit" class="btn-next" id="submit-btn">Continuer →</button>
+
+          <!-- Step indicators -->
+          <div class="flex items-center gap-2 mb-5">
+            <div class="w-7 h-7 rounded-full border border-[#111111] bg-[#111111] flex items-center justify-center text-xs font-bold text-white shrink-0 transition-all" id="si1">1</div>
+            <div class="flex-1 h-px bg-[#EEEEEE] rounded transition-all" id="sl1"></div>
+            <div class="w-7 h-7 rounded-full border border-[#EEEEEE] bg-white flex items-center justify-center text-xs font-medium text-[#BBBBBB] shrink-0 transition-all" id="si2">2</div>
+            <div class="flex-1 h-px bg-[#EEEEEE] rounded transition-all" id="sl2"></div>
+            <div class="w-7 h-7 rounded-full border border-[#EEEEEE] bg-white flex items-center justify-center text-xs font-medium text-[#BBBBBB] shrink-0 transition-all" id="si3">3</div>
+            <div class="flex-1 h-px bg-[#EEEEEE] rounded transition-all" id="sl3"></div>
+            <div class="w-7 h-7 rounded-full border border-[#EEEEEE] bg-white flex items-center justify-center text-xs font-medium text-[#BBBBBB] shrink-0 transition-all" id="si4">4</div>
+          </div>
+
+          <!-- Progress bar -->
+          <div class="h-0.5 bg-[#EEEEEE] rounded mb-8">
+            <div class="h-0.5 bg-[#111111] rounded progress-fill" id="progress-fill" style="width: 25%;"></div>
+          </div>
+
+          <form id="main-form" onsubmit="submitForm(event)">
+
+            <!-- STEP 1 -->
+            <div class="step-panel active" id="panel1">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label class="block text-sm text-[#555555] mb-1.5 font-medium">Prénom *</label>
+                  <input type="text" id="f-prenom" placeholder="Thomas"
+                    class="w-full border border-[#EEEEEE] rounded-lg px-4 py-2.5 text-sm text-[#111111] bg-white transition-all"
+                    required />
+                </div>
+                <div>
+                  <label class="block text-sm text-[#555555] mb-1.5 font-medium">Email *</label>
+                  <input type="email" id="f-email" placeholder="thomas@entreprise.fr"
+                    class="w-full border border-[#EEEEEE] rounded-lg px-4 py-2.5 text-sm text-[#111111] bg-white transition-all"
+                    required />
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="block text-sm text-[#555555] mb-1.5 font-medium">Nom de votre entreprise *</label>
+                <input type="text" id="f-entreprise" placeholder="ex. Rennov, Menuiserie Dupont..."
+                  class="w-full border border-[#EEEEEE] rounded-lg px-4 py-2.5 text-sm text-[#111111] bg-white transition-all"
+                  required />
+              </div>
+              <div class="mb-6">
+                <label class="block text-sm text-[#555555] mb-1.5 font-medium">Secteur d'activité *</label>
+                <select id="f-secteur"
+                  class="w-full border border-[#EEEEEE] rounded-lg px-4 py-2.5 text-sm text-[#111111] bg-white transition-all"
+                  required>
+                  <option value="">Sélectionnez votre secteur</option>
+                  <option>Bâtiment & rénovation</option>
+                  <option>Menuiserie & ébénisterie</option>
+                  <option>Architecture & design d'intérieur</option>
+                  <option>Plomberie & chauffage</option>
+                  <option>Électricité</option>
+                  <option>Paysagisme & jardinage</option>
+                  <option>Comptabilité & expertise-comptable</option>
+                  <option>Conseil & formation</option>
+                  <option>Santé & bien-être</option>
+                  <option>Restauration & traiteur</option>
+                  <option>Autre</option>
+                </select>
+              </div>
+              <div class="flex justify-end">
+                <button type="button" onclick="nextStep(2)"
+                  class="bg-[#111111] text-white text-sm font-medium px-6 py-2.5 rounded-lg hover:bg-[#333333] transition-colors">
+                  Continuer →
+                </button>
+              </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="step-panel" id="panel2">
+              <div class="mb-4">
+                <label class="block text-sm text-[#555555] mb-1.5 font-medium">Où en êtes-vous sur LinkedIn ? *</label>
+                <select id="f-linkedin"
+                  class="w-full border border-[#EEEEEE] rounded-lg px-4 py-2.5 text-sm text-[#111111] bg-white transition-all"
+                  required>
+                  <option value="">Sélectionnez une option</option>
+                  <option>Je n'ai jamais posté</option>
+                  <option>J'ai posté quelques fois mais irrégulièrement</option>
+                  <option>Je poste régulièrement mais sans stratégie</option>
+                  <option>J'ai une stratégie mais je manque de temps</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label class="block text-sm text-[#555555] mb-1.5 font-medium">Quel est votre objectif principal ? *</label>
+                <select id="f-objectif"
+                  class="w-full border border-[#EEEEEE] rounded-lg px-4 py-2.5 text-sm text-[#111111] bg-white transition-all"
+                  required>
+                  <option value="">Sélectionnez un objectif</option>
+                  <option>Générer des leads / prospects</option>
+                  <option>Développer ma notoriété locale</option>
+                  <option>Attirer des partenaires ou prescripteurs</option>
+                  <option>Recruter des collaborateurs</option>
+                  <option>Me positionner comme expert de mon secteur</option>
+                </select>
+              </div>
+              <div class="mb-6">
+                <label class="block text-sm text-[#555555] mb-1.5 font-medium">Quel ton préférez-vous ?</label>
+                <select id="f-ton"
+                  class="w-full border border-[#EEEEEE] rounded-lg px-4 py-2.5 text-sm text-[#111111] bg-white transition-all">
+                  <option>Expert & professionnel</option>
+                  <option>Accessible & humain</option>
+                  <option>Storytelling & émotionnel</option>
+                  <option>Direct & concis</option>
+                </select>
+              </div>
+              <div class="flex items-center justify-between gap-3">
+                <button type="button" onclick="prevStep(1)"
+                  class="border border-[#EEEEEE] text-[#555555] text-sm font-medium px-5 py-2.5 rounded-lg hover:border-[#111111] hover:text-[#111111] transition-colors">
+                  ← Retour
+                </button>
+                <button type="button" onclick="nextStep(3)"
+                  class="bg-[#111111] text-white text-sm font-medium px-6 py-2.5 rounded-lg hover:bg-[#333333] transition-colors">
+                  Continuer →
+                </button>
+              </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="step-panel" id="panel3">
+              <div class="mb-4">
+                <label class="block text-sm text-[#555555] mb-1.5 font-medium">Décrivez votre activité en 2-3 phrases *</label>
+                <textarea id="f-activite" rows="4"
+                  placeholder="Ex. On accompagne les dirigeants de PME industrielles dans leur transformation digitale. Notre force : des projets sur-mesure livrés en moins de 3 mois."
+                  class="w-full border border-[#EEEEEE] rounded-lg px-4 py-2.5 text-sm text-[#111111] bg-white resize-vertical transition-all"
+                  required></textarea>
+                <p class="text-xs text-[#AAAAAA] mt-1.5">Nous ferons une découverte approfondie de votre entreprise dans un second temps !</p>
+              </div>
+              <div class="mb-6">
+                <label class="block text-sm text-[#555555] mb-1.5 font-medium">
+                  Vos 2-3 sujets de prédilection
+                  <span class="font-normal text-[#AAAAAA]">(optionnel)</span>
+                </label>
+                <textarea id="f-sujets" rows="3"
+                  placeholder="Ex. Les résultats clients, les coulisses de notre façon de travailler, notre point de vue sur notre secteur..."
+                  class="w-full border border-[#EEEEEE] rounded-lg px-4 py-2.5 text-sm text-[#111111] bg-white resize-vertical transition-all"></textarea>
+              </div>
+              <div class="flex items-center justify-between gap-3">
+                <button type="button" onclick="prevStep(2)"
+                  class="border border-[#EEEEEE] text-[#555555] text-sm font-medium px-5 py-2.5 rounded-lg hover:border-[#111111] hover:text-[#111111] transition-colors">
+                  ← Retour
+                </button>
+                <button type="button" onclick="nextStep(4)"
+                  class="bg-[#111111] text-white text-sm font-medium px-6 py-2.5 rounded-lg hover:bg-[#333333] transition-colors">
+                  Continuer →
+                </button>
+              </div>
+            </div>
+
+            <!-- STEP 4 -->
+            <div class="step-panel" id="panel4">
+              <div class="mb-4">
+                <label class="block text-sm text-[#555555] mb-3 font-medium">Comment souhaitez-vous vous lancer ?</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <label class="choice-card flex gap-3 items-start p-4 rounded-xl border border-[#EEEEEE] bg-white cursor-pointer transition-all hover:border-[#CCCCCC]" id="card-call">
+                    <input type="radio" name="contact-pref" value="call" />
+                    <div>
+                      <p class="text-sm font-semibold text-[#111111] mb-0.5">Je préfère qu'on m'appelle d'abord</p>
+                      <p class="text-xs text-[#888888] leading-relaxed">Un échange de 15 minutes pour parler de votre stratégie avant de démarrer.</p>
+                    </div>
+                  </label>
+                  <label class="choice-card flex gap-3 items-start p-4 rounded-xl border border-[#EEEEEE] bg-white cursor-pointer transition-all hover:border-[#CCCCCC]" id="card-go">
+                    <input type="radio" name="contact-pref" value="go" />
+                    <div>
+                      <p class="text-sm font-semibold text-[#111111] mb-0.5">Je me lance maintenant</p>
+                      <p class="text-xs text-[#888888] leading-relaxed">Accès direct au paiement et à votre espace Phare dès aujourd'hui.</p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <div id="phone-field" class="mb-4" style="display:none">
+                <label class="block text-sm text-[#555555] mb-1.5 font-medium">Votre numéro de téléphone</label>
+                <input type="tel" id="f-phone" placeholder="06 XX XX XX XX"
+                  class="w-full border border-[#EEEEEE] rounded-lg px-4 py-2.5 text-sm text-[#111111] bg-white transition-all" />
+              </div>
+              <div class="flex items-center justify-between gap-3 mt-6">
+                <button type="button" onclick="prevStep(3)"
+                  class="border border-[#EEEEEE] text-[#555555] text-sm font-medium px-5 py-2.5 rounded-lg hover:border-[#111111] hover:text-[#111111] transition-colors">
+                  ← Retour
+                </button>
+                <button type="submit" id="submit-btn"
+                  class="bg-[#111111] text-white text-sm font-medium px-6 py-2.5 rounded-lg hover:bg-[#333333] transition-colors">
+                  Continuer →
+                </button>
+              </div>
+            </div>
+
+          </form>
+
+          <p class="text-xs text-[#AAAAAA] text-center mt-5">
+            Paiement sécurisé · Première semaine offerte · Résiliable avant J+7
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-[#111111] text-white px-6 py-16">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+
+        <div>
+          <div class="font-bold text-xl mb-3 flex items-center gap-1.5">
+            Phare
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <path d="M9 2 L9 16" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M5 16 L13 16" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M7 6 L11 6 L10.5 11 L7.5 11 Z" stroke="white" stroke-width="1.2" fill="none" stroke-linejoin="round"/>
+              <path d="M6 4 Q9 1 12 4" stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+              <line x1="9" y1="6" x2="14" y2="3" stroke="white" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+            </svg>
+          </div>
+          <p class="text-[#888888] text-sm leading-relaxed">
+            Vos posts LinkedIn rédigés chaque semaine, adaptés à votre actualité.
+          </p>
+        </div>
+
+        <div>
+          <p class="text-xs uppercase tracking-widest text-[#555555] mb-4 font-medium">Navigation</p>
+          <div class="flex flex-col gap-2.5">
+            <a href="landing.html#how-it-works" class="text-sm text-[#888888] hover:text-white transition-colors">Comment ça marche</a>
+            <a href="landing.html#offre" class="text-sm text-[#888888] hover:text-white transition-colors">L'offre</a>
+            <a href="landing.html#tarifs" class="text-sm text-[#888888] hover:text-white transition-colors">Tarifs</a>
+            <a href="landing.html#faq" class="text-sm text-[#888888] hover:text-white transition-colors">FAQ</a>
           </div>
         </div>
 
-      </form>
+        <div>
+          <p class="text-xs uppercase tracking-widest text-[#555555] mb-4 font-medium">Contact</p>
+          <div class="flex flex-col gap-2.5">
+            <a href="mailto:contact@phare.io" class="text-sm text-[#888888] hover:text-white transition-colors">
+              contact@phare.io
+            </a>
+          </div>
+        </div>
 
-      <div class="form-note">🔒 Paiement sécurisé · CB requise · Résiliable avant J+7</div>
+      </div>
+
+      <div class="border-t border-[#222222] pt-8 text-center">
+        <p class="text-sm text-[#555555]">© 2026 Phare. Tous droits réservés.</p>
+      </div>
     </div>
+  </footer>
 
-  </div>
+  <script>
+    const titles = {
+      1: { t: 'Parlez-nous de vous',       s: 'Les informations de base pour personnaliser votre contenu.' },
+      2: { t: 'Votre situation LinkedIn',  s: 'Pour calibrer le niveau et l\'objectif de vos posts.' },
+      3: { t: 'Votre activité en détail',  s: 'La matière première pour rédiger des posts qui sonnent vrai.' },
+      4: { t: 'Avant de vous lancer',      s: 'Voulez-vous qu\'on échange d\'abord, ou vous lancez-vous directement ?' }
+    };
 
-<script>
-  const titles = {
-    1: { t: 'Parlez-nous de vous', s: 'Les informations de base pour personnaliser votre contenu.' },
-    2: { t: 'Votre situation LinkedIn', s: 'Pour calibrer le niveau et l\'objectif de vos posts.' },
-    3: { t: 'Votre activité en détail', s: 'La matière première pour rédiger des posts qui sonnent vrai.' },
-    4: { t: 'Avant de vous lancer', s: 'Voulez-vous qu\'on échange d\'abord, ou vous lancez-vous directement ?' }
-  };
-  const emojis = { 1: '👤', 2: '💬', 3: '✍️', 4: '🤝' };
+    function updateStepUI(step) {
+      document.getElementById('step-num').textContent = step;
+      document.getElementById('form-title').textContent = titles[step].t;
+      document.getElementById('form-sub').textContent = titles[step].s;
+      document.getElementById('progress-fill').style.width = (step / 4 * 100) + '%';
 
-  // Show/hide phone field and update button label based on contact preference
-  document.addEventListener('change', function(e) {
-    if (e.target.name === 'contact-pref') {
-      const phoneField = document.getElementById('phone-field');
-      const submitBtn = document.getElementById('submit-btn');
-      if (e.target.value === 'call') {
-        phoneField.style.display = 'block';
-        submitBtn.textContent = 'Être contacté →';
+      for (let i = 1; i <= 4; i++) {
+        const si = document.getElementById('si' + i);
+        if (i < step) {
+          si.className = 'w-7 h-7 rounded-full border border-[#111111] bg-[#111111] flex items-center justify-center text-xs font-bold text-white shrink-0 transition-all';
+          si.textContent = '✓';
+        } else if (i === step) {
+          si.className = 'w-7 h-7 rounded-full border border-[#111111] bg-[#111111] flex items-center justify-center text-xs font-bold text-white shrink-0 transition-all';
+          si.textContent = i;
+        } else {
+          si.className = 'w-7 h-7 rounded-full border border-[#EEEEEE] bg-white flex items-center justify-center text-xs font-medium text-[#BBBBBB] shrink-0 transition-all';
+          si.textContent = i;
+        }
+        if (i < 4) {
+          const sl = document.getElementById('sl' + i);
+          sl.className = 'flex-1 h-px rounded transition-all ' + (i < step ? 'bg-[#111111]' : 'bg-[#EEEEEE]');
+        }
+      }
+    }
+
+    function nextStep(step) {
+      const current = document.querySelector('.step-panel.active');
+      const required = current.querySelectorAll('[required]');
+      for (const el of required) {
+        if (!el.value.trim()) {
+          el.focus();
+          el.classList.add('input-error');
+          setTimeout(() => el.classList.remove('input-error'), 1800);
+          return;
+        }
+      }
+      document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel' + step).classList.add('active');
+      updateStepUI(step);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function prevStep(step) {
+      document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel' + step).classList.add('active');
+      updateStepUI(step);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.addEventListener('change', function(e) {
+      if (e.target.name === 'contact-pref') {
+        document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+        e.target.closest('.choice-card').classList.add('selected');
+        const phoneField = document.getElementById('phone-field');
+        const submitBtn = document.getElementById('submit-btn');
+        if (e.target.value === 'call') {
+          phoneField.style.display = 'block';
+          submitBtn.textContent = 'Être contacté →';
+        } else {
+          phoneField.style.display = 'none';
+          submitBtn.textContent = 'Commencer →';
+        }
+      }
+    });
+
+    function submitForm(e) {
+      e.preventDefault();
+      const pref = document.querySelector('input[name="contact-pref"]:checked');
+      if (!pref) {
+        document.querySelectorAll('.choice-card').forEach(c => {
+          c.style.borderColor = '#EF4444';
+          setTimeout(() => c.style.borderColor = '', 1800);
+        });
+        return;
+      }
+      if (pref.value === 'call') {
+        alert('Parfait ! Un membre de l\'équipe Phare vous contactera dans les 24h.\n\n(Connexion CRM à brancher)');
       } else {
-        phoneField.style.display = 'none';
-        submitBtn.textContent = 'Commencer →';
+        alert('Merci ! Vous allez être redirigé vers le paiement sécurisé.\n\n(Intégration Stripe à connecter)');
       }
     }
-  });
-
-  function prevStep(step) {
-    // Go back without validation
-    document.querySelectorAll('.form-step-panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('panel' + step).classList.add('active');
-    document.getElementById('step-num').textContent = step;
-    document.getElementById('form-title').textContent = titles[step].t;
-    document.getElementById('form-sub').textContent = titles[step].s;
-    document.getElementById('progress-fill').style.width = (step / 4 * 100) + '%';
-    for (let i = 1; i <= 4; i++) {
-      const si = document.getElementById('si' + i);
-      si.classList.remove('active', 'done');
-      if (i < step) { si.classList.add('done'); si.textContent = '✓'; }
-      else if (i === step) { si.classList.add('active'); si.textContent = emojis[i]; }
-      else { si.textContent = emojis[i]; }
-      if (i < 4) document.getElementById('sl' + i).classList.toggle('done', i < step);
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function nextStep(step) {
-    // Validate current step
-    const current = document.querySelector('.form-step-panel.active');
-    const required = current.querySelectorAll('[required]');
-    for (const el of required) {
-      if (!el.value.trim()) { el.focus(); el.style.borderColor = '#EF4444'; setTimeout(() => el.style.borderColor = '', 1500); return; }
-    }
-
-    // Update panels
-    document.querySelectorAll('.form-step-panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('panel' + step).classList.add('active');
-
-    // Update header
-    document.getElementById('step-num').textContent = step;
-    document.getElementById('form-title').textContent = titles[step].t;
-    document.getElementById('form-sub').textContent = titles[step].s;
-
-    // Update progress
-    document.getElementById('progress-fill').style.width = (step / 4 * 100) + '%';
-
-    // Update step indicators
-    for (let i = 1; i <= 4; i++) {
-      const si = document.getElementById('si' + i);
-      si.classList.remove('active', 'done');
-      if (i < step) { si.classList.add('done'); si.textContent = '✓'; }
-      else if (i === step) { si.classList.add('active'); si.textContent = emojis[i]; }
-      else { si.textContent = emojis[i]; }
-      if (i < 4) {
-        const sl = document.getElementById('sl' + i);
-        sl.classList.toggle('done', i < step);
-      }
-    }
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function submitForm(e) {
-    e.preventDefault();
-    const pref = document.querySelector('input[name="contact-pref"]:checked');
-    if (!pref) {
-      const cards = document.querySelectorAll('.choice-card');
-      cards.forEach(c => { c.style.borderColor = '#EF4444'; setTimeout(() => c.style.borderColor = '', 1500); });
-      return;
-    }
-    if (pref.value === 'call') {
-      alert('Parfait ! Un membre de l\'équipe Phare vous contactera dans les 24h.\n\n(Connexion CRM à brancher)');
-    } else {
-      alert('Merci ! Vous allez être redirigé vers le paiement sécurisé.\n\n(Intégration Stripe à connecter)');
-    }
-  }
-</script>
+  </script>
 
 </body>
 </html>
