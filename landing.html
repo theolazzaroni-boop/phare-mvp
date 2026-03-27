@@ -61,10 +61,31 @@
     .word-rotate span:nth-child(1) { animation: word-in 4s ease-in-out 0s   infinite; }
     .word-rotate span:nth-child(2) { animation: word-in 4s ease-in-out 2s   infinite; }
 
+    /* Demo — sector chips */
+    .sector-btn {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1.5px solid #DDDDDD;
+      background: #ffffff;
+      color: #555555;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .sector-btn:hover {
+      border-color: #111111;
+      color: #111111;
+    }
+    .sector-btn.active {
+      background: #111111;
+      border-color: #111111;
+      color: #ffffff;
+    }
     /* Demo — responsive */
     @media (max-width: 480px) {
       #demo-phare-badge { display: none; }
-      #sector-select, #demo-btn { width: 100%; }
     }
 
     /* FAQ accordion */
@@ -190,22 +211,15 @@
         <!-- Bloc 2 — Démo interactive -->
         <div>
 
-          <!-- Selector row -->
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
-            <span class="text-sm font-medium text-[#111111]">Je dirige une entreprise de</span>
-            <select id="sector-select" class="border border-[#DDDDDD] rounded-lg px-3 py-2.5 text-sm text-[#111111] bg-white focus:outline-none focus:border-[#111111] transition-colors w-full sm:w-auto" style="min-width:220px;">
-              <option value="">— choisir un secteur —</option>
-              <option value="conseil">Conseil / Consulting</option>
-              <option value="rh">Recrutement / RH</option>
-              <option value="compta">Expertise-comptable</option>
-              <option value="marketing">Agence marketing / SEO</option>
-              <option value="btp">BTP / Artisan</option>
-              <option value="tech">ESN / Développement</option>
-              <option value="formation">Formation / Coaching</option>
-            </select>
-            <button id="demo-btn" class="bg-[#111111] text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-[#333333] transition-colors w-full sm:w-auto">
-              Voir un exemple →
-            </button>
+          <!-- Sector buttons -->
+          <div id="sector-buttons" class="flex flex-wrap justify-center gap-2 mb-8">
+            <button class="sector-btn" data-sector="conseil">Conseil / Consulting</button>
+            <button class="sector-btn" data-sector="rh">Recrutement / RH</button>
+            <button class="sector-btn" data-sector="compta">Expertise-comptable</button>
+            <button class="sector-btn" data-sector="marketing">Agence marketing / SEO</button>
+            <button class="sector-btn" data-sector="btp">BTP / Artisan</button>
+            <button class="sector-btn" data-sector="tech">ESN / Développement</button>
+            <button class="sector-btn" data-sector="formation">Formation / Coaching</button>
           </div>
 
           <!-- Empty state -->
@@ -1163,14 +1177,12 @@
       }));
     }
 
-    document.getElementById('demo-btn').addEventListener('click', () => {
-      const select = document.getElementById('sector-select');
-      if (!select.value) {
-        select.style.borderColor = '#EF4444';
-        setTimeout(() => { select.style.borderColor = '#DDDDDD'; }, 1200);
-        return;
-      }
-      renderPost(select.value);
+    document.querySelectorAll('.sector-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.sector-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderPost(btn.dataset.sector);
+      });
     });
 
     document.getElementById('approve-btn').addEventListener('click', function () {
