@@ -215,53 +215,97 @@
           </div>
 
           <!-- Post display area (hidden by default) -->
-          <div id="demo-post" style="display:none; opacity:0; transform:translateY(12px); transition: opacity 350ms ease, transform 350ms ease;">
-            <div class="bg-white rounded-xl border border-[#EEEEEE] p-5 shadow-sm relative">
+          <div id="demo-post" style="display:none; opacity:0; transform:translateY(12px); transition: opacity 350ms ease, transform 350ms ease; max-width:600px; margin:0 auto;">
 
-              <!-- Phare badge -->
-              <div id="demo-phare-badge" class="absolute top-4 right-4 flex items-center gap-1.5 bg-[#F5F5F5] rounded-full px-2.5 py-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>
-                <span class="text-[11px] font-medium" style="color:#888888;">Phare</span>
-              </div>
+            <!-- Tabs — sélecteur de post au-dessus de la carte -->
+            <div id="post-tabs" class="flex gap-2 mb-3 flex-wrap"></div>
+
+            <!-- Carte LinkedIn -->
+            <div class="bg-white overflow-hidden" style="border-radius:8px; border:1px solid rgba(0,0,0,0.12); box-shadow:0 1px 3px rgba(0,0,0,0.06);">
 
               <!-- Header -->
-              <div class="flex items-center gap-3 mb-4 pr-16">
-                <div id="post-avatar" class="w-10 h-10 rounded-full bg-[#111111] flex items-center justify-center text-white text-sm font-bold shrink-0"></div>
-                <div>
-                  <p id="post-author" class="text-sm font-bold text-[#111111]"></p>
-                  <p class="text-xs" style="color:#888888;"><span id="post-title"></span> <span style="color:#CCCCCC;">· 3ème</span></p>
+              <div class="flex items-start gap-3 px-4 pt-4 pb-3">
+                <div id="post-avatar" class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold shrink-0" style="font-size:15px; background:#0A66C2; min-width:48px;"></div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-start justify-between gap-2">
+                    <div>
+                      <p id="post-author" class="font-semibold leading-snug cursor-pointer hover:underline" style="font-size:15px; color:#000000E6;"></p>
+                      <p id="post-title" class="leading-snug" style="font-size:13px; color:#666666;"></p>
+                      <p class="flex items-center gap-1 mt-0.5" style="font-size:12px; color:#666666;">
+                        <span>2j</span>
+                        <span>·</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="#666666" stroke-width="1.2" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><ellipse cx="8" cy="8" rx="2.8" ry="6"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+                      </p>
+                    </div>
+                    <div class="flex items-center gap-0.5 shrink-0">
+                      <button style="font-size:14px; font-weight:600; color:#0A66C2; background:none; border:none; cursor:pointer; padding:4px 8px; border-radius:16px;" onmouseover="this.style.background='rgba(10,102,194,0.08)'" onmouseout="this.style.background='none'">+ Suivre</button>
+                      <button style="width:32px; height:32px; display:flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; border-radius:50%; color:#666;" onmouseover="this.style.background='#F3F2EF'" onmouseout="this.style.background='none'">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              <!-- Tabs -->
-              <div id="post-tabs" class="flex gap-2 mb-3 flex-wrap"></div>
 
               <!-- Type pill -->
-              <div id="post-type" class="inline-block text-[11px] px-2.5 py-1 rounded-full mb-3" style="background:#F5F5F5; color:#888888;"></div>
-
-              <!-- Content -->
-              <p id="post-content" class="text-sm mb-4" style="color:#333333; white-space:pre-line; line-height:1.65;"></p>
-
-              <!-- Reactions bar -->
-              <div class="flex items-center justify-between pt-3 border-t border-[#EEEEEE]">
-                <div class="flex items-center gap-2">
-                  <span class="text-sm">👍 💡 ❤️</span>
-                  <span id="post-reactions" class="text-xs" style="color:#888888;"></span>
-                </div>
-                <span class="text-xs cursor-default" style="color:#AAAAAA;">Partager</span>
+              <div class="px-4 pb-2">
+                <span id="post-type" class="inline-block" style="font-size:11px; padding:2px 10px; border-radius:12px; background:#F3F2EF; color:#666666;"></span>
               </div>
 
-              <!-- Schedule + Approve -->
-              <div class="flex items-center justify-between mt-3 pt-3 border-t border-[#EEEEEE]">
-                <p id="post-schedule" class="text-[11px]" style="color:#888888;"></p>
-                <button id="approve-btn" class="text-[11px] bg-[#111111] text-white px-3 py-1.5 rounded-md font-medium transition-colors hover:bg-[#333333]">
-                  Approuver ✓
+              <!-- Contenu -->
+              <div class="px-4 pb-4">
+                <p id="post-content" style="font-size:14px; color:#000000E6; white-space:pre-line; line-height:1.5; margin:0;"></p>
+                <button id="voir-plus-btn" style="display:none; font-size:14px; font-weight:600; color:#666666; background:none; border:none; cursor:pointer; padding:0; margin-top:2px;">voir plus</button>
+              </div>
+
+              <!-- Compteurs réactions -->
+              <div class="px-4 pb-2 flex items-center justify-between">
+                <div class="flex items-center gap-1 cursor-pointer" style="color:#666666;" onmouseover="this.querySelector('span:last-child').style.textDecoration='underline'" onmouseout="this.querySelector('span:last-child').style.textDecoration='none'">
+                  <span style="font-size:16px; line-height:1;">👍</span><span style="font-size:16px; line-height:1; margin-left:-2px;">💡</span><span style="font-size:16px; line-height:1; margin-left:-2px;">❤️</span>
+                  <span id="post-reactions" style="font-size:13px; margin-left:4px;"></span>
+                </div>
+                <span id="post-comments-count" style="font-size:13px; color:#666666; cursor:pointer;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'"></span>
+              </div>
+
+              <!-- Séparateur -->
+              <div style="height:1px; background:rgba(0,0,0,0.1); margin:0 16px;"></div>
+
+              <!-- Boutons d'action -->
+              <div style="display:flex; align-items:center; padding:2px 4px;">
+                <!-- J'aime -->
+                <button style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:12px 4px; background:none; border:none; cursor:pointer; border-radius:4px; color:#666666;" onmouseover="this.style.background='#F3F2EF'" onmouseout="this.style.background='none'">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3z"/><path d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>
+                  <span style="font-size:13px; font-weight:600;">J'aime</span>
+                </button>
+                <!-- Commenter -->
+                <button style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:12px 4px; background:none; border:none; cursor:pointer; border-radius:4px; color:#666666;" onmouseover="this.style.background='#F3F2EF'" onmouseout="this.style.background='none'">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                  <span style="font-size:13px; font-weight:600;">Commenter</span>
+                </button>
+                <!-- Republier -->
+                <button style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:12px 4px; background:none; border:none; cursor:pointer; border-radius:4px; color:#666666;" onmouseover="this.style.background='#F3F2EF'" onmouseout="this.style.background='none'">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+                  <span style="font-size:13px; font-weight:600;">Republier</span>
+                </button>
+                <!-- Approuver (Phare) -->
+                <button id="approve-btn" style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:12px 4px; background:none; border:none; cursor:pointer; border-radius:4px; color:#16A34A;" onmouseover="this.style.background='rgba(22,163,74,0.08)'" onmouseout="this.style.background='none'">
+                  <svg class="approve-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span class="approve-text" style="font-size:13px; font-weight:600; color:#16A34A;">Approuver</span>
                 </button>
               </div>
-            </div>
 
-            <!-- Help text -->
-            <p class="text-[11px] mt-3 text-center leading-relaxed" style="color:#AAAAAA;">
+              <!-- Footer Phare -->
+              <div style="padding:8px 16px; background:#F9FAFB; border-top:1px solid rgba(0,0,0,0.06); display:flex; align-items:center; gap:6px;">
+                <span style="width:7px; height:7px; border-radius:50%; background:#22C55E; display:inline-block;"></span>
+                <span style="font-size:11px; font-weight:600; color:#555555;">Phare</span>
+                <span style="font-size:11px; color:#AAAAAA;">·</span>
+                <span id="post-schedule" style="font-size:11px; color:#888888;"></span>
+              </div>
+
+            </div><!-- fin carte LinkedIn -->
+
+            <!-- Texte d'aide -->
+            <p style="font-size:11px; margin-top:10px; text-align:center; line-height:1.6; color:#AAAAAA;">
               Phare adapte chaque post à votre actualité réelle — projets signés, recrutements, avis clients.
             </p>
           </div>
@@ -1069,33 +1113,58 @@
     function renderTabContent(sector, tabIndex) {
       const tab = posts[sector].tabs[tabIndex];
       document.getElementById('post-type').textContent = tab.type;
-      document.getElementById('post-content').textContent = tab.content;
-      document.getElementById('post-reactions').textContent = tab.likes + ' · ' + tab.comments + ' commentaires';
+
+      // Contenu avec "voir plus" si > 3 paragraphes
+      const content = tab.content;
+      const contentEl  = document.getElementById('post-content');
+      const voirPlusBtn = document.getElementById('voir-plus-btn');
+      const paragraphs  = content.split('\n\n');
+      if (paragraphs.length > 3) {
+        contentEl.textContent = paragraphs.slice(0, 3).join('\n\n');
+        voirPlusBtn.style.display = 'inline';
+        voirPlusBtn.onclick = () => {
+          contentEl.textContent = content;
+          voirPlusBtn.style.display = 'none';
+        };
+      } else {
+        contentEl.textContent = content;
+        voirPlusBtn.style.display = 'none';
+      }
+
+      document.getElementById('post-reactions').textContent = tab.likes;
+      document.getElementById('post-comments-count').textContent = tab.comments + ' commentaires';
+    }
+
+    function resetApproveBtn() {
+      const btn  = document.getElementById('approve-btn');
+      const icon = btn.querySelector('.approve-icon');
+      const text = btn.querySelector('.approve-text');
+      icon.setAttribute('stroke', '#16A34A');
+      text.textContent = 'Approuver';
+      text.style.color = '#16A34A';
+      btn.style.background = 'none';
+      delete btn.dataset.approved;
     }
 
     function renderPost(sector) {
       const data = posts[sector];
       currentTabIndex = 0;
-      document.getElementById('post-avatar').textContent = data.initials;
-      document.getElementById('post-author').textContent = data.author;
-      document.getElementById('post-title').textContent = data.title;
+      document.getElementById('post-avatar').textContent   = data.initials;
+      document.getElementById('post-author').textContent   = data.author;
+      document.getElementById('post-title').textContent    = data.title;
       document.getElementById('post-schedule').textContent = 'Publication prévue : ' + data.schedule.day + ' à ' + data.schedule.time;
+      resetApproveBtn();
       renderTabs(sector);
       renderTabContent(sector, 0);
 
-      const postEl = document.getElementById('demo-post');
+      const postEl  = document.getElementById('demo-post');
       const emptyEl = document.getElementById('demo-empty');
-      postEl.style.opacity = '0';
+      postEl.style.opacity   = '0';
       postEl.style.transform = 'translateY(12px)';
-      emptyEl.style.display = 'none';
-      postEl.style.display = 'block';
-      // Reset approve button
-      const approveBtn = document.getElementById('approve-btn');
-      approveBtn.textContent = 'Approuver ✓';
-      approveBtn.style.background = '#111111';
-      delete approveBtn.dataset.approved;
+      emptyEl.style.display  = 'none';
+      postEl.style.display   = 'block';
       requestAnimationFrame(() => requestAnimationFrame(() => {
-        postEl.style.opacity = '1';
+        postEl.style.opacity   = '1';
         postEl.style.transform = 'translateY(0)';
       }));
     }
@@ -1113,13 +1182,10 @@
     document.getElementById('approve-btn').addEventListener('click', function () {
       if (this.dataset.approved) return;
       this.dataset.approved = '1';
-      this.textContent = 'Approuvé ✓';
-      this.style.background = '#16A34A';
-      setTimeout(() => {
-        this.textContent = 'Approuver ✓';
-        this.style.background = '#111111';
-        delete this.dataset.approved;
-      }, 2000);
+      const text = this.querySelector('.approve-text');
+      text.textContent  = 'Approuvé ✓';
+      this.style.background = 'rgba(22,163,74,0.1)';
+      setTimeout(() => resetApproveBtn(), 2500);
     });
 
     // FAQ accordion
