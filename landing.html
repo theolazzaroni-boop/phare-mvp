@@ -169,85 +169,98 @@
             </p>
           </div>
 
-          <!-- Right — Static preview card -->
-          <div class="flex flex-col gap-3 anim-fade delay-2">
+          <!-- Right — Interactive Demo -->
+          <div id="demo" class="anim-fade delay-2">
 
-            <!-- Weekly delivery card -->
-            <div class="bg-white rounded-xl border border-[#EEEEEE] p-5 shadow-sm">
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-2">
-                  <div class="w-5 h-5 rounded-md bg-[#111111] flex items-center justify-center shrink-0">
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                      <rect x="1" y="1" width="8" height="8" rx="1" stroke="white" stroke-width="0.9"/>
-                      <line x1="1" y1="3.5" x2="9" y2="3.5" stroke="white" stroke-width="0.8"/>
-                      <line x1="3" y1="1" x2="3" y2="3.5" stroke="white" stroke-width="0.8"/>
-                      <line x1="7" y1="1" x2="7" y2="3.5" stroke="white" stroke-width="0.8"/>
-                    </svg>
-                  </div>
-                  <span class="text-xs font-medium text-[#888888]">Calendrier éditorial — semaine du 16 mars</span>
-                </div>
-                <span class="flex items-center gap-1 text-[10px] text-green-600 font-medium">
-                  <span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>
-                  Prêt
-                </span>
-              </div>
-
-              <!-- 4 posts -->
-              <div class="space-y-2">
-                <div class="flex items-start gap-3 p-3 bg-[#F9F9F9] rounded-lg border border-[#EEEEEE]">
-                  <div class="text-[10px] font-medium text-[#888888] mt-0.5 w-8 shrink-0">LUN</div>
-                  <div>
-                    <p class="text-xs font-medium text-[#111111]">Preuve sociale</p>
-                    <p class="text-[11px] text-[#888888] mt-0.5">« Voici comment on a aidé [Client] à... »</p>
-                  </div>
-                  <span class="ml-auto text-[10px] text-[#AAAAAA] shrink-0">09:00</span>
-                </div>
-                <div class="flex items-start gap-3 p-3 bg-[#F9F9F9] rounded-lg border border-[#EEEEEE]">
-                  <div class="text-[10px] font-medium text-[#888888] mt-0.5 w-8 shrink-0">MER</div>
-                  <div>
-                    <p class="text-xs font-medium text-[#111111]">Prise de position</p>
-                    <p class="text-[11px] text-[#888888] mt-0.5">« Ce que personne ne dit sur [tendance secteur]... »</p>
-                  </div>
-                  <span class="ml-auto text-[10px] text-[#AAAAAA] shrink-0">08:30</span>
-                </div>
-                <div class="flex items-start gap-3 p-3 bg-[#F9F9F9] rounded-lg border border-[#EEEEEE]">
-                  <div class="text-[10px] font-medium text-[#888888] mt-0.5 w-8 shrink-0">JEU</div>
-                  <div>
-                    <p class="text-xs font-medium text-[#111111]">Tip concret</p>
-                    <p class="text-[11px] text-[#888888] mt-0.5">« 3 choses que j'aurais aimé savoir avant de... »</p>
-                  </div>
-                  <span class="ml-auto text-[10px] text-[#AAAAAA] shrink-0">12:00</span>
-                </div>
-                <div class="flex items-start gap-3 p-3 bg-[#F9F9F9] rounded-lg border border-[#EEEEEE]">
-                  <div class="text-[10px] font-medium text-[#888888] mt-0.5 w-8 shrink-0">VEN</div>
-                  <div>
-                    <p class="text-xs font-medium text-[#111111]">Actualité</p>
-                    <p class="text-[11px] text-[#888888] mt-0.5">« Cette semaine, on a signé avec [nouveau client]... »</p>
-                  </div>
-                  <span class="ml-auto text-[10px] text-[#AAAAAA] shrink-0">09:00</span>
-                </div>
-              </div>
-
-              <div class="mt-4 pt-3 border-t border-[#EEEEEE] flex items-center justify-between">
-                <p class="text-[11px] text-[#888888]">4 posts · Adaptés à votre ton · Prêts à publier</p>
-                <button class="text-[11px] bg-[#111111] text-white px-3 py-1.5 rounded-md font-medium">Copier</button>
-              </div>
+            <!-- Eyebrow -->
+            <div class="inline-flex items-center gap-2 bg-[#F5F5F5] rounded-full px-4 py-1.5 text-sm text-[#555555] mb-5">
+              Votre post, en 2 minutes
             </div>
 
-            <!-- Stats row -->
-            <div class="grid grid-cols-3 gap-2">
-              <div class="rounded-xl border border-[#EEEEEE] p-4 text-center bg-[#F9F9F9]">
-                <p class="text-2xl font-bold text-[#111111]" style="letter-spacing: -0.02em;">4</p>
-                <p class="text-[11px] text-[#888888] mt-1">posts / semaine</p>
+            <!-- Headline -->
+            <h2 class="text-2xl font-bold text-[#111111] mb-2" style="letter-spacing: -0.02em;">
+              Choisissez votre secteur. Voyez ce que Phare écrirait pour vous.
+            </h2>
+
+            <!-- Subtitle -->
+            <p class="text-sm text-[#555555] mb-6 leading-relaxed">
+              Des exemples réels, dans le ton d'un dirigeant — pas d'un community manager.
+            </p>
+
+            <!-- Selector row -->
+            <div class="flex flex-wrap items-center gap-2 mb-6">
+              <span class="text-sm text-[#111111] shrink-0">Je dirige une entreprise de</span>
+              <select id="sector-select" class="border border-[#DDDDDD] rounded-lg px-3 py-2 text-sm text-[#111111] bg-white focus:outline-none focus:border-[#111111] transition-colors">
+                <option value="">— choisir un secteur —</option>
+                <option value="conseil">Conseil / Consulting</option>
+                <option value="rh">Recrutement / RH</option>
+                <option value="compta">Expertise-comptable</option>
+                <option value="marketing">Agence marketing / SEO</option>
+                <option value="btp">BTP / Artisan</option>
+                <option value="tech">ESN / Développement</option>
+                <option value="formation">Formation / Coaching</option>
+              </select>
+              <button id="demo-btn" class="bg-[#111111] text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-[#333333] transition-colors shrink-0">
+                Voir un exemple →
+              </button>
+            </div>
+
+            <!-- Empty state -->
+            <div id="demo-empty" class="border-2 border-dashed border-[#EEEEEE] rounded-xl py-14 text-center">
+              <div class="text-2xl mb-3" style="color:#CCCCCC;">✦</div>
+              <p class="text-sm text-[#AAAAAA]">Sélectionnez votre secteur pour voir un exemple de post</p>
+            </div>
+
+            <!-- Post display area (hidden by default) -->
+            <div id="demo-post" style="display:none; opacity:0; transform:translateY(12px); transition: opacity 350ms ease, transform 350ms ease;">
+              <div class="bg-white rounded-xl border border-[#EEEEEE] p-5 shadow-sm relative">
+
+                <!-- Phare badge -->
+                <div class="absolute top-4 right-4 flex items-center gap-1.5 bg-[#F5F5F5] rounded-full px-2.5 py-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>
+                  <span class="text-[11px] text-[#888888] font-medium">Phare</span>
+                </div>
+
+                <!-- Header -->
+                <div class="flex items-center gap-3 mb-4 pr-16">
+                  <div id="post-avatar" class="w-10 h-10 rounded-full bg-[#111111] flex items-center justify-center text-white text-sm font-bold shrink-0"></div>
+                  <div>
+                    <p id="post-author" class="text-sm font-bold text-[#111111]"></p>
+                    <p class="text-xs text-[#888888]"><span id="post-title"></span> <span style="color:#CCCCCC;">· 3ème</span></p>
+                  </div>
+                </div>
+
+                <!-- Tabs -->
+                <div id="post-tabs" class="flex gap-2 mb-3 flex-wrap"></div>
+
+                <!-- Type pill -->
+                <div id="post-type" class="inline-block bg-[#F5F5F5] text-[#888888] text-[11px] px-2.5 py-1 rounded-full mb-3"></div>
+
+                <!-- Content -->
+                <p id="post-content" class="text-sm text-[#333333] mb-4" style="white-space: pre-line; line-height: 1.65;"></p>
+
+                <!-- Reactions bar -->
+                <div class="flex items-center justify-between pt-3 border-t border-[#EEEEEE]">
+                  <div class="flex items-center gap-2">
+                    <span class="text-sm">👍 💡 ❤️</span>
+                    <span id="post-reactions" class="text-xs text-[#888888]"></span>
+                  </div>
+                  <span class="text-xs text-[#AAAAAA] cursor-default">Partager</span>
+                </div>
+
+                <!-- Schedule + Approve -->
+                <div class="flex items-center justify-between mt-3 pt-3 border-t border-[#EEEEEE]">
+                  <p id="post-schedule" class="text-[11px] text-[#888888]"></p>
+                  <button id="approve-btn" class="text-[11px] bg-[#111111] text-white px-3 py-1.5 rounded-md font-medium transition-colors hover:bg-[#333333]">
+                    Approuver ✓
+                  </button>
+                </div>
               </div>
-              <div class="rounded-xl border border-[#EEEEEE] p-4 text-center bg-[#F9F9F9]">
-                <p class="text-2xl font-bold text-[#111111]" style="letter-spacing: -0.02em;">0 h</p>
-                <p class="text-[11px] text-[#888888] mt-1">de rédaction</p>
-              </div>
-              <div class="rounded-xl border border-[#EEEEEE] p-4 text-center bg-[#F9F9F9]">
-                <p class="text-2xl font-bold text-[#111111]" style="letter-spacing: -0.02em;">∞</p>
-                <p class="text-[11px] text-[#888888] mt-1">Plus fort chaque semaine</p>
-              </div>
+
+              <!-- Help text -->
+              <p class="text-[11px] mt-3 text-center leading-relaxed" style="color:#AAAAAA;">
+                Phare adapte chaque post à votre actualité réelle — projets signés, recrutements, avis clients.
+              </p>
             </div>
 
           </div>
@@ -882,6 +895,229 @@
       } else {
         nav.style.boxShadow = 'none';
       }
+    });
+
+    // ===== DEMO INTERACTIVE =====
+    const posts = {
+      conseil: {
+        author: "Isabelle Morel",
+        title: "Fondatrice · Cabinet de conseil en stratégie",
+        initials: "IM",
+        schedule: { day: "Mercredi", time: "08:30" },
+        tabs: [
+          {
+            label: "Prise de position",
+            type: "Prise de position",
+            content: `On nous demande souvent : "Combien coûte une mission de conseil ?"\n\nLa vraie question, c'est : combien coûte l'absence de décision ?\n\nJ'ai vu des dirigeants attendre 18 mois avant de restructurer leur organisation.\nPar peur du coût d'une mission. Pendant ces 18 mois : 3 départs clés, un contrat\nmajeur perdu, une croissance stagnante.\n\nLe conseil n'est pas une dépense. C'est une assurance contre les décisions\nprises trop tard — ou pas du tout.\n\nCe n'est pas toujours ce que les gens veulent entendre.\nMais c'est ce dont ils ont besoin.`,
+            likes: "41", comments: "12"
+          },
+          {
+            label: "Coulisse",
+            type: "Coulisse",
+            content: `Hier, un client m'a dit quelque chose que je n'oublierai pas.\n\nOn travaillait ensemble depuis 4 mois sur la réorganisation\nde son équipe dirigeante.\n\nÀ la fin de notre dernière session, il m'a dit :\n"Tu m'as aidé à avoir des conversations que j'avais évitées pendant 2 ans."\n\nCe n'est pas dans nos livrables.\nÇa ne figure pas dans la proposition commerciale.\n\nMais c'est pour ça que ce métier a du sens.`,
+            likes: "87", comments: "23"
+          }
+        ]
+      },
+      rh: {
+        author: "Thomas Girard",
+        title: "Dirigeant · Cabinet de recrutement",
+        initials: "TG",
+        schedule: { day: "Lundi", time: "09:00" },
+        tabs: [
+          {
+            label: "Insight RH",
+            type: "Insight",
+            content: `Un candidat sur trois accepte une offre, puis ne se présente pas le premier jour.\n\nOn appelle ça le "ghosting". Les RH en souffrent. Les dirigeants sont exaspérés.\n\nCe qu'on ne dit pas assez : le ghosting arrive rarement avec les candidats\nbien accompagnés pendant la période entre la signature et l'entrée.\n\nSoigner l'onboarding avant même le premier jour, c'est la meilleure arme\ncontre ce phénomène.\n\nVous le faites déjà ? Je suis curieux d'avoir vos retours.`,
+            likes: "134", comments: "38"
+          },
+          {
+            label: "Témoignage client",
+            type: "Preuve sociale",
+            content: `Voici ce qu'un de nos clients nous a dit il y a 3 semaines :\n\n"On cherchait un DAF depuis 7 mois. On avait essayé deux autres cabinets.\nThomas nous a présenté le bon profil en 3 semaines."\n\nCe qui a fait la différence ? On a passé 2 heures avec le DG avant de chercher.\nPas à parler du poste — à parler de l'entreprise, de ses tensions,\nde ce dont elle avait vraiment besoin.\n\nUn bon recrutement commence toujours par une vraie écoute.`,
+            likes: "62", comments: "17"
+          }
+        ]
+      },
+      compta: {
+        author: "Nathalie Favier",
+        title: "Expert-comptable associée",
+        initials: "NF",
+        schedule: { day: "Jeudi", time: "12:00" },
+        tabs: [
+          {
+            label: "Tip concret",
+            type: "Tip concret",
+            content: `Le bilan annuel arrive. Voici 3 choses que la plupart de mes clients\nauraient aimé savoir plus tôt :\n\n1. La date de clôture, ça se prépare 3 mois avant — pas 3 jours avant.\n\n2. Une trésorerie positive au 31/12 ne veut pas dire que votre exercice\nest bon. Regardez votre BFR.\n\n3. Si vous avez des questions sur votre résultat, posez-les maintenant.\nPas en mai, quand les délais sont déjà là.\n\nOn pense souvent qu'un expert-comptable sert à remplir des cases.\nIl est là pour vous aider à comprendre ce que vos chiffres racontent vraiment.`,
+            likes: "93", comments: "28"
+          },
+          {
+            label: "Actualité cabinet",
+            type: "Actualité",
+            content: `Cette semaine, on a intégré notre 3ème collaboratrice junior.\n\nCe n'est pas anodin pour un cabinet de notre taille.\n\nÇa fait 8 ans qu'on refuse de grandir trop vite. Parce que la qualité\ndu suivi client, pour nous, ça se mesure à la connaissance qu'on a\nde chaque dossier — pas au nombre de dossiers.\n\nBienvenue à Léa. Elle vient avec une curiosité qu'on a hâte de voir à l'œuvre.`,
+            likes: "156", comments: "41"
+          }
+        ]
+      },
+      marketing: {
+        author: "Romain Leclercq",
+        title: "Fondateur · Agence SEO & Contenu",
+        initials: "RL",
+        schedule: { day: "Mardi", time: "09:00" },
+        tabs: [
+          {
+            label: "Contre-pied",
+            type: "Prise de position",
+            content: `Le SEO ne sert à rien si votre site convertit à 0,8%.\n\nJe le dis souvent à mes clients, et certains ne le réalisent pas au début.\n\nOn peut vous amener 10 000 visiteurs par mois. Si votre page d'accueil\nne dit pas clairement ce que vous faites et pour qui,\nces visites valent peu.\n\nLe contenu, c'est 50% du travail. L'autre 50%, c'est ce que vous\nfaites avec les gens qui arrivent.\n\nLes deux se travaillent en parallèle. Pas l'un après l'autre.`,
+            likes: "78", comments: "34"
+          },
+          {
+            label: "Résultat client",
+            type: "Preuve sociale",
+            content: `Un client dans le secteur juridique nous a fait confiance il y a 9 mois.\n\nContexte de départ : zéro trafic organique, 100% de leads via Google Ads.\n\nAujourd'hui : 47% des leads viennent du SEO. Budget Ads réduit de 30%.\n\nCe n'est pas de la magie. C'est 3 articles par mois, une refonte\ndes pages service, et beaucoup de patience.\n\nLe SEO, ça marche. Mais ça prend du temps et ça se fait bien\nou ça ne se fait pas.`,
+            likes: "112", comments: "29"
+          }
+        ]
+      },
+      btp: {
+        author: "Julien Marchand",
+        title: "Gérant · Entreprise de plomberie-CVC",
+        initials: "JM",
+        schedule: { day: "Vendredi", time: "09:00" },
+        tabs: [
+          {
+            label: "Coulisse terrain",
+            type: "Coulisse",
+            content: `Hier, on a terminé la rénovation d'une chaufferie dans une copropriété\nde 40 logements.\n\n3 semaines de chantier. Une chaudière collective de 1989 remplacée.\nUn système de régulation entièrement repensé.\n\nCe que les habitants verront : une baisse de leur facture de chauffage\nde l'ordre de 25 à 30%.\n\nCe que l'on retient, nous : un chef de chantier qui a géré ça avec\nune rigueur que j'aurais aimé avoir à ses débuts.\n\nLes bonnes équipes se forment sur le terrain. Pas ailleurs.`,
+            likes: "204", comments: "47"
+          },
+          {
+            label: "Conseil pratique",
+            type: "Tip concret",
+            content: `On approche de l'automne. 3 choses à vérifier sur votre installation\navant que le froid arrive :\n\n1. La pression de votre circuit de chauffage — elle doit être entre\n1 et 1,5 bar à froid.\n\n2. La purge de vos radiateurs — si certains chauffent moins bien\nen bas qu'en haut, c'est de l'air.\n\n3. La date de votre dernier entretien chaudière — obligatoire\ntous les ans, et pour de bonnes raisons.\n\nUne intervention préventive en septembre coûte 3 à 5 fois moins\nqu'une panne en janvier.`,
+            likes: "318", comments: "62"
+          }
+        ]
+      },
+      tech: {
+        author: "Sophie Aubert",
+        title: "Associée · ESN spécialisée industrie",
+        initials: "SA",
+        schedule: { day: "Mercredi", time: "08:30" },
+        tabs: [
+          {
+            label: "Insight marché",
+            type: "Prise de position",
+            content: `Le sujet de l'IA dans les systèmes industriels est partout.\n\nMais voilà ce qu'on observe chez nos clients manufacturiers :\n80% des projets IA échouent non pas à cause de la technologie,\nmais à cause des données.\n\nDes données incomplètes. Des données dans des silos.\nDes données dont personne ne connaît vraiment la source.\n\nAvant de parler de machine learning, parlez à vos équipes de\nce qu'elles notent dans leurs tableaux Excel.\nC'est là que se cache la valeur.\n\nL'IA commence par l'hygiène de la donnée. Pas par un proof of concept.`,
+            likes: "89", comments: "31"
+          },
+          {
+            label: "Recrutement",
+            type: "Actualité",
+            content: `On cherche un développeur .NET senior avec une vraie sensibilité\nmétier industriel.\n\nPas un profil qui veut juste "faire du code propre". Un profil qui\ncomprend pourquoi un opérateur en atelier n'a pas 3 secondes\npour lire une interface.\n\nCe qu'on offre : des projets complexes chez des clients qui ont\nde vrais problèmes à résoudre, une équipe de 12 personnes\noù tout le monde connaît le prénom de tout le monde,\net une direction qui répond à ses mails.\n\nIntéressé(e) ? Un message en privé suffit.`,
+            likes: "143", comments: "52"
+          }
+        ]
+      },
+      formation: {
+        author: "Marc Delacroix",
+        title: "Fondateur · Organisme de formation management",
+        initials: "MD",
+        schedule: { day: "Lundi", time: "09:00" },
+        tabs: [
+          {
+            label: "Prise de position",
+            type: "Prise de position",
+            content: `La plupart des formations managériales ne changent rien.\n\nJe le dis, alors que je dirige un organisme de formation.\n\nLe problème : on forme les managers dans des salles de réunion,\nloin de leur contexte réel. On leur donne des frameworks.\nOn leur fait jouer des rôles.\n\nEt le lundi suivant, ils retrouvent les mêmes équipes,\nles mêmes tensions, les mêmes habitudes.\n\nCe qui fonctionne : accompagner les managers dans leurs situations\nréelles, pas dans des mises en scène.\nLe changement se fait dans l'ordinaire, pas dans l'exceptionnel.`,
+            likes: "175", comments: "56"
+          },
+          {
+            label: "Résultat concret",
+            type: "Preuve sociale",
+            content: `Il y a 6 mois, une DRH m'a contacté avec un problème précis :\nson équipe de managers intermédiaires "ne managent pas vraiment".\n\nTrop souvent dans l'opérationnel. Peu à l'aise avec les conversations\ndifficiles. Aucun cadre commun.\n\nOn a travaillé ensemble pendant 4 mois. Pas une formation standard\n— un programme sur mesure avec 8 managers, ancré dans leur quotidien.\n\nAujourd'hui, elle me dit que les réunions d'équipe ont changé\nde nature. Que les gens se parlent différemment.\n\nC'est pour ça que ce travail a de la valeur.`,
+            likes: "98", comments: "33"
+          }
+        ]
+      }
+    };
+
+    let currentTabIndex = 0;
+
+    function renderTabs(sector) {
+      const tabsEl = document.getElementById('post-tabs');
+      tabsEl.innerHTML = '';
+      posts[sector].tabs.forEach((tab, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = tab.label;
+        btn.className = 'text-xs px-3 py-1.5 rounded-full font-medium transition-colors';
+        btn.style.cssText = i === currentTabIndex
+          ? 'background:#111111; color:#ffffff;'
+          : 'background:#F5F5F5; color:#888888;';
+        btn.addEventListener('mouseover', () => { if (i !== currentTabIndex) btn.style.background = '#EEEEEE'; });
+        btn.addEventListener('mouseout',  () => { if (i !== currentTabIndex) btn.style.background = '#F5F5F5'; });
+        btn.addEventListener('click', () => {
+          currentTabIndex = i;
+          renderTabs(sector);
+          renderTabContent(sector, i);
+        });
+        tabsEl.appendChild(btn);
+      });
+    }
+
+    function renderTabContent(sector, tabIndex) {
+      const tab = posts[sector].tabs[tabIndex];
+      document.getElementById('post-type').textContent = tab.type;
+      document.getElementById('post-content').textContent = tab.content;
+      document.getElementById('post-reactions').textContent = tab.likes + ' · ' + tab.comments + ' commentaires';
+    }
+
+    function renderPost(sector) {
+      const data = posts[sector];
+      currentTabIndex = 0;
+      document.getElementById('post-avatar').textContent = data.initials;
+      document.getElementById('post-author').textContent = data.author;
+      document.getElementById('post-title').textContent = data.title;
+      document.getElementById('post-schedule').textContent = 'Publication prévue : ' + data.schedule.day + ' à ' + data.schedule.time;
+      renderTabs(sector);
+      renderTabContent(sector, 0);
+
+      const postEl = document.getElementById('demo-post');
+      const emptyEl = document.getElementById('demo-empty');
+      postEl.style.opacity = '0';
+      postEl.style.transform = 'translateY(12px)';
+      emptyEl.style.display = 'none';
+      postEl.style.display = 'block';
+      // Reset approve button
+      const approveBtn = document.getElementById('approve-btn');
+      approveBtn.textContent = 'Approuver ✓';
+      approveBtn.style.background = '#111111';
+      delete approveBtn.dataset.approved;
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        postEl.style.opacity = '1';
+        postEl.style.transform = 'translateY(0)';
+      }));
+    }
+
+    document.getElementById('demo-btn').addEventListener('click', () => {
+      const select = document.getElementById('sector-select');
+      if (!select.value) {
+        select.style.borderColor = '#EF4444';
+        setTimeout(() => { select.style.borderColor = '#DDDDDD'; }, 1200);
+        return;
+      }
+      renderPost(select.value);
+    });
+
+    document.getElementById('approve-btn').addEventListener('click', function () {
+      if (this.dataset.approved) return;
+      this.dataset.approved = '1';
+      this.textContent = 'Approuvé ✓';
+      this.style.background = '#16A34A';
+      setTimeout(() => {
+        this.textContent = 'Approuver ✓';
+        this.style.background = '#111111';
+        delete this.dataset.approved;
+      }, 2000);
     });
 
     // FAQ accordion
