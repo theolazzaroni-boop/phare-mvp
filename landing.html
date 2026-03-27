@@ -61,6 +61,12 @@
     .word-rotate span:nth-child(1) { animation: word-in 4s ease-in-out 0s   infinite; }
     .word-rotate span:nth-child(2) { animation: word-in 4s ease-in-out 2s   infinite; }
 
+    /* Demo — responsive */
+    @media (max-width: 480px) {
+      #demo-phare-badge { display: none; }
+      #sector-select, #demo-btn { width: 100%; }
+    }
+
     /* FAQ accordion */
     .faq-answer {
       max-height: 0;
@@ -135,135 +141,131 @@
 
     <!-- ===================== HERO ===================== -->
     <section class="pt-28 pb-16 px-6 bg-white">
-      <div class="max-w-6xl mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+      <div class="max-w-3xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 bg-[#F5F5F5] rounded-full px-4 py-1.5 text-sm text-[#555555] mb-8 anim-up">
+          <span class="w-2 h-2 rounded-full bg-green-500 inline-block" style="animation: pulse-dot 2s ease-in-out infinite;"></span>
+          1 semaine gratuite — sans engagement
+        </div>
 
-          <!-- Left — Text -->
-          <div class="pt-4">
-            <div class="inline-flex items-center gap-2 bg-[#F5F5F5] rounded-full px-4 py-1.5 text-sm text-[#555555] mb-8 anim-up">
-              <span class="w-2 h-2 rounded-full bg-green-500 inline-block" style="animation: pulse-dot 2s ease-in-out infinite;"></span>
-              1 semaine gratuite — sans engagement
-            </div>
+        <h1 class="text-5xl font-bold text-[#111111] leading-tight mb-6 anim-up delay-1" style="letter-spacing: -0.02em;">
+          Votre prochaine opportunité business viendra peut-être d'un post LinkedIn. Encore faut-il en publier.
+        </h1>
 
-            <h1 class="text-5xl font-bold text-[#111111] leading-tight mb-6 anim-up delay-1" style="letter-spacing: -0.02em;">
-              Votre prochaine opportunité business viendra peut-être d'un post LinkedIn. Encore faut-il en publier.
-            </h1>
+        <p class="text-lg text-[#555555] mb-10 leading-relaxed anim-up delay-2 mx-auto" style="max-width: 480px;">
+          Phare s'occupe de toute votre présence LinkedIn — rédaction, calendrier, adaptation à votre actualité. Vous n'avez qu'à approuver.
+        </p>
 
-            <p class="text-lg text-[#555555] mb-10 leading-relaxed anim-up delay-2" style="max-width: 480px;">
-              Phare s'occupe de toute votre présence LinkedIn — rédaction, calendrier, adaptation à votre actualité. Vous n'avez qu'à approuver.
-            </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 anim-up delay-3">
+          <a href="form.html"
+             class="bg-[#111111] text-white font-medium px-7 py-3.5 rounded-xl hover:bg-[#333333] transition-colors text-base">
+            Démarrer — 1 semaine offerte
+          </a>
+          <a href="#how-it-works"
+             class="text-[#111111] underline underline-offset-4 text-base hover:text-[#555555] transition-colors">
+            Voir comment ça marche ↓
+          </a>
+        </div>
 
-            <div class="flex flex-col sm:flex-row items-start gap-4 mb-6 anim-up delay-3">
-              <a href="form.html"
-                 class="bg-[#111111] text-white font-medium px-7 py-3.5 rounded-xl hover:bg-[#333333] transition-colors text-base">
-                Démarrer — 1 semaine offerte
-              </a>
-              <a href="#how-it-works"
-                 class="text-[#111111] underline underline-offset-4 text-base hover:text-[#555555] transition-colors self-center">
-                Voir comment ça marche ↓
-              </a>
-            </div>
+        <p class="text-sm text-[#999999] anim-up delay-4">
+          Rejoignez les dirigeants qui publient chaque semaine sans y penser · Sans engagement
+        </p>
+      </div>
+    </section>
 
-            <p class="text-sm text-[#999999] anim-up delay-4">
-              Rejoignez les dirigeants qui publient chaque semaine sans y penser · Sans engagement
-            </p>
+    <!-- ===================== DEMO INTERACTIVE ===================== -->
+    <section id="demo" class="py-20 px-6" style="background:#FAFAFA;">
+      <div class="max-w-3xl mx-auto">
+
+        <!-- Bloc 1 — Header pleine largeur -->
+        <div class="text-center mb-12">
+          <p class="text-xs font-semibold uppercase mb-4" style="color:#888888; letter-spacing:0.12em;">Votre post, en 2 minutes</p>
+          <h2 class="text-4xl font-bold text-[#111111] mb-4" style="letter-spacing: -0.02em;">
+            Choisissez votre secteur.<br>Voyez ce que Phare écrirait pour vous.
+          </h2>
+          <p class="text-base leading-relaxed mx-auto" style="color:#555555; max-width:520px;">
+            Des exemples réels, dans le ton d'un dirigeant — pas d'un community manager.
+          </p>
+        </div>
+
+        <!-- Bloc 2 — Démo interactive -->
+        <div>
+
+          <!-- Selector row -->
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+            <span class="text-sm font-medium text-[#111111]">Je dirige une entreprise de</span>
+            <select id="sector-select" class="border border-[#DDDDDD] rounded-lg px-3 py-2.5 text-sm text-[#111111] bg-white focus:outline-none focus:border-[#111111] transition-colors w-full sm:w-auto" style="min-width:220px;">
+              <option value="">— choisir un secteur —</option>
+              <option value="conseil">Conseil / Consulting</option>
+              <option value="rh">Recrutement / RH</option>
+              <option value="compta">Expertise-comptable</option>
+              <option value="marketing">Agence marketing / SEO</option>
+              <option value="btp">BTP / Artisan</option>
+              <option value="tech">ESN / Développement</option>
+              <option value="formation">Formation / Coaching</option>
+            </select>
+            <button id="demo-btn" class="bg-[#111111] text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-[#333333] transition-colors w-full sm:w-auto">
+              Voir un exemple →
+            </button>
           </div>
 
-          <!-- Right — Interactive Demo -->
-          <div id="demo" class="anim-fade delay-2">
+          <!-- Empty state -->
+          <div id="demo-empty" class="border-2 border-dashed border-[#EEEEEE] rounded-xl py-16 text-center bg-white">
+            <div class="text-2xl mb-3" style="color:#CCCCCC;">✦</div>
+            <p class="text-sm" style="color:#AAAAAA;">Sélectionnez votre secteur pour voir un exemple de post</p>
+          </div>
 
-            <!-- Eyebrow -->
-            <div class="inline-flex items-center gap-2 bg-[#F5F5F5] rounded-full px-4 py-1.5 text-sm text-[#555555] mb-5">
-              Votre post, en 2 minutes
-            </div>
+          <!-- Post display area (hidden by default) -->
+          <div id="demo-post" style="display:none; opacity:0; transform:translateY(12px); transition: opacity 350ms ease, transform 350ms ease;">
+            <div class="bg-white rounded-xl border border-[#EEEEEE] p-5 shadow-sm relative">
 
-            <!-- Headline -->
-            <h2 class="text-2xl font-bold text-[#111111] mb-2" style="letter-spacing: -0.02em;">
-              Choisissez votre secteur. Voyez ce que Phare écrirait pour vous.
-            </h2>
+              <!-- Phare badge -->
+              <div id="demo-phare-badge" class="absolute top-4 right-4 flex items-center gap-1.5 bg-[#F5F5F5] rounded-full px-2.5 py-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>
+                <span class="text-[11px] font-medium" style="color:#888888;">Phare</span>
+              </div>
 
-            <!-- Subtitle -->
-            <p class="text-sm text-[#555555] mb-6 leading-relaxed">
-              Des exemples réels, dans le ton d'un dirigeant — pas d'un community manager.
-            </p>
-
-            <!-- Selector row -->
-            <div class="flex flex-wrap items-center gap-2 mb-6">
-              <span class="text-sm text-[#111111] shrink-0">Je dirige une entreprise de</span>
-              <select id="sector-select" class="border border-[#DDDDDD] rounded-lg px-3 py-2 text-sm text-[#111111] bg-white focus:outline-none focus:border-[#111111] transition-colors">
-                <option value="">— choisir un secteur —</option>
-                <option value="conseil">Conseil / Consulting</option>
-                <option value="rh">Recrutement / RH</option>
-                <option value="compta">Expertise-comptable</option>
-                <option value="marketing">Agence marketing / SEO</option>
-                <option value="btp">BTP / Artisan</option>
-                <option value="tech">ESN / Développement</option>
-                <option value="formation">Formation / Coaching</option>
-              </select>
-              <button id="demo-btn" class="bg-[#111111] text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-[#333333] transition-colors shrink-0">
-                Voir un exemple →
-              </button>
-            </div>
-
-            <!-- Empty state -->
-            <div id="demo-empty" class="border-2 border-dashed border-[#EEEEEE] rounded-xl py-14 text-center">
-              <div class="text-2xl mb-3" style="color:#CCCCCC;">✦</div>
-              <p class="text-sm text-[#AAAAAA]">Sélectionnez votre secteur pour voir un exemple de post</p>
-            </div>
-
-            <!-- Post display area (hidden by default) -->
-            <div id="demo-post" style="display:none; opacity:0; transform:translateY(12px); transition: opacity 350ms ease, transform 350ms ease;">
-              <div class="bg-white rounded-xl border border-[#EEEEEE] p-5 shadow-sm relative">
-
-                <!-- Phare badge -->
-                <div class="absolute top-4 right-4 flex items-center gap-1.5 bg-[#F5F5F5] rounded-full px-2.5 py-1">
-                  <span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>
-                  <span class="text-[11px] text-[#888888] font-medium">Phare</span>
-                </div>
-
-                <!-- Header -->
-                <div class="flex items-center gap-3 mb-4 pr-16">
-                  <div id="post-avatar" class="w-10 h-10 rounded-full bg-[#111111] flex items-center justify-center text-white text-sm font-bold shrink-0"></div>
-                  <div>
-                    <p id="post-author" class="text-sm font-bold text-[#111111]"></p>
-                    <p class="text-xs text-[#888888]"><span id="post-title"></span> <span style="color:#CCCCCC;">· 3ème</span></p>
-                  </div>
-                </div>
-
-                <!-- Tabs -->
-                <div id="post-tabs" class="flex gap-2 mb-3 flex-wrap"></div>
-
-                <!-- Type pill -->
-                <div id="post-type" class="inline-block bg-[#F5F5F5] text-[#888888] text-[11px] px-2.5 py-1 rounded-full mb-3"></div>
-
-                <!-- Content -->
-                <p id="post-content" class="text-sm text-[#333333] mb-4" style="white-space: pre-line; line-height: 1.65;"></p>
-
-                <!-- Reactions bar -->
-                <div class="flex items-center justify-between pt-3 border-t border-[#EEEEEE]">
-                  <div class="flex items-center gap-2">
-                    <span class="text-sm">👍 💡 ❤️</span>
-                    <span id="post-reactions" class="text-xs text-[#888888]"></span>
-                  </div>
-                  <span class="text-xs text-[#AAAAAA] cursor-default">Partager</span>
-                </div>
-
-                <!-- Schedule + Approve -->
-                <div class="flex items-center justify-between mt-3 pt-3 border-t border-[#EEEEEE]">
-                  <p id="post-schedule" class="text-[11px] text-[#888888]"></p>
-                  <button id="approve-btn" class="text-[11px] bg-[#111111] text-white px-3 py-1.5 rounded-md font-medium transition-colors hover:bg-[#333333]">
-                    Approuver ✓
-                  </button>
+              <!-- Header -->
+              <div class="flex items-center gap-3 mb-4 pr-16">
+                <div id="post-avatar" class="w-10 h-10 rounded-full bg-[#111111] flex items-center justify-center text-white text-sm font-bold shrink-0"></div>
+                <div>
+                  <p id="post-author" class="text-sm font-bold text-[#111111]"></p>
+                  <p class="text-xs" style="color:#888888;"><span id="post-title"></span> <span style="color:#CCCCCC;">· 3ème</span></p>
                 </div>
               </div>
 
-              <!-- Help text -->
-              <p class="text-[11px] mt-3 text-center leading-relaxed" style="color:#AAAAAA;">
-                Phare adapte chaque post à votre actualité réelle — projets signés, recrutements, avis clients.
-              </p>
+              <!-- Tabs -->
+              <div id="post-tabs" class="flex gap-2 mb-3 flex-wrap"></div>
+
+              <!-- Type pill -->
+              <div id="post-type" class="inline-block text-[11px] px-2.5 py-1 rounded-full mb-3" style="background:#F5F5F5; color:#888888;"></div>
+
+              <!-- Content -->
+              <p id="post-content" class="text-sm mb-4" style="color:#333333; white-space:pre-line; line-height:1.65;"></p>
+
+              <!-- Reactions bar -->
+              <div class="flex items-center justify-between pt-3 border-t border-[#EEEEEE]">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm">👍 💡 ❤️</span>
+                  <span id="post-reactions" class="text-xs" style="color:#888888;"></span>
+                </div>
+                <span class="text-xs cursor-default" style="color:#AAAAAA;">Partager</span>
+              </div>
+
+              <!-- Schedule + Approve -->
+              <div class="flex items-center justify-between mt-3 pt-3 border-t border-[#EEEEEE]">
+                <p id="post-schedule" class="text-[11px]" style="color:#888888;"></p>
+                <button id="approve-btn" class="text-[11px] bg-[#111111] text-white px-3 py-1.5 rounded-md font-medium transition-colors hover:bg-[#333333]">
+                  Approuver ✓
+                </button>
+              </div>
             </div>
 
+            <!-- Help text -->
+            <p class="text-[11px] mt-3 text-center leading-relaxed" style="color:#AAAAAA;">
+              Phare adapte chaque post à votre actualité réelle — projets signés, recrutements, avis clients.
+            </p>
           </div>
+
         </div>
       </div>
     </section>
